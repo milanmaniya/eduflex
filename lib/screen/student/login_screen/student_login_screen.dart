@@ -1,13 +1,13 @@
 import 'package:eduflex/common/widget/login_signup/divider.dart';
 import 'package:eduflex/common/widget/login_signup/social_buttons.dart';
-import 'package:eduflex/screen/teacher/login_screen/widget/teacher_login_form.dart';
+import 'package:eduflex/screen/student/login_screen/widget/student_login_form.dart';
 import 'package:eduflex/screen/teacher/login_screen/widget/login_header.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
 
-class TeacherLoginScreen extends StatelessWidget {
-  const TeacherLoginScreen({super.key});
+class StudentLoginScreen extends StatelessWidget {
+  const StudentLoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class TeacherLoginScreen extends StatelessWidget {
               LoginHeader(),
 
               // form  create
-              TeacherLoginForm(),
+              StudentLoginForm(),
 
               // divider
               FormDivider(

@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:eduflex/screen/student/login_screen/student_login_screen.dart';
 import 'package:eduflex/screen/teacher/login_screen/teacher_login_screen.dart';
 import 'package:eduflex/utils/constant/colors.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
@@ -44,7 +44,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.to(() => const LoginScreen());
+                  Get.to(() => const TeacherLoginScreen());
                 },
                 child: const Text(
                   "Teacher",
@@ -62,9 +62,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  log('Student screen navigate');
-                },
+                onPressed: () => Get.to(() => const StudentLoginScreen()),
                 child: const Text(
                   "Student",
                   style: TextStyle(

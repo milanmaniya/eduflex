@@ -1,7 +1,7 @@
 import 'dart:developer';
+import 'package:eduflex/screen/student/widget/student_verify_email_screen.dart';
 import 'package:eduflex/screen/teacher/sign_up_screen/sign_up_controller/teacher_sign_up_controller.dart';
 import 'package:eduflex/screen/teacher/sign_up_screen/widget/terms_and_condition_text.dart';
-import 'package:eduflex/common/widget/verify_email_screen/verify_email_screen.dart';
 import 'package:eduflex/utils/constant/colors.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
@@ -11,16 +11,16 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-class SignUpForm extends StatefulWidget {
-  const SignUpForm({
+class StudentSignUpForm extends StatefulWidget {
+  const StudentSignUpForm({
     super.key,
   });
 
   @override
-  State<SignUpForm> createState() => _SignUpFormState();
+  State<StudentSignUpForm> createState() => _StudentSignUpFormState();
 }
 
-class _SignUpFormState extends State<SignUpForm> {
+class _StudentSignUpFormState extends State<StudentSignUpForm> {
   final contro = Get.put(TeacherSignUpFormController());
 
   bool isObsecure = true;
@@ -258,7 +258,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 if (_key.currentState!.validate() &&
                     contro.yearValue.isNotEmpty &&
                     contro.fieldValue.isNotEmpty) {
-                  Get.to(() => const VerifyEmailScreen());
+                  Get.to(() => const StudentVerifyEmailScreen());
                 }
               },
               child: const Text(TTexts.createAccount),

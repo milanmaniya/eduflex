@@ -1,12 +1,12 @@
-import 'package:eduflex/common/widget/reset_password_screen/reset_password_screen.dart';
+import 'package:eduflex/screen/teacher/widget/teacher_reset_password.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-class ForgotPassword extends StatelessWidget {
-  const ForgotPassword({super.key});
+class TeacherForgotPassword extends StatelessWidget {
+  const TeacherForgotPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class ForgotPassword extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => Get.off(() => const ResetPassword()),
+                onPressed: () => Get.off(() => const TeacherResetPassword()),
                 child: const Text(TTexts.tContinue),
               ),
             ),

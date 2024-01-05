@@ -1,14 +1,13 @@
-import 'package:eduflex/common/widget/success_screen/success_screen.dart';
 import 'package:eduflex/screen/teacher/login_screen/teacher_login_screen.dart';
+import 'package:eduflex/screen/teacher/widget/teacher_forgot_password.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VerifyEmailScreen extends StatelessWidget {
-  const VerifyEmailScreen({super.key});
+class TeacherResetPassword extends StatelessWidget {
+  const TeacherResetPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,7 @@ class VerifyEmailScreen extends StatelessWidget {
                 height: TSize.spaceBtwSections,
               ),
               Text(
-                TTexts.conformEmailTitle,
+                TTexts.changePasswordTitle,
                 style: Theme.of(context).textTheme.headlineMedium,
                 textAlign: TextAlign.center,
               ),
@@ -39,15 +38,7 @@ class VerifyEmailScreen extends StatelessWidget {
                 height: TSize.spaceBtwItems,
               ),
               Text(
-                'support@gmail.com',
-                style: Theme.of(context).textTheme.labelLarge,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(
-                height: TSize.spaceBtwItems,
-              ),
-              Text(
-                TTexts.conformEmailSubTitle,
+                TTexts.changePasswordSubTitle,
                 style: Theme.of(context).textTheme.labelMedium,
                 textAlign: TextAlign.center,
               ),
@@ -57,18 +48,8 @@ class VerifyEmailScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => Get.to(
-                    () => SucessScreen(
-                      imageString:
-                          'assets/animation/account_created_successfully.gif',
-                      pressed: () => Get.offAll(
-                        () => const LoginScreen(),
-                      ),
-                      subTitle: TTexts.yourAccountCreatedSubTitle,
-                      title: TTexts.yourAccountCreatedTitle,
-                    ),
-                  ),
-                  child: const Text(TTexts.tContinue),
+                  onPressed: () => Get.offAll(() => const TeacherLoginScreen()),
+                  child: const Text(TTexts.done),
                 ),
               ),
               const SizedBox(
@@ -77,7 +58,7 @@ class VerifyEmailScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () => Get.off(() => const TeacherForgotPassword()),
                   child: const Text(TTexts.resendEmail),
                 ),
               ),

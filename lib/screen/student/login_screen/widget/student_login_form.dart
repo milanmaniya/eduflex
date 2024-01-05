@@ -1,22 +1,22 @@
 import 'dart:developer';
-import 'package:eduflex/common/widget/forgot_password_screen/forgot_password_screen.dart';
-import 'package:eduflex/screen/teacher/sign_up_screen/sign_up_screen.dart';
+import 'package:eduflex/screen/student/widget/student_forgot_password_screen.dart';
+import 'package:eduflex/screen/teacher/sign_up_screen/teacher_sign_up_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({
+class StudentLoginForm extends StatefulWidget {
+  const StudentLoginForm({
     super.key,
   });
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<StudentLoginForm> createState() => _StudentLoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _StudentLoginFormState extends State<StudentLoginForm> {
   bool isObset = true;
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class _LoginFormState extends State<LoginForm> {
                 //Forgot Password
 
                 TextButton(
-                  onPressed: () => Get.to(() => const ForgotPassword()),
+                  onPressed: () => Get.to(() => const StudentForgotPassword()),
                   child: const Text(TTexts.forgotPassword),
                 ),
               ],
@@ -105,7 +105,7 @@ class _LoginFormState extends State<LoginForm> {
               width: double.infinity,
               child: OutlinedButton(
                 onPressed: () {
-                  Get.to(() => const SignUpScreen());
+                  Get.to(() => const TeacherSignUpScreen());
                 },
                 child: const Text(TTexts.createAccount),
               ),

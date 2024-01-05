@@ -1,12 +1,12 @@
 import 'package:eduflex/common/widget/login_signup/divider.dart';
 import 'package:eduflex/common/widget/login_signup/social_buttons.dart';
-import 'package:eduflex/screen/teacher/sign_up_screen/widget/sign_up_form.dart';
+import 'package:eduflex/screen/teacher/sign_up_screen/widget/teacher_sign_up_form.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
 
-class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+class TeacherSignUpScreen extends StatelessWidget {
+  const TeacherSignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class SignUpScreen extends StatelessWidget {
               ),
 
               // form
-              const SignUpForm(),
+              const TeacherSignUpForm(),
 
               const SizedBox(
                 height: TSize.spaceBtwSections,
