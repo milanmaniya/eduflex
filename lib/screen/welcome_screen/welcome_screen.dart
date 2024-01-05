@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:eduflex/screen/teacher/login_screen/login_screen.dart';
+import 'package:eduflex/screen/teacher/login_screen/teacher_login_screen.dart';
 import 'package:eduflex/utils/constant/colors.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';

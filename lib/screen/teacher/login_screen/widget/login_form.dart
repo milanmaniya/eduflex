@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:eduflex/screen/teacher/forgot_password_screen/forgot_password_screen.dart';
+import 'package:eduflex/common/widget/forgot_password_screen/forgot_password_screen.dart';
 import 'package:eduflex/screen/teacher/sign_up_screen/sign_up_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';

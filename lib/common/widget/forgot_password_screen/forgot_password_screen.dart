@@ -1,4 +1,4 @@
-import 'package:eduflex/screen/teacher/reset_password_screen/reset_password_screen.dart';
+import 'package:eduflex/common/widget/reset_password_screen/reset_password_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
 import 'package:eduflex/common/widget/success_screen/success_screen.dart';
-import 'package:eduflex/screen/teacher/login_screen/login_screen.dart';
+import 'package:eduflex/screen/teacher/login_screen/teacher_login_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
@@ -15,12 +15,6 @@ class VerifyEmailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () => Get.offAll(const LoginScreen()),
-            icon: const Icon(CupertinoIcons.clear),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

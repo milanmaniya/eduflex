@@ -1,6 +1,8 @@
-import 'package:eduflex/screen/teacher/sign_up_screen/sign_up_controller/sign_up_controller.dart';
+import 'dart:developer';
+import 'package:eduflex/screen/teacher/sign_up_screen/sign_up_controller/teacher_sign_up_controller.dart';
 import 'package:eduflex/screen/teacher/sign_up_screen/widget/terms_and_condition_text.dart';
-import 'package:eduflex/screen/teacher/verify_email_screen/verify_email_screen.dart';
+import 'package:eduflex/common/widget/verify_email_screen/verify_email_screen.dart';
+import 'package:eduflex/utils/constant/colors.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,7 @@ class _SignUpFormState extends State<SignUpForm> {
     return Form(
       key: _key,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
@@ -97,6 +100,9 @@ class _SignUpFormState extends State<SignUpForm> {
           TextFormField(
             controller: contro.txtPhoneNumber,
             keyboardType: TextInputType.number,
+            validator: MultiValidator([
+              RequiredValidator(errorText: 'Phone number is required'),
+            ]),
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(10),
@@ -115,6 +121,11 @@ class _SignUpFormState extends State<SignUpForm> {
           TextFormField(
             controller: contro.txtPassword,
             obscureText: isObsecure,
+            validator: MultiValidator([
+              RequiredValidator(
+                errorText: 'Password is required',
+              ),
+            ]),
             decoration: InputDecoration(
               labelText: TTexts.password,
               prefixIcon: const Icon(Iconsax.password_check),
@@ -129,6 +140,104 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
           ),
 
+          const SizedBox(
+            height: TSize.spaceBtwItems,
+          ),
+          Container(
+            height: 58,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.grey,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton(
+                isExpanded: false,
+                hint: Text(
+                  contro.fieldValue == ''
+                      ? 'Can you please select your field'
+                      : contro.fieldValue,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: TColor.black,
+                  ),
+                ),
+                items: const [
+                  DropdownMenuItem(
+                    value: 'BBA',
+                    child: Text('BBA'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'BCA',
+                    child: Text('BCA'),
+                  ),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    contro.fieldValue = value!;
+                    contro.yearValue = '';
+                  });
+                  log(contro.fieldValue);
+                },
+              ),
+            ),
+          ),
+
+          const SizedBox(
+            height: TSize.spaceBtwItems,
+          ),
+          Container(
+            height: 58,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.grey,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton(
+                isExpanded: false,
+                hint: Text(
+                  contro.yearValue == ''
+                      ? 'Can you please select your year'
+                      : contro.yearValue,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: TColor.black,
+                  ),
+                ),
+                items: contro.fieldValue == 'BBA'
+                    ? contro.bbaYearList
+                        .map(
+                          (e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(e),
+                          ),
+                        )
+                        .toList()
+                    : contro.bcaYearList
+                        .map(
+                          (e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(e),
+                          ),
+                        )
+                        .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    contro.yearValue = value!;
+                  });
+                },
+              ),
+            ),
+          ),
           const SizedBox(
             height: TSize.spaceBtwSections,
           ),
@@ -146,7 +255,9 @@ class _SignUpFormState extends State<SignUpForm> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                if (_key.currentState!.validate()) {
+                if (_key.currentState!.validate() &&
+                    contro.yearValue.isNotEmpty &&
+                    contro.fieldValue.isNotEmpty) {
                   Get.to(() => const VerifyEmailScreen());
                 }
               },

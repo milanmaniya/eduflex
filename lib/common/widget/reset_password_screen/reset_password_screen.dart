@@ -1,9 +1,8 @@
-import 'package:eduflex/screen/teacher/forgot_password_screen/forgot_password_screen.dart';
-import 'package:eduflex/screen/teacher/login_screen/login_screen.dart';
+import 'package:eduflex/common/widget/forgot_password_screen/forgot_password_screen.dart';
+import 'package:eduflex/screen/teacher/login_screen/teacher_login_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,12 +14,6 @@ class ResetPassword extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () => Get.back(),
-            icon: const Icon(CupertinoIcons.clear),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

@@ -10,4 +10,10 @@ class TeacherSignUpFormController extends GetxController {
   TextEditingController txtEmailAddress = TextEditingController();
   TextEditingController txtPhoneNumber = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
+
+  String fieldValue = '';
+  String yearValue = '';
+
+  List<String> bcaYearList = ['FYBCA', 'SYBCA', 'TYBCA'];
+  List<String> bbaYearList = ['FYBBA', 'SYBBA', 'TYBBA'];
 }
