@@ -1,3 +1,4 @@
+import 'package:eduflex/screen/teacher/sign_up_screen/sign_up_controller/sign_up_controller.dart';
 import 'package:eduflex/screen/teacher/sign_up_screen/widget/terms_and_condition_text.dart';
 import 'package:eduflex/screen/teacher/verify_email_screen/verify_email_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
@@ -18,6 +19,8 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
+  final contro = Get.put(TeacherSignUpFormController());
+
   bool isObsecure = true;
 
   final _key = GlobalKey<FormState>();
@@ -32,6 +35,7 @@ class _SignUpFormState extends State<SignUpForm> {
             children: [
               Expanded(
                 child: TextFormField(
+                  controller: contro.txtFirstName,
                   expands: false,
                   decoration: const InputDecoration(
                     labelText: TTexts.firstName,
@@ -44,6 +48,7 @@ class _SignUpFormState extends State<SignUpForm> {
               ),
               Expanded(
                 child: TextFormField(
+                  controller: contro.txtLastName,
                   expands: false,
                   decoration: const InputDecoration(
                     labelText: TTexts.lastName,
@@ -59,6 +64,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
           // username
           TextFormField(
+            controller: contro.txtUserName,
             validator: MultiValidator([
               RequiredValidator(errorText: 'UserName fill is required'),
             ]),
@@ -73,6 +79,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
           // Email
           TextFormField(
+            controller: contro.txtEmailAddress,
             validator: MultiValidator([
               EmailValidator(errorText: 'This Email is not valid '),
               RequiredValidator(errorText: 'Email id fill is required'),
@@ -85,25 +92,15 @@ class _SignUpFormState extends State<SignUpForm> {
           const SizedBox(
             height: TSize.spaceBtwItems,
           ),
+
           // phone number
           TextFormField(
+            controller: contro.txtPhoneNumber,
             keyboardType: TextInputType.number,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(10),
             ],
-            // validator: (value) {
-            //   if (value == null || value.isNotEmpty) {
-            //     return 'Phone Number is required';
-            //   }
-
-            //   final phoneRegExp = RegExp(r'^\d{10}$');
-
-            //   if (!phoneRegExp.hasMatch(value)) {
-            //     return 'Invalid phone number format (10 digit required)';
-            //   }
-            //   return null;
-            // },
             decoration: const InputDecoration(
               labelText: TTexts.phoneNumber,
               prefixIcon: Icon(Iconsax.call),
@@ -116,6 +113,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
           //password
           TextFormField(
+            controller: contro.txtPassword,
             obscureText: isObsecure,
             decoration: InputDecoration(
               labelText: TTexts.password,
