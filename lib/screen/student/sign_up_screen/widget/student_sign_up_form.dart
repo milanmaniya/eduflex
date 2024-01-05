@@ -1,6 +1,4 @@
-import 'dart:developer';
 import 'package:eduflex/screen/student/widget/student_verify_email_screen.dart';
-import 'package:eduflex/screen/teacher/sign_up_screen/sign_up_controller/teacher_sign_up_controller.dart';
 import 'package:eduflex/screen/teacher/sign_up_screen/widget/terms_and_condition_text.dart';
 import 'package:eduflex/utils/constant/colors.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
@@ -21,8 +19,6 @@ class StudentSignUpForm extends StatefulWidget {
 }
 
 class _StudentSignUpFormState extends State<StudentSignUpForm> {
-  final contro = Get.put(TeacherSignUpFormController());
-
   bool isObsecure = true;
 
   final _key = GlobalKey<FormState>();
@@ -38,7 +34,6 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
             children: [
               Expanded(
                 child: TextFormField(
-                  controller: contro.txtFirstName,
                   expands: false,
                   decoration: const InputDecoration(
                     labelText: TTexts.firstName,
@@ -51,7 +46,6 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
               ),
               Expanded(
                 child: TextFormField(
-                  controller: contro.txtLastName,
                   expands: false,
                   decoration: const InputDecoration(
                     labelText: TTexts.lastName,
@@ -67,7 +61,6 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
 
           // username
           TextFormField(
-            controller: contro.txtUserName,
             validator: MultiValidator([
               RequiredValidator(errorText: 'UserName fill is required'),
             ]),
@@ -82,7 +75,6 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
 
           // Email
           TextFormField(
-            controller: contro.txtEmailAddress,
             validator: MultiValidator([
               EmailValidator(errorText: 'This Email is not valid '),
               RequiredValidator(errorText: 'Email id fill is required'),
@@ -98,7 +90,6 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
 
           // phone number
           TextFormField(
-            controller: contro.txtPhoneNumber,
             keyboardType: TextInputType.number,
             validator: MultiValidator([
               RequiredValidator(errorText: 'Phone number is required'),
@@ -119,7 +110,6 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
 
           //password
           TextFormField(
-            controller: contro.txtPassword,
             obscureText: isObsecure,
             validator: MultiValidator([
               RequiredValidator(
@@ -157,11 +147,9 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
             child: DropdownButtonHideUnderline(
               child: DropdownButton(
                 isExpanded: false,
-                hint: Text(
-                  contro.fieldValue == ''
-                      ? 'Can you please select your field'
-                      : contro.fieldValue,
-                  style: const TextStyle(
+                hint: const Text(
+                  'Can you please select your field',
+                  style: TextStyle(
                     fontSize: 14,
                     color: TColor.black,
                   ),
@@ -176,68 +164,11 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
                     child: Text('BCA'),
                   ),
                 ],
-                onChanged: (value) {
-                  setState(() {
-                    contro.fieldValue = value!;
-                    contro.yearValue = '';
-                  });
-                  log(contro.fieldValue);
-                },
+                onChanged: (value) {},
               ),
             ),
           ),
 
-          const SizedBox(
-            height: TSize.spaceBtwItems,
-          ),
-          Container(
-            height: 58,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.grey,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton(
-                isExpanded: false,
-                hint: Text(
-                  contro.yearValue == ''
-                      ? 'Can you please select your year'
-                      : contro.yearValue,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: TColor.black,
-                  ),
-                ),
-                items: contro.fieldValue == 'BBA'
-                    ? contro.bbaYearList
-                        .map(
-                          (e) => DropdownMenuItem(
-                            value: e,
-                            child: Text(e),
-                          ),
-                        )
-                        .toList()
-                    : contro.bcaYearList
-                        .map(
-                          (e) => DropdownMenuItem(
-                            value: e,
-                            child: Text(e),
-                          ),
-                        )
-                        .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    contro.yearValue = value!;
-                  });
-                },
-              ),
-            ),
-          ),
           const SizedBox(
             height: TSize.spaceBtwSections,
           ),
@@ -255,11 +186,7 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                if (_key.currentState!.validate() &&
-                    contro.yearValue.isNotEmpty &&
-                    contro.fieldValue.isNotEmpty) {
-                  Get.to(() => const StudentVerifyEmailScreen());
-                }
+                Get.to(() => const StudentVerifyEmailScreen());
               },
               child: const Text(TTexts.createAccount),
             ),

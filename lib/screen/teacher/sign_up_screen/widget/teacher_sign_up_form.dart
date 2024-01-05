@@ -21,16 +21,14 @@ class TeacherSignUpForm extends StatefulWidget {
 }
 
 class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
-  final contro = Get.put(TeacherSignUpFormController());
+  final contro = Get.put(TeacherSignUpController());
 
   bool isObsecure = true;
-
-  final _key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _key,
+      key: contro.teacherSignUpFormKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -255,7 +253,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                if (_key.currentState!.validate() &&
+                if (contro.teacherSignUpFormKey.currentState!.validate() &&
                     contro.yearValue.isNotEmpty &&
                     contro.fieldValue.isNotEmpty) {
                   Get.to(() => const TeacherVerifyEmailScreen());
