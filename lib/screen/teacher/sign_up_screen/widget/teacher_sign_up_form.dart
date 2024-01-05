@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:eduflex/screen/teacher/sign_up_screen/sign_up_controller/teacher_sign_up_controller.dart';
 import 'package:eduflex/screen/teacher/sign_up_screen/widget/terms_and_condition_text.dart';
-import 'package:eduflex/screen/teacher/widget/teacher_verify_email.dart';
 import 'package:eduflex/utils/constant/colors.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
@@ -21,14 +20,12 @@ class TeacherSignUpForm extends StatefulWidget {
 }
 
 class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
-  final contro = Get.put(TeacherSignUpController());
-
-  bool isObsecure = true;
+  final controller = Get.put(TeacherSignUpController());
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: contro.teacherSignUpFormKey,
+      key: controller.teacherSignUpFormKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,7 +33,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             children: [
               Expanded(
                 child: TextFormField(
-                  controller: contro.txtFirstName,
+                  controller: controller.txtFirstName,
                   expands: false,
                   decoration: const InputDecoration(
                     labelText: TTexts.firstName,
@@ -49,7 +46,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
               ),
               Expanded(
                 child: TextFormField(
-                  controller: contro.txtLastName,
+                  controller: controller.txtLastName,
                   expands: false,
                   decoration: const InputDecoration(
                     labelText: TTexts.lastName,
@@ -65,7 +62,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
 
           // username
           TextFormField(
-            controller: contro.txtUserName,
+            controller: controller.txtUserName,
             validator: MultiValidator([
               RequiredValidator(errorText: 'UserName fill is required'),
             ]),
@@ -80,7 +77,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
 
           // Email
           TextFormField(
-            controller: contro.txtEmailAddress,
+            controller: controller.txtEmailAddress,
             validator: MultiValidator([
               EmailValidator(errorText: 'This Email is not valid '),
               RequiredValidator(errorText: 'Email id fill is required'),
@@ -96,7 +93,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
 
           // phone number
           TextFormField(
-            controller: contro.txtPhoneNumber,
+            controller: controller.txtPhoneNumber,
             keyboardType: TextInputType.number,
             validator: MultiValidator([
               RequiredValidator(errorText: 'Phone number is required'),
@@ -117,8 +114,8 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
 
           //password
           TextFormField(
-            controller: contro.txtPassword,
-            obscureText: isObsecure,
+            controller: controller.txtPassword,
+            obscureText: controller.obsecure.value,
             validator: MultiValidator([
               RequiredValidator(
                 errorText: 'Password is required',
@@ -131,7 +128,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                 icon: const Icon(Iconsax.eye_slash),
                 onPressed: () {
                   setState(() {
-                    isObsecure = !isObsecure;
+                    controller.obsecure.value = !controller.obsecure.value;
                   });
                 },
               ),
@@ -156,9 +153,9 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
               child: DropdownButton(
                 isExpanded: false,
                 hint: Text(
-                  contro.fieldValue == ''
+                  controller.fieldValue == ''
                       ? 'Can you please select your field'
-                      : contro.fieldValue,
+                      : controller.fieldValue,
                   style: const TextStyle(
                     fontSize: 14,
                     color: TColor.black,
@@ -176,10 +173,10 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                 ],
                 onChanged: (value) {
                   setState(() {
-                    contro.fieldValue = value!;
-                    contro.yearValue = '';
+                    controller.fieldValue = value!;
+                    controller.yearValue = '';
                   });
-                  log(contro.fieldValue);
+                  log(controller.fieldValue);
                 },
               ),
             ),
@@ -203,16 +200,16 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
               child: DropdownButton(
                 isExpanded: false,
                 hint: Text(
-                  contro.yearValue == ''
+                  controller.yearValue == ''
                       ? 'Can you please select your year'
-                      : contro.yearValue,
+                      : controller.yearValue,
                   style: const TextStyle(
                     fontSize: 14,
                     color: TColor.black,
                   ),
                 ),
-                items: contro.fieldValue == 'BBA'
-                    ? contro.bbaYearList
+                items: controller.fieldValue == 'BBA'
+                    ? controller.bbaYearList
                         .map(
                           (e) => DropdownMenuItem(
                             value: e,
@@ -220,7 +217,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                           ),
                         )
                         .toList()
-                    : contro.bcaYearList
+                    : controller.bcaYearList
                         .map(
                           (e) => DropdownMenuItem(
                             value: e,
@@ -230,7 +227,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                         .toList(),
                 onChanged: (value) {
                   setState(() {
-                    contro.yearValue = value!;
+                    controller.yearValue = value!;
                   });
                 },
               ),
@@ -253,10 +250,10 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                if (contro.teacherSignUpFormKey.currentState!.validate() &&
-                    contro.yearValue.isNotEmpty &&
-                    contro.fieldValue.isNotEmpty) {
-                  Get.to(() => const TeacherVerifyEmailScreen());
+                if (controller.teacherSignUpFormKey.currentState!.validate() &&
+                    controller.yearValue.isNotEmpty &&
+                    controller.fieldValue.isNotEmpty) {
+                  Get.to(() => controller.signUp());
                 }
               },
               child: const Text(TTexts.createAccount),

@@ -58,8 +58,7 @@ class StudentVerifyEmailScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () => Get.to(
                     () => SucessScreen(
-                      imageString:
-                          'assets/animation/account_created_successfully.gif',
+                      imageString: 'assets/animation/Success.gif',
                       pressed: () => Get.offAll(
                         () => const StudentLoginScreen(),
                       ),

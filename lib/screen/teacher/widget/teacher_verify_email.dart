@@ -59,7 +59,7 @@ class TeacherVerifyEmailScreen extends StatelessWidget {
                   onPressed: () => Get.to(
                     () => SucessScreen(
                       imageString:
-                          'assets/animation/account_created_successfully.gif',
+                          'assets/animation/Success.gif',
                       pressed: () => Get.offAll(
                         () => const TeacherLoginScreen(),
                       ),

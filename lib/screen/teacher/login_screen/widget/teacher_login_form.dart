@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:eduflex/screen/teacher/login_screen/controller/teacher_login_controller.dart';
 import 'package:eduflex/screen/teacher/sign_up_screen/teacher_sign_up_screen.dart';
 import 'package:eduflex/screen/teacher/widget/teacher_forgot_password.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
@@ -17,10 +18,12 @@ class TeacherLoginForm extends StatefulWidget {
 }
 
 class _TeacherLoginFormState extends State<TeacherLoginForm> {
-  bool isObset = true;
+  final controller = Get.put(TeacherLoginController());
+
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: controller.loginFromKey,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: TSize.spaceBtwSections,
@@ -29,6 +32,7 @@ class _TeacherLoginFormState extends State<TeacherLoginForm> {
           children: [
             // email
             TextFormField(
+              controller: controller.txtLoginEmail,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Iconsax.direct_right),
                 labelText: TTexts.email,
@@ -39,15 +43,15 @@ class _TeacherLoginFormState extends State<TeacherLoginForm> {
             ),
             // password
             TextFormField(
-              obscureText: isObset,
+              obscureText: controller.obset.value,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Iconsax.password_check),
                 suffixIcon: IconButton(
                   icon: const Icon(Iconsax.eye_slash),
                   onPressed: () {
                     setState(() {
-                      isObset = !isObset;
-                      log(isObset.toString());
+                      controller.obset.value = !controller.obset.value;
+                      log(controller.obset.value.toString());
                     });
                   },
                 ),

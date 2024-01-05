@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class TeacherSignUpController extends GetxController {
   TeacherSignUpController get instance => Get.find();
+
+  RxBool obsecure = true.obs;
 
   TextEditingController txtFirstName = TextEditingController();
   TextEditingController txtLastName = TextEditingController();
@@ -18,4 +22,17 @@ class TeacherSignUpController extends GetxController {
 
   List<String> bcaYearList = ['FYBCA', 'SYBCA', 'TYBCA'];
   List<String> bbaYearList = ['FYBBA', 'SYBBA', 'TYBBA'];
+
+  Future<void> signUp() async {
+    try {
+
+      // start loading
+
+      
+
+
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }
