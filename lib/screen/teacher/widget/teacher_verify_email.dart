@@ -1,5 +1,4 @@
-import 'package:eduflex/common/widget/success_screen/success_screen.dart';
-import 'package:eduflex/screen/teacher/login_screen/teacher_login_screen.dart';
+import 'package:eduflex/screen/teacher/sign_up_screen/sign_up_controller/teacher_verify_email_controller.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
@@ -7,10 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TeacherVerifyEmailScreen extends StatelessWidget {
-  const TeacherVerifyEmailScreen({super.key});
+  const TeacherVerifyEmailScreen({super.key, this.email});
+
+  final String? email;
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(TeacherVerifyEmailController());
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -38,7 +40,7 @@ class TeacherVerifyEmailScreen extends StatelessWidget {
                 height: TSize.spaceBtwItems,
               ),
               Text(
-                'support@gmail.com',
+                email ?? '',
                 style: Theme.of(context).textTheme.labelLarge,
                 textAlign: TextAlign.center,
               ),
@@ -56,17 +58,7 @@ class TeacherVerifyEmailScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => Get.to(
-                    () => SucessScreen(
-                      imageString:
-                          'assets/animation/Success.gif',
-                      pressed: () => Get.offAll(
-                        () => const TeacherLoginScreen(),
-                      ),
-                      subTitle: TTexts.yourAccountCreatedSubTitle,
-                      title: TTexts.yourAccountCreatedTitle,
-                    ),
-                  ),
+                  onPressed: controller.checkEmailVerificationStutues(),
                   child: const Text(TTexts.tContinue),
                 ),
               ),
@@ -76,7 +68,7 @@ class TeacherVerifyEmailScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () => controller.sendEmailVerification(),
                   child: const Text(TTexts.resendEmail),
                 ),
               ),

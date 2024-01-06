@@ -20,6 +20,7 @@ class Teacher {
   late final String pushToken;
   late final String creatAt;
   late final bool isOnline;
+  late final String profilePicture;
 
   Teacher({
     required this.userName,
@@ -36,6 +37,7 @@ class Teacher {
     required this.pushToken,
     required this.creatAt,
     required this.isOnline,
+    required this.profilePicture,
   });
 
   factory Teacher.fromJson(Map<String, dynamic> json) => Teacher(
@@ -53,6 +55,7 @@ class Teacher {
         pushToken: json['push_token'],
         creatAt: json['create_at'],
         isOnline: json['is_online'],
+        profilePicture: json['profile_picture'],
       );
 
   Map<String, dynamic> toJson() {
@@ -71,6 +74,7 @@ class Teacher {
     data['push_token'] = pushToken;
     data['create_at'] = creatAt;
     data['is_online'] = isOnline;
+    data['profile_picture'] = profilePicture;
     return data;
   }
 }

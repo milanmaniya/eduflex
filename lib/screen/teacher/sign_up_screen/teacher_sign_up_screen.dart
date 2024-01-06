@@ -6,8 +6,9 @@ import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
 
 class TeacherSignUpScreen extends StatelessWidget {
-  const TeacherSignUpScreen({super.key});
-
+  const TeacherSignUpScreen({
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return Scaffold(
