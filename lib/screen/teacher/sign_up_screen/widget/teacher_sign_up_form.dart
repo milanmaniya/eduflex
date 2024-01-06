@@ -25,7 +25,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: controller.teacherSignUpFormKey,
+      key: controller.signUpFormKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -113,25 +113,37 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
           ),
 
           //password
-          TextFormField(
-            controller: controller.txtPassword,
-            obscureText: controller.obsecure.value,
-            validator: MultiValidator([
-              RequiredValidator(
-                errorText: 'Password is required',
-              ),
-            ]),
-            decoration: InputDecoration(
-              labelText: TTexts.password,
-              prefixIcon: const Icon(Iconsax.password_check),
-              suffixIcon: IconButton(
-                icon: const Icon(Iconsax.eye_slash),
-                onPressed: () {
-                  setState(() {
+          Obx(
+            () => TextFormField(
+              controller: controller.txtPassword,
+              obscureText: controller.obsecure.value,
+              validator: MultiValidator([
+                RequiredValidator(
+                  errorText: 'Password is required',
+                ),
+              ]),
+              decoration: InputDecoration(
+                labelText: TTexts.password,
+                prefixIcon: const Icon(Iconsax.password_check),
+                suffixIcon: IconButton(
+                  icon: const Icon(Iconsax.eye_slash),
+                  onPressed: () {
                     controller.obsecure.value = !controller.obsecure.value;
-                  });
-                },
+                  },
+                ),
               ),
+            ),
+          ),
+          const SizedBox(
+            height: TSize.spaceBtwItems,
+          ),
+
+          // about
+          TextFormField(
+            controller: controller.txtAbout,
+            decoration: const InputDecoration(
+              labelText: TTexts.about,
+              prefixIcon: Icon(Iconsax.information),
             ),
           ),
 
@@ -250,7 +262,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                if (controller.teacherSignUpFormKey.currentState!.validate() &&
+                if (controller.signUpFormKey.currentState!.validate() &&
                     controller.yearValue.isNotEmpty &&
                     controller.fieldValue.isNotEmpty) {
                   Get.to(() => controller.signUp());

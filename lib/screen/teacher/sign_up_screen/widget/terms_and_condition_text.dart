@@ -1,7 +1,9 @@
+import 'package:eduflex/screen/teacher/sign_up_screen/sign_up_controller/teacher_sign_up_controller.dart';
 import 'package:eduflex/utils/constant/colors.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TermsAndConditionText extends StatefulWidget {
   const TermsAndConditionText({
@@ -13,9 +15,10 @@ class TermsAndConditionText extends StatefulWidget {
 }
 
 class _TermsAndConditionTextState extends State<TermsAndConditionText> {
-  bool isAgree = false;
   @override
   Widget build(BuildContext context) {
+    final controller = TeacherSignUpController().instance;
+
     final dark = THelperFunction.isDarkMode(context);
 
     return Row(
@@ -23,13 +26,14 @@ class _TermsAndConditionTextState extends State<TermsAndConditionText> {
         SizedBox(
           height: 25,
           width: 25,
-          child: Checkbox(
-            value: isAgree,
-            onChanged: (value) {
-              setState(() {
-                isAgree = value!;
-              });
-            },
+          child: Obx(
+            () => Checkbox(
+              value: controller.privacyPolicy.value,
+              onChanged: (value) {
+                controller.privacyPolicy.value =
+                    !controller.privacyPolicy.value;
+              },
+            ),
           ),
         ),
         Text.rich(

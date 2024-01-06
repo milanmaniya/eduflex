@@ -42,20 +42,20 @@ class _TeacherLoginFormState extends State<TeacherLoginForm> {
               height: TSize.spaceBtwItems,
             ),
             // password
-            TextFormField(
-              obscureText: controller.obset.value,
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Iconsax.password_check),
-                suffixIcon: IconButton(
-                  icon: const Icon(Iconsax.eye_slash),
-                  onPressed: () {
-                    setState(() {
+            Obx(
+              () => TextFormField(
+                obscureText: controller.obset.value,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Iconsax.password_check),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Iconsax.eye_slash),
+                    onPressed: () {
                       controller.obset.value = !controller.obset.value;
                       log(controller.obset.value.toString());
-                    });
-                  },
+                    },
+                  ),
+                  labelText: TTexts.password,
                 ),
-                labelText: TTexts.password,
               ),
             ),
             const SizedBox(

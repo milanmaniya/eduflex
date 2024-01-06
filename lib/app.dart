@@ -1,4 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:eduflex/binding.dart';
 import 'package:eduflex/screen/welcome_screen/welcome_screen.dart';
 import 'package:eduflex/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: GeneralBinding(),
       debugShowCheckedModeBanner: false,
       darkTheme: TAppTheme.darkTheme,
       theme: TAppTheme.lightTheme,
