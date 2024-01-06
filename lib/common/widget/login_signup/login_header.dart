@@ -1,11 +1,13 @@
 import 'package:eduflex/utils/constant/sizes.dart';
-import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader({
-    super.key,
+    super.key, required this.title, required this.subTitle,
   });
+
+  final String title;
+  final String subTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +21,14 @@ class LoginHeader extends StatelessWidget {
           ),
         ),
         Text(
-          TTexts.loginTitle,
+          title,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         const SizedBox(
           height: TSize.sm,
         ),
         Text(
-          TTexts.loginSubTitle,
+          subTitle,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],

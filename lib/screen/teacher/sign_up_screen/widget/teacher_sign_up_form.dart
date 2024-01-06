@@ -261,13 +261,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {
-                if (controller.signUpFormKey.currentState!.validate() &&
-                    controller.yearValue.isNotEmpty &&
-                    controller.fieldValue.isNotEmpty) {
-                  Get.to(() => controller.signUp());
-                }
-              },
+              onPressed: () => controller.signUp(),
               child: const Text(TTexts.createAccount),
             ),
           ),

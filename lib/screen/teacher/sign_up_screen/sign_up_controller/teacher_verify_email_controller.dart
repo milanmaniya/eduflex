@@ -46,7 +46,7 @@ class TeacherVerifyEmailController extends GetxController {
             title: TTexts.yourAccountCreatedTitle,
             subTitle: TTexts.yourAccountCreatedSubTitle,
             imageString: 'assets/animation/Success.gif',
-            pressed: AuthenticationReposotiry.instance.screenRedirect(user),
+            pressed: AuthenticationReposotiry.instance.screenRedirect(),
           ),
         );
       }
@@ -64,7 +64,7 @@ class TeacherVerifyEmailController extends GetxController {
           subTitle: TTexts.yourAccountCreatedSubTitle,
           imageString: 'assets/animation/Success.gif',
           pressed:
-              AuthenticationReposotiry.instance.screenRedirect(currentUser),
+              AuthenticationReposotiry.instance.screenRedirect(),
         ),
       );
     }

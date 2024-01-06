@@ -21,8 +21,11 @@ class TTexts {
   static const String homeAppBarSubTitle = "Milan Maniya";
 
   // authentication heading text
-  static const loginTitle = 'Welcome back,';
-  static const loginSubTitle =
+  static const teacherLoginTitle = 'Welcome Teacher,';
+  static const teacherLoginSubTitle =
+      'Discover Limitless Choices and Unmatched Convenience.';
+  static const studentLoginTitle = 'Welcome Student,';
+  static const studentLoginSubTitle =
       'Discover Limitless Choices and Unmatched Convenience.';
   static const signupTitle = 'Let\'s create your account';
   static const foregotPasswordTitle = 'Foregot password';
@@ -64,5 +67,4 @@ class TTexts {
   static const String verificationCode = 'Verification Code';
   static const String resendEmail = 'Resend Email';
   static const String resendEmailIn = 'Resend Email In';
-
 }

@@ -1,7 +1,7 @@
 import 'package:eduflex/common/widget/login_signup/divider.dart';
 import 'package:eduflex/common/widget/login_signup/social_buttons.dart';
 import 'package:eduflex/screen/student/login_screen/widget/student_login_form.dart';
-import 'package:eduflex/screen/teacher/login_screen/widget/login_header.dart';
+import 'package:eduflex/common/widget/login_signup/login_header.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,10 @@ class StudentLoginScreen extends StatelessWidget {
           child: Column(
             children: [
               // logo, title, sub-title create
-              LoginHeader(),
+              LoginHeader(
+                title: TTexts.studentLoginTitle,
+                subTitle: TTexts.studentLoginSubTitle,
+              ),
 
               // form  create
               StudentLoginForm(),
