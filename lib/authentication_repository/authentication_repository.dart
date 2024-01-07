@@ -13,7 +13,7 @@ class AuthenticationReposotiry extends GetxController {
 
   @override
   void onReady() {
-    screenRedirect();
+    // screenRedirect();
   }
 
   screenRedirect() {

@@ -1,6 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:eduflex/authentication_repository/authentication_repository.dart';
 import 'package:eduflex/binding.dart';
-import 'package:eduflex/screen/welcome_screen/welcome_screen.dart';
 import 'package:eduflex/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           seconds: 2,
         ),
         duration: 2000,
-        nextScreen: const WelcomeScreen(),
+        nextScreen: AuthenticationReposotiry.instance.screenRedirect(),
       ),
     );
   }

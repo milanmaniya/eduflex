@@ -17,7 +17,7 @@ class TermsAndConditionText extends StatefulWidget {
 class _TermsAndConditionTextState extends State<TermsAndConditionText> {
   @override
   Widget build(BuildContext context) {
-    final controller = TeacherSignUpController().instance;
+    final controller = Get.put(TeacherSignUpController());
 
     final dark = THelperFunction.isDarkMode(context);
 

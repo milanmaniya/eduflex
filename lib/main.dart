@@ -15,9 +15,7 @@ void main() async {
 
   //initialize firebase & authentication repository
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
-      .then(
-    (value) => Get.put(AuthenticationReposotiry()),
-  );
+      .then((value) => Get.put(AuthenticationReposotiry()));
 
   // load all material design/ theme/ localization /bindings
   runApp(const MyApp());
