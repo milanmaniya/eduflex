@@ -21,8 +21,4 @@ class TeacherRepository extends GetxController {
           message: 'Something went wrong. Please try again');
     }
   }
-
-
-
-  
 }

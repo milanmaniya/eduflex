@@ -1,5 +1,4 @@
 import 'package:eduflex/home/home_page.dart';
-import 'package:eduflex/screen/teacher/login_screen/teacher_login_screen.dart';
 import 'package:eduflex/screen/teacher/widget/teacher_verify_email.dart';
 import 'package:eduflex/screen/welcome_screen/welcome_screen.dart';
 import 'package:eduflex/utils/popups/loader.dart';
@@ -12,9 +11,7 @@ class AuthenticationReposotiry extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  void onReady() {
-    // screenRedirect();
-  }
+  void onReady() {}
 
   screenRedirect() {
     final user = _auth.currentUser;
@@ -27,18 +24,18 @@ class AuthenticationReposotiry extends GetxController {
             ));
       }
     } else {
-      Get.offAll(() => const WelcomeScreen());
+      Get.to(() => const WelcomeScreen());
     }
   }
 
 // register
-  Future<UserCredential> registerWithEmailAndPassword(
+  Future<void> registerWithEmailAndPassword(
       String email, String password) async {
     try {
-      return await _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
     } catch (e) {
-      return TLoader.errorSnackBar(
+      TLoader.errorSnackBar(
           title: 'Something Went Wrong. Please try again',
           message: e.toString());
     }
@@ -58,7 +55,7 @@ class AuthenticationReposotiry extends GetxController {
   Future<void> logout() async {
     try {
       await FirebaseAuth.instance.signOut();
-      Get.offAll(() => const TeacherLoginScreen());
+      Get.offAll(() => const WelcomeScreen());
     } catch (e) {
       TLoader.warningSnackBar(title: '', message: e.toString());
     }

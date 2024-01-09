@@ -34,7 +34,8 @@ class TeacherSignUpController extends GetxController {
 
     final userCredential = await AuthenticationReposotiry.instance
         .registerWithEmailAndPassword(
-            txtEmailAddress.text.trim(), txtPassword.text.trim());
+            txtEmailAddress.text.trim(), txtPassword.text.trim())
+        .then((value) {});
 
     //    save authticated user data in firebase firestore
     final newUser = Teacher(
@@ -55,19 +56,19 @@ class TeacherSignUpController extends GetxController {
         profilePicture: '');
 
     final teacherRepository = Get.put(TeacherRepository());
-    await teacherRepository.saveTeacherData(newUser);
+    await teacherRepository.saveTeacherData(newUser).then((value) {
+      // show success message
+      TLoader.successSnackBar(
+          title: 'Congratulation',
+          message: 'Your account has been created! Verify email to contiue.');
 
-    // show success message
-    TLoader.successSnackBar(
-        title: 'Congratulation',
-        message: 'Your account has been created! Verify email to contiue.');
-
-    // move to verify email screen
-    Get.to(
-      () => TeacherVerifyEmailScreen(
-        email: txtEmailAddress.text.trim(),
-      ),
-    );
+      // move to verify email screen
+      Get.to(
+        () => TeacherVerifyEmailScreen(
+          email: txtEmailAddress.text.trim(),
+        ),
+      );
+    });
   }
 }
 
