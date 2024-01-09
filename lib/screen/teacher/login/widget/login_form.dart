@@ -4,6 +4,7 @@ import 'package:eduflex/screen/teacher/sign_up/sign_up_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -29,6 +30,10 @@ class _TeacherLoginFormState extends State<TeacherLoginForm> {
           children: [
             // email
             TextFormField(
+              validator: MultiValidator([
+                RequiredValidator(errorText: 'Email is required'),
+                EmailValidator(errorText: 'Email is not a valid format'),
+              ]),
               controller: instance.txtEmail,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Iconsax.direct_right),
@@ -41,6 +46,10 @@ class _TeacherLoginFormState extends State<TeacherLoginForm> {
             // password
             Obx(
               () => TextFormField(
+                autovalidateMode: AutovalidateMode.always,
+                validator: MultiValidator([
+                  RequiredValidator(errorText: 'Password is required'),
+                ]),
                 controller: instance.txtPassword,
                 obscureText: instance.isObsecure.value,
                 decoration: InputDecoration(
