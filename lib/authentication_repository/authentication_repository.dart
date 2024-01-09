@@ -1,5 +1,3 @@
-import 'package:eduflex/home/home_page.dart';
-import 'package:eduflex/screen/teacher/widget/teacher_verify_email.dart';
 import 'package:eduflex/screen/welcome_screen/welcome_screen.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,21 +10,6 @@ class AuthenticationReposotiry extends GetxController {
 
   @override
   void onReady() {}
-
-  screenRedirect() {
-    final user = _auth.currentUser;
-    if (user != null) {
-      if (user.emailVerified) {
-        Get.offAll(() => const HomePage());
-      } else {
-        Get.offAll(() => TeacherVerifyEmailScreen(
-              email: user.email,
-            ));
-      }
-    } else {
-      Get.to(() => const WelcomeScreen());
-    }
-  }
 
 // register
   Future<void> registerWithEmailAndPassword(
