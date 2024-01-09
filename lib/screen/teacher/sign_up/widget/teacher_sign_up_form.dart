@@ -1,5 +1,5 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:eduflex/common/widget/login_signup/terms_and_condition.dart';
-import 'package:eduflex/screen/home_screen/home_screen.dart';
 import 'package:eduflex/screen/teacher/sign_up/controller/teacher_sign_up_controller.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
@@ -129,6 +129,83 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
           ),
 
           const SizedBox(
+            height: TSize.spaceBtwItems,
+          ),
+
+          Obx(
+            () => SizedBox(
+              width: double.infinity,
+              child: DropdownButtonFormField2(
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+                onChanged: (value) => instance.fieldValue.value = value!,
+                isExpanded: true,
+                hint: Text(
+                  instance.fieldValue.isEmpty
+                      ? 'Select Item'
+                      : instance.fieldValue.value,
+                ),
+                items: const [
+                  DropdownMenuItem(
+                    value: 'BBA',
+                    child: Text('BBA'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'BCA',
+                    child: Text('BCA'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(
+            height: TSize.spaceBtwItems,
+          ),
+
+          Obx(
+            () => SizedBox(
+              width: double.infinity,
+              child: DropdownButtonFormField2(
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+                onChanged: (value) => instance.yearValue.value = value!,
+                isExpanded: true,
+                hint: Text(
+                  instance.yearValue.isEmpty
+                      ? 'Select Item'
+                      : instance.yearValue.value,
+                ),
+                items: instance.fieldValue.value == 'BBA'
+                    ? instance.bbaYear
+                        .map(
+                          (e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(e),
+                          ),
+                        )
+                        .toList()
+                    : instance.bcaYear
+                        .map(
+                          (e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(e),
+                          ),
+                        )
+                        .toList(),
+              ),
+            ),
+          ),
+
+          const SizedBox(
             height: TSize.spaceBtwSections,
           ),
 
@@ -146,7 +223,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             child: ElevatedButton(
               onPressed: () {
                 if (instance.key.currentState!.validate()) {
-                  Get.offAll(() => const HomeScreen());
+                  instance.iaAuthentication();
                 }
               },
               child: const Text(TTexts.createAccount),

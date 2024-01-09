@@ -1,3 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eduflex/authentication_repository/authentication_repository.dart';
+import 'package:eduflex/screen/home_screen/home_screen.dart';
+import 'package:eduflex/screen/teacher/model/teacher_model.dart';
+import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,4 +21,53 @@ class TeacherSignUpController extends GetxController {
   TextEditingController txtUserName = TextEditingController();
   TextEditingController txtPhoneNumber = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
+
+  RxString fieldValue = ''.obs;
+  RxString yearValue = ''.obs;
+
+  final bcaYear = ['FY-BCA', 'SY-BCA', 'TY-BCA'];
+  final bbaYear = ['FY-BBA', 'SY-BBA', 'TY-BBA'];
+
+  void iaAuthentication() async {
+    final userCredential =
+        await AuthenticationReposotiry().registerWithEmailAndPassword(
+      email: txtEmail.text.trim(),
+      password: txtPassword.text.trim(),
+    );
+
+    final time = DateTime.now().microsecondsSinceEpoch.toString();
+
+    final newTeacher = Teacher(
+      firstName: txtFirstName.text.trim(),
+      lastName: txtLatName.text.trim(),
+      userName: txtUserName.text.trim(),
+      email: txtEmail.text.trim(),
+      phoneNumber: txtPhoneNumber.text.trim(),
+      password: txtPassword.text.trim(),
+      fieldValue: fieldValue.value,
+      yearValue: yearValue.value,
+      isOnline: false,
+      createAt: time,
+      image: '',
+      pushToken: '',
+      id: userCredential.user!.uid,
+      about: '',
+    );
+
+    FirebaseFirestore.instance
+        .collection('Teacher')
+        .doc(userCredential.user!.uid)
+        .set(newTeacher.toJson())
+        .then((value) {
+      Get.offAll(() => const HomeScreen());
+
+      TLoader.successSnackBar(
+        title: 'Congratulation',
+        message: 'Your account has been  created! Verify email to continue',
+      );
+    }).onError(
+      (error, stackTrace) =>
+          TLoader.errorSnackBar(title: 'Oh Snap! ', message: error),
+    );
+  }
 }

@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:eduflex/utils/logger/logger.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:eduflex/utils/helper/helper_function.dart';
-import 'package:eduflex/utils/logging/logger.dart';
 
 class THttpHelper {
   static Future<List> httpGet(String url) async {

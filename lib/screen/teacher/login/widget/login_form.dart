@@ -40,13 +40,14 @@ class _TeacherLoginFormState extends State<TeacherLoginForm> {
                 labelText: TTexts.email,
               ),
             ),
+
             const SizedBox(
               height: TSize.spaceBtwItems,
             ),
             // password
             Obx(
               () => TextFormField(
-                autovalidateMode: AutovalidateMode.always,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: MultiValidator([
                   RequiredValidator(errorText: 'Password is required'),
                 ]),
@@ -101,9 +102,13 @@ class _TeacherLoginFormState extends State<TeacherLoginForm> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => Get.to(
-                  () => const HomeScreen(),
-                ),
+                onPressed: () {
+                  if (instance.key.currentState!.validate()) {
+                    Get.to(
+                      () => const HomeScreen(),
+                    );
+                  }
+                },
                 child: const Text(TTexts.signIn),
               ),
             ),
@@ -116,9 +121,7 @@ class _TeacherLoginFormState extends State<TeacherLoginForm> {
               width: double.infinity,
               child: OutlinedButton(
                 onPressed: () {
-                  if (instance.key.currentState!.validate()) {
-                    Get.to(() => const TeacherSignUpScreen());
-                  }
+                  Get.to(() => const TeacherSignUpScreen());
                 },
                 child: const Text(TTexts.createAccount),
               ),

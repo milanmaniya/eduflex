@@ -12,13 +12,15 @@ class AuthenticationReposotiry extends GetxController {
   void onReady() {}
 
 // register
-  Future<void> registerWithEmailAndPassword(
-      String email, String password) async {
+  Future<UserCredential> registerWithEmailAndPassword(
+      {required String email, required String password}) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
+      final user = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+
+      return user;
     } catch (e) {
-      TLoader.errorSnackBar(
+      return TLoader.errorSnackBar(
           title: 'Something Went Wrong. Please try again',
           message: e.toString());
     }
