@@ -1,6 +1,11 @@
+import 'dart:developer';
+
+import 'package:eduflex/screen/teacher/login/teacher_login_screen.dart';
 import 'package:eduflex/utils/constant/colors.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -12,6 +17,8 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final storage = GetStorage();
+
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -41,7 +48,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    storage.write('Screen', 'Teacher');
+
+                    Get.to(() => const TeacherLoginScreen());
+
+                    setState(() {});
+                  },
                   child: const Text(
                     "Teacher",
                     style: TextStyle(
@@ -58,7 +71,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    storage.write('Screen', 'Student');
+                    log(storage.read('Screen'));
+                    setState(() {});
+                  },
                   child: const Text(
                     "Student",
                     style: TextStyle(

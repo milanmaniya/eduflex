@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 class SplashService {
   void navigate() {
-    Timer(const Duration(seconds: 5), () {
+    Timer(const Duration(seconds: 3), () {
       Get.to(() => const WelcomeScreen());
     });
   }
