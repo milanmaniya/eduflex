@@ -1,8 +1,6 @@
-import 'package:eduflex/screen/teacher/login_screen/teacher_login_screen.dart';
 import 'package:eduflex/utils/constant/colors.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -14,67 +12,67 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: TSize.defaultSpace,
-          vertical: TSize.appBarHeight,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "Welcome",
-              style: Theme.of(context).textTheme.headlineLarge!.apply(
-                    color: TColor.black.withOpacity(0.85),
-                  ),
-            ),
-            const SizedBox(
-              height: TSize.spaceBtwSections,
-            ),
-            Image.asset(
-              'assets/images/welcome.png',
-            ),
-            const Spacer(),
-            const SizedBox(
-              height: TSize.spaceBtwItems,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Get.to(() => const TeacherLoginScreen());
-                },
-                child: const Text(
-                  "Teacher",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+    return SafeArea(
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: TSize.defaultSpace,
+            vertical: TSize.appBarHeight,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Welcome",
+                  style: Theme.of(context).textTheme.headlineLarge!.apply(
+                        color: TColor.black.withOpacity(0.85),
+                      ),
+                ),
+                const SizedBox(
+                  height: TSize.spaceBtwSections,
+                ),
+                Image.asset(
+                  'assets/images/welcome.png',
+                ),
+                const Spacer(),
+                const SizedBox(
+                  height: TSize.spaceBtwItems,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      "Teacher",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: TSize.spaceBtwItems,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  //Get.to(() => const StudentLoginScreen());
-                },
-                child: const Text(
-                  "Student",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                const SizedBox(
+                  height: TSize.spaceBtwItems,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      "Student",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
