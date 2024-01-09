@@ -1,7 +1,6 @@
 import 'package:eduflex/utils/constant/colors.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -11,12 +10,6 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  @override
-  void initState() {
-    FlutterNativeSplash.remove();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
