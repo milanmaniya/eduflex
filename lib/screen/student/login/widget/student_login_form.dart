@@ -1,11 +1,12 @@
-import 'package:eduflex/screen/home_screen/home_screen.dart';
 import 'package:eduflex/screen/student/login/controller/student_login_controller.dart';
+import 'package:eduflex/screen/student/sign_up/student_sign_up_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:logger/logger.dart';
 
 class StudentLoginForm extends StatefulWidget {
   const StudentLoginForm({super.key});
@@ -105,9 +106,7 @@ class _StudentLoginFormState extends State<StudentLoginForm> {
               child: ElevatedButton(
                 onPressed: () {
                   if (instance.key.currentState!.validate()) {
-                    Get.to(
-                      () => const HomeScreen(),
-                    );
+                    Logger().i('Student Login');
                   }
                 },
                 child: const Text(TTexts.signIn),
@@ -122,7 +121,9 @@ class _StudentLoginFormState extends State<StudentLoginForm> {
               width: double.infinity,
               child: OutlinedButton(
                 onPressed: () {
-                 
+                  Get.to(
+                    () => const StudentSignUpScreen(),
+                  );
                 },
                 child: const Text(TTexts.createAccount),
               ),

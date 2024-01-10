@@ -19,9 +19,32 @@ class StudentSignUpController extends GetxController {
 
   RxString fieldValue = ''.obs;
   RxString yearValue = ''.obs;
+  RxString divValue = ''.obs;
 
-  final bcaYear = ['FY-BCA', 'SY-BCA', 'TY-BCA'];
-  final bbaYear = ['FY-BBA', 'SY-BBA', 'TY-BBA'];
+
+  final bcaYear = [
+    'FY-BCA SEM-1',
+    'FY-BCA SEM-2',
+    'SY-BCA SEM-3',
+    'SY-BCA SEM-4',
+    'TY-BCA SEM-5',
+    'TY-BCA SEM-6',
+  ];
+  final bbaYear = [
+    'FY-BBA SEM-1',
+    'FY-BBA SEM-2',
+    'SY-BBA SEM-3',
+    'SY-BBA SEM-4',
+    'TY-BBA SEM-5',
+    'TY-BBA SEM-6',
+  ];
+
+  final div = [
+    'DIV-1',
+    'DIV-2',
+    'DIV-3',
+    'DIV-4',
+  ];
 
   // void iaAuthentication() async {
   //   final userCredential =

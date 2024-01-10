@@ -1,6 +1,6 @@
 import 'package:eduflex/common/widget/login_signup/divider.dart';
 import 'package:eduflex/common/widget/login_signup/social_buttons.dart';
-import 'package:eduflex/screen/teacher/sign_up/widget/teacher_sign_up_form.dart';
+import 'package:eduflex/screen/student/sign_up/widget/student_sign_up_form.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
               ),
 
               // form
-              const TeacherSignUpForm(),
+              const StudentSignUpForm(),
 
               const SizedBox(
                 height: TSize.spaceBtwSections,

@@ -24,7 +24,6 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
   @override
   Widget build(BuildContext context) {
     final instance = Get.put(StudentSignUpController());
-
     return Form(
       key: instance.key,
       child: Column(
@@ -204,6 +203,39 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
                           ),
                         )
                         .toList(),
+              ),
+            ),
+          ),
+
+          const SizedBox(
+            height: TSize.spaceBtwItems,
+          ),
+
+          Obx(
+            () => SizedBox(
+              width: double.infinity,
+              child: DropdownButtonFormField2(
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+                onChanged: (value) => instance.divValue.value = value!,
+                isExpanded: true,
+                hint: Text(
+                  instance.divValue.isEmpty
+                      ? 'Select Item'
+                      : instance.divValue.value,
+                ),
+                items: instance.div
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(e),
+                      ),
+                    )
+                    .toList(),
               ),
             ),
           ),
