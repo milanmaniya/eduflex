@@ -4,7 +4,6 @@ import 'package:eduflex/screen/home_screen/home_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,12 +22,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(CupertinoIcons.clear),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -37,7 +30,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
             children: [
               Image(
                 image: const AssetImage(
-                    'assets/images/animation/verify_email.png'),
+                  'assets/images/verify_email.png',
+                ),
                 width: THelperFunction.screenWidth() * 0.6,
               ),
               const SizedBox(
@@ -71,20 +65,21 @@ class _VerifyEmailState extends State<VerifyEmail> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    AuthenticationReposotiry()
-                        .sendEmailVerification()
-                        .then((value) {
-                      Get.to(
-                        () => SucessScreen(
-                          imageString: 'assets/animation/Success.gif',
-                          pressed: () => Get.offAll(
-                            () => const HomeScreen(),
-                          ),
-                          subTitle: TTexts.yourAccountCreatedSubTitle,
-                          title: TTexts.yourAccountCreatedTitle,
+                    final con =
+                        AuthenticationReposotiry().sendEmailVerification();
+
+                    con.whenComplete(() {});
+
+                    Get.to(
+                      () => SucessScreen(
+                        imageString: 'assets/animation/Success.gif',
+                        pressed: () => Get.offAll(
+                          () => const HomeScreen(),
                         ),
-                      );
-                    });
+                        subTitle: TTexts.yourAccountCreatedSubTitle,
+                        title: TTexts.yourAccountCreatedTitle,
+                      ),
+                    );
                   },
                   child: const Text(TTexts.tContinue),
                 ),
