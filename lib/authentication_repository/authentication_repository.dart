@@ -20,9 +20,7 @@ class AuthenticationReposotiry extends GetxController {
 
       return user;
     } catch (e) {
-      return TLoader.errorSnackBar(
-          title: 'Something Went Wrong. Please try again',
-          message: e.toString());
+      throw 'Sometimes went wrong. Please try again';
     }
   }
 
