@@ -1,6 +1,6 @@
 import 'package:eduflex/screen/home_screen/home_screen.dart';
 import 'package:eduflex/screen/teacher/login/controller/teacher_login_controller.dart';
-import 'package:eduflex/screen/teacher/sign_up/sign_up_screen.dart';
+import 'package:eduflex/screen/teacher/sign_up/teacher_sign_up_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +56,9 @@ class _TeacherLoginFormState extends State<TeacherLoginForm> {
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Iconsax.password_check),
                   suffixIcon: IconButton(
-                    icon: const Icon(Iconsax.eye_slash),
+                    icon: Icon(instance.isObsecure.value
+                        ? Iconsax.eye_slash
+                        : Iconsax.eye),
                     onPressed: () =>
                         instance.isObsecure.value = !instance.isObsecure.value,
                   ),

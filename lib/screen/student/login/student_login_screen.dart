@@ -1,23 +1,22 @@
 import 'dart:developer';
-
 import 'package:eduflex/common/style/spacing_style.dart';
 import 'package:eduflex/common/widget/login_signup/divider.dart';
 import 'package:eduflex/common/widget/login_signup/login_header.dart';
 import 'package:eduflex/common/widget/login_signup/social_buttons.dart';
-import 'package:eduflex/screen/teacher/login/widget/teacher_login_form.dart';
+import 'package:eduflex/screen/student/login/widget/student_login_form.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
-class TeacherLoginScreen extends StatefulWidget {
-  const TeacherLoginScreen({super.key});
+class StudentLoginScreen extends StatefulWidget {
+  const StudentLoginScreen({super.key});
 
   @override
-  State<TeacherLoginScreen> createState() => _TeacherLoginScreenState();
+  State<StudentLoginScreen> createState() => _StudentLoginScreenState();
 }
 
-class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
+class _StudentLoginScreenState extends State<StudentLoginScreen> {
   @override
   void initState() {
     final storage = GetStorage();
@@ -36,12 +35,12 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
             children: [
               // logo, title, sub-title create
               LoginHeader(
-                title: TTexts.teacherLoginTitle,
-                subTitle: TTexts.teacherLoginSubTitle,
+                title: TTexts.studentLoginTitle,
+                subTitle: TTexts.studentLoginSubTitle,
               ),
 
               // form  create
-              TeacherLoginForm(),
+              StudentLoginForm(),
 
               // divider
               FormDivider(

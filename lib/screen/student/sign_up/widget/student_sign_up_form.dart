@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:eduflex/common/widget/login_signup/terms_and_condition.dart';
-import 'package:eduflex/screen/teacher/sign_up/controller/teacher_sign_up_controller.dart';
+import 'package:eduflex/screen/home_screen/home_screen.dart';
+import 'package:eduflex/screen/student/sign_up/controller/student_sign_up_controller.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
@@ -10,19 +11,19 @@ import 'package:form_validator/form_validator.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-class TeacherSignUpForm extends StatefulWidget {
-  const TeacherSignUpForm({
+class StudentSignUpForm extends StatefulWidget {
+  const StudentSignUpForm({
     super.key,
   });
 
   @override
-  State<TeacherSignUpForm> createState() => _TeacherSignUpFormState();
+  State<StudentSignUpForm> createState() => _StudentSignUpFormState();
 }
 
-class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
+class _StudentSignUpFormState extends State<StudentSignUpForm> {
   @override
   Widget build(BuildContext context) {
-    final instance = Get.put(TeacherSignUpController());
+    final instance = Get.put(StudentSignUpController());
 
     return Form(
       key: instance.key,
@@ -225,7 +226,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             child: ElevatedButton(
               onPressed: () {
                 if (instance.key.currentState!.validate()) {
-                  instance.iaAuthentication();
+                  Get.to(() => const HomeScreen());
                 }
               },
               child: const Text(TTexts.createAccount),
