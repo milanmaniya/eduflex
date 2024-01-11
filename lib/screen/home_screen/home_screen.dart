@@ -1,6 +1,7 @@
 import 'package:eduflex/screen/splash%20_screen/splash_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,6 +9,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localStroage = GetStorage();
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -22,8 +25,10 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Text('Home Page'),
+      body: Center(
+        child: Text(
+          localStroage.read('Screen'),
+        ),
       ),
     );
   }

@@ -73,6 +73,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 onPressed: () {
                   storage.write('Screen', 'Student');
                   log(storage.read('Screen'));
+
+                  Get.to(() => const TeacherLoginScreen());
                   setState(() {});
                 },
                 child: const Text(
