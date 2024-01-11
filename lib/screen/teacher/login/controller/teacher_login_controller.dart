@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/authentication_repository/authentication_repository.dart';
 import 'package:eduflex/screen/home_screen/home_screen.dart';
 import 'package:eduflex/screen/splash%20_screen/splash_service.dart';
-import 'package:eduflex/screen/student/model/student_model.dart';
+import 'package:eduflex/screen/teacher/model/teacher_model.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,14 +47,14 @@ class TeacherLoginController extends GetxController {
     });
   }
 
-  void iaAuthentication() async {
+  void iaGoogleAuthentication() async {
     final userCredential =
         await AuthenticationReposotiry.instance.signInWithGoogle();
 
     final time = DateTime.now().microsecondsSinceEpoch.toString();
 
-    final newStudent = Student(
-      div: '',
+    final newTeacher = Teacher(
+      
       firstName: '',
       lastName: '',
       userName: userCredential.user!.displayName ?? '',
@@ -74,7 +74,7 @@ class TeacherLoginController extends GetxController {
     FirebaseFirestore.instance
         .collection(localStorage.read('Screen'))
         .doc(userCredential.user!.uid)
-        .set(newStudent.toJson())
+        .set(newTeacher.toJson())
         .then((value) {
       SplashService().navigate();
 
