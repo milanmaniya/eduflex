@@ -6,11 +6,12 @@ import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 
 class VerifyEmail extends StatefulWidget {
-  const VerifyEmail({super.key, required this.email});
+  const VerifyEmail({super.key, this.email});
 
-  final String email;
+  final String? email;
 
   @override
   State<VerifyEmail> createState() => _VerifyEmailState();
@@ -46,7 +47,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                 height: TSize.spaceBtwItems,
               ),
               Text(
-                widget.email,
+                widget.email!,
                 style: Theme.of(context).textTheme.labelLarge,
                 textAlign: TextAlign.center,
               ),
@@ -65,10 +66,11 @@ class _VerifyEmailState extends State<VerifyEmail> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    final con =
-                        AuthenticationReposotiry().sendEmailVerification();
-
-                    con.whenComplete(() {});
+                    AuthenticationReposotiry()
+                        .sendEmailVerification()
+                        .then((value) {
+                      Logger().i('Email link send successfully');
+                    });
 
                     Get.to(
                       () => SucessScreen(
@@ -80,6 +82,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         title: TTexts.yourAccountCreatedTitle,
                       ),
                     );
+                    setState(() {});
                   },
                   child: const Text(TTexts.tContinue),
                 ),

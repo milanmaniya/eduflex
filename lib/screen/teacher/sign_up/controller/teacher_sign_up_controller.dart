@@ -5,6 +5,7 @@ import 'package:eduflex/screen/teacher/model/teacher_model.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class TeacherSignUpController extends GetxController {
   static TeacherSignUpController get instance => Get.find();
@@ -54,8 +55,10 @@ class TeacherSignUpController extends GetxController {
       about: '',
     );
 
+    final localStorage = GetStorage();
+
     FirebaseFirestore.instance
-        .collection('Teacher')
+        .collection(localStorage.read('Screen'))
         .doc(userCredential.user!.uid)
         .set(newTeacher.toJson())
         .then((value) {

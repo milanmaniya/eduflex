@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:eduflex/screen/student/login/student_login_screen.dart';
 import 'package:eduflex/screen/teacher/login/teacher_login_screen.dart';
 import 'package:eduflex/utils/constant/colors.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
@@ -74,7 +75,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   storage.write('Screen', 'Student');
                   log(storage.read('Screen'));
 
-                  Get.to(() => const TeacherLoginScreen());
+                  Get.to(() => const StudentLoginScreen());
                   setState(() {});
                 },
                 child: const Text(

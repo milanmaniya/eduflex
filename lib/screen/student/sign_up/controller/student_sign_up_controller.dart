@@ -1,5 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eduflex/authentication_repository/authentication_repository.dart';
+import 'package:eduflex/common/widget/email_verify_screen/email_verify_screen.dart';
+import 'package:eduflex/screen/student/model/student_model.dart';
+import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class StudentSignUpController extends GetxController {
   static StudentSignUpController get instance => Get.find();
@@ -20,7 +26,6 @@ class StudentSignUpController extends GetxController {
   RxString fieldValue = ''.obs;
   RxString yearValue = ''.obs;
   RxString divValue = ''.obs;
-
 
   final bcaYear = [
     'FY-BCA SEM-1',
@@ -46,50 +51,53 @@ class StudentSignUpController extends GetxController {
     'DIV-4',
   ];
 
-  // void iaAuthentication() async {
-  //   final userCredential =
-  //       await AuthenticationReposotiry().registerWithEmailAndPassword(
-  //     email: txtEmail.text.trim(),
-  //     password: txtPassword.text.trim(),
-  //   );
+  void iaAuthentication() async {
+    final userCredential =
+        await AuthenticationReposotiry().registerWithEmailAndPassword(
+      email: txtEmail.text.trim(),
+      password: txtPassword.text.trim(),
+    );
 
-  //   final time = DateTime.now().microsecondsSinceEpoch.toString();
+    final time = DateTime.now().microsecondsSinceEpoch.toString();
 
-  //   final newTeacher = Teacher(
-  //     firstName: txtFirstName.text.trim(),
-  //     lastName: txtLatName.text.trim(),
-  //     userName: txtUserName.text.trim(),
-  //     email: txtEmail.text.trim(),
-  //     phoneNumber: txtPhoneNumber.text.trim(),
-  //     password: txtPassword.text.trim(),
-  //     fieldValue: fieldValue.value,
-  //     yearValue: yearValue.value,
-  //     isOnline: false,
-  //     createAt: time,
-  //     image: '',
-  //     pushToken: '',
-  //     id: userCredential.user!.uid,
-  //     about: '',
-  //   );
+    final newTeacher = Student(
+      firstName: txtFirstName.text.trim(),
+      lastName: txtLatName.text.trim(),
+      userName: txtUserName.text.trim(),
+      email: txtEmail.text.trim(),
+      phoneNumber: txtPhoneNumber.text.trim(),
+      password: txtPassword.text.trim(),
+      fieldValue: fieldValue.value,
+      yearValue: yearValue.value,
+      isOnline: false,
+      createAt: time,
+      image: '',
+      pushToken: '',
+      id: userCredential.user!.uid,
+      about: '',
+      div: divValue.value,
+    );
 
-  //   FirebaseFirestore.instance
-  //       .collection('Teacher')
-  //       .doc(userCredential.user!.uid)
-  //       .set(newTeacher.toJson())
-  //       .then((value) {
-  //     Get.offAll(
-  //       () => VerifyEmail(
-  //         email: txtEmail.text.trim(),
-  //       ),
-  //     );
+    final localStorage = GetStorage();
 
-  //     TLoader.successSnackBar(
-  //       title: 'Congratulation',
-  //       message: 'Your account has been  created! Verify email to continue',
-  //     );
-  //   }).onError(
-  //     (error, stackTrace) =>
-  //         TLoader.errorSnackBar(title: 'Oh Snap! ', message: error),
-  //   );
-  // }
+    FirebaseFirestore.instance
+        .collection(localStorage.read('Screen'))
+        .doc(userCredential.user!.uid)
+        .set(newTeacher.toJson())
+        .then((value) {
+      Get.offAll(
+        () => VerifyEmail(
+          email: txtEmail.text.trim(),
+        ),
+      );
+
+      TLoader.successSnackBar(
+        title: 'Congratulation',
+        message: 'Your account has been  created! Verify email to continue',
+      );
+    }).onError(
+      (error, stackTrace) =>
+          TLoader.errorSnackBar(title: 'Oh Snap! ', message: error),
+    );
+  }
 }

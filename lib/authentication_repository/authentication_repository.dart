@@ -24,7 +24,6 @@ class AuthenticationReposotiry extends GetxController {
     }
   }
 
-
 // register
   Future<UserCredential> registerWithEmailAndPassword(
       {required String email, required String password}) async {
@@ -39,9 +38,9 @@ class AuthenticationReposotiry extends GetxController {
   }
 
   // mail verification
-  Future<void> sendEmailVerification() async {
+  Future<void> sendEmailVerification() async{
     try {
-      await _auth.currentUser?.sendEmailVerification();
+      await _auth.currentUser!.sendEmailVerification();
     } catch (e) {
       TLoader.warningSnackBar(
           title: 'Email Send Verification', message: e.toString());
