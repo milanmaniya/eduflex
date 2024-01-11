@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/authentication_repository/authentication_repository.dart';
-import 'package:eduflex/screen/home_screen/home_screen.dart';
 import 'package:eduflex/screen/splash%20_screen/splash_service.dart';
 import 'package:eduflex/screen/teacher/model/teacher_model.dart';
 import 'package:eduflex/utils/popups/loader.dart';
@@ -43,7 +42,7 @@ class TeacherLoginController extends GetxController {
         .loginWithEmailIdAndPassword(
             email: txtEmail.text.trim(), password: txtPassword.text.trim())
         .then((value) {
-      Get.offAll(() => const HomeScreen());
+      SplashService().navigate();
     });
   }
 
@@ -54,7 +53,6 @@ class TeacherLoginController extends GetxController {
     final time = DateTime.now().microsecondsSinceEpoch.toString();
 
     final newTeacher = Teacher(
-      
       firstName: '',
       lastName: '',
       userName: userCredential.user!.displayName ?? '',

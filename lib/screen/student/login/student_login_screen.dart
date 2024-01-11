@@ -59,7 +59,7 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
               SocialButtons(
                 facebook: () {},
                 google: () {
-                  
+                  instance.iaGoogleAuthentication();
                 },
               ),
             ],

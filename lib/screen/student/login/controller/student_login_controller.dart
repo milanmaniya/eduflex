@@ -10,7 +10,6 @@ import 'package:get_storage/get_storage.dart';
 class StudentLoginController extends GetxController {
   static StudentLoginController get instance => Get.find();
 
-  
   RxBool isObsecure = true.obs;
 
   RxBool isChecked = false.obs;
@@ -22,6 +21,19 @@ class StudentLoginController extends GetxController {
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
 
+  void isAuthentication() async {
+    if (isChecked.value) {
+      localStorage.write('REMEMBER_ME_STUDENT_EMAIL', txtEmail.text.trim());
+      localStorage.write('REMEMBER_ME_STUDENT_PASSWORD', txtPassword.text.trim());
+    }
+
+    await AuthenticationReposotiry()
+        .loginWithEmailIdAndPassword(
+            email: txtEmail.text.trim(), password: txtPassword.text.trim())
+        .then((value) {
+      SplashService().navigate();
+    });
+  }
 
   void iaGoogleAuthentication() async {
     final userCredential =
@@ -63,6 +75,4 @@ class StudentLoginController extends GetxController {
           TLoader.errorSnackBar(title: 'Oh Snap! ', message: error),
     );
   }
-
-
 }

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:logger/logger.dart';
 
 class StudentLoginForm extends StatefulWidget {
   const StudentLoginForm({super.key});
@@ -106,7 +105,7 @@ class _StudentLoginFormState extends State<StudentLoginForm> {
               child: ElevatedButton(
                 onPressed: () {
                   if (instance.key.currentState!.validate()) {
-                    Logger().i('Student Login');
+                    
                   }
                 },
                 child: const Text(TTexts.signIn),
