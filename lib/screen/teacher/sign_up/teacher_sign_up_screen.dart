@@ -47,7 +47,10 @@ class _TeacherSignUpScreenState extends State<TeacherSignUpScreen> {
                 height: TSize.spaceBtwSections,
               ),
               // social buttons
-              const SocialButtons(),
+              SocialButtons(
+                facebook: () {},
+                google: () {},
+              ),
             ],
           ),
         ),

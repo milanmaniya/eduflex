@@ -5,8 +5,12 @@ import 'package:icons_plus/icons_plus.dart';
 
 class SocialButtons extends StatelessWidget {
   const SocialButtons({
-    super.key,
+    super.key, required this.google, required this.facebook,
   });
+
+  final VoidCallback google;
+  final VoidCallback facebook;
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class SocialButtons extends StatelessWidget {
             borderRadius: BorderRadius.circular(100),
           ),
           child: IconButton(
-            onPressed: () {},
+            onPressed: google,
             icon: const Icon(Bootstrap.google),
           ),
         ),
@@ -36,7 +40,7 @@ class SocialButtons extends StatelessWidget {
             borderRadius: BorderRadius.circular(100),
           ),
           child: IconButton(
-            onPressed: () {},
+            onPressed: facebook,
             icon: const Icon(Bootstrap.facebook),
           ),
         ),

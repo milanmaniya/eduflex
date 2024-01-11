@@ -47,7 +47,10 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                 height: TSize.spaceBtwSections,
               ),
               // social buttons
-              const SocialButtons(),
+              SocialButtons(
+                facebook: () {},
+                google: () {},
+              ),
             ],
           ),
         ),

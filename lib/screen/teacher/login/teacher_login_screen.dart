@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'package:eduflex/authentication_repository/authentication_repository.dart';
 import 'package:eduflex/common/style/spacing_style.dart';
 import 'package:eduflex/common/widget/login_signup/divider.dart';
 import 'package:eduflex/common/widget/login_signup/login_header.dart';
@@ -28,32 +28,37 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: TSpacingStyle.paddingWithAppBarHeight,
           child: Column(
             children: [
               // logo, title, sub-title create
-              LoginHeader(
+              const LoginHeader(
                 title: TTexts.teacherLoginTitle,
                 subTitle: TTexts.teacherLoginSubTitle,
               ),
 
               // form  create
-              TeacherLoginForm(),
+              const TeacherLoginForm(),
 
               // divider
-              FormDivider(
+              const FormDivider(
                 dividerText: TTexts.orSignInWith,
               ),
 
-              SizedBox(
+              const SizedBox(
                 height: TSize.spaceBtwSections,
               ),
 
               // footer
-              SocialButtons(),
+              SocialButtons(
+                facebook: () {},
+                google: () {
+                  AuthenticationReposotiry.instance.signInWithGoogle();
+                },
+              ),
             ],
           ),
         ),

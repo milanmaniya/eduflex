@@ -27,32 +27,35 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: TSpacingStyle.paddingWithAppBarHeight,
           child: Column(
             children: [
               // logo, title, sub-title create
-              LoginHeader(
+              const LoginHeader(
                 title: TTexts.studentLoginTitle,
                 subTitle: TTexts.studentLoginSubTitle,
               ),
 
               // form  create
-              StudentLoginForm(),
+              const StudentLoginForm(),
 
               // divider
-              FormDivider(
+              const FormDivider(
                 dividerText: TTexts.orSignInWith,
               ),
 
-              SizedBox(
+              const SizedBox(
                 height: TSize.spaceBtwSections,
               ),
 
               // footer
-              SocialButtons(),
+              SocialButtons(
+                facebook: () {},
+                google: () {},
+              ),
             ],
           ),
         ),

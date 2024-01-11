@@ -4,6 +4,7 @@ import 'package:eduflex/screen/home_screen/home_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -18,6 +19,8 @@ class VerifyEmail extends StatefulWidget {
 }
 
 class _VerifyEmailState extends State<VerifyEmail> {
+  bool? isEmailVerified;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +50,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                 height: TSize.spaceBtwItems,
               ),
               Text(
-                widget.email!,
+                widget.email ?? '',
                 style: Theme.of(context).textTheme.labelLarge,
                 textAlign: TextAlign.center,
               ),
@@ -65,24 +68,31 @@ class _VerifyEmailState extends State<VerifyEmail> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     AuthenticationReposotiry()
                         .sendEmailVerification()
                         .then((value) {
                       Logger().i('Email link send successfully');
                     });
 
-                    Get.to(
-                      () => SucessScreen(
-                        imageString: 'assets/animation/Success.gif',
-                        pressed: () => Get.offAll(
-                          () => const HomeScreen(),
+                    await FirebaseAuth.instance.currentUser!.reload();
+
+                    setState(() {
+                      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+                    });
+
+                    if (isEmailVerified!) {
+                      Get.to(
+                        () => SucessScreen(
+                          imageString: 'assets/animation/Success.gif',
+                          pressed: () => Get.offAll(
+                            () => const HomeScreen(),
+                          ),
+                          subTitle: TTexts.yourAccountCreatedSubTitle,
+                          title: TTexts.yourAccountCreatedTitle,
                         ),
-                        subTitle: TTexts.yourAccountCreatedSubTitle,
-                        title: TTexts.yourAccountCreatedTitle,
-                      ),
-                    );
-                    setState(() {});
+                      );
+                    }
                   },
                   child: const Text(TTexts.tContinue),
                 ),
