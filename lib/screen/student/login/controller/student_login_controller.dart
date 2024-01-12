@@ -24,7 +24,8 @@ class StudentLoginController extends GetxController {
   void isAuthentication() async {
     if (isChecked.value) {
       localStorage.write('REMEMBER_ME_STUDENT_EMAIL', txtEmail.text.trim());
-      localStorage.write('REMEMBER_ME_STUDENT_PASSWORD', txtPassword.text.trim());
+      localStorage.write(
+          'REMEMBER_ME_STUDENT_PASSWORD', txtPassword.text.trim());
     }
 
     await AuthenticationReposotiry()

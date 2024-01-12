@@ -1,3 +1,4 @@
+import 'package:eduflex/common/widget/forgot_password/forgot_password.dart';
 import 'package:eduflex/screen/home_screen/home_screen.dart';
 import 'package:eduflex/screen/teacher/login/controller/teacher_login_controller.dart';
 import 'package:eduflex/screen/teacher/sign_up/teacher_sign_up_screen.dart';
@@ -91,7 +92,7 @@ class _TeacherLoginFormState extends State<TeacherLoginForm> {
                 //Forgot Password
 
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => Get.to(() => const ForgotPassword()),
                   child: const Text(TTexts.forgotPassword),
                 ),
               ],

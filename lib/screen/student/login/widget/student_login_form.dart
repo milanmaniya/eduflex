@@ -1,4 +1,4 @@
-import 'package:eduflex/common/widget/forgot_password/controller/forgot_password_controller.dart';
+import 'package:eduflex/common/widget/forgot_password/forgot_password.dart';
 import 'package:eduflex/screen/student/login/controller/student_login_controller.dart';
 import 'package:eduflex/screen/student/sign_up/student_sign_up_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
@@ -19,8 +19,6 @@ class _StudentLoginFormState extends State<StudentLoginForm> {
   @override
   Widget build(BuildContext context) {
     final instance = Get.put(StudentLoginController());
-
-    final forgotInstance = Get.put(ForgotPassordController());
 
     return Form(
       key: instance.key,
@@ -93,7 +91,7 @@ class _StudentLoginFormState extends State<StudentLoginForm> {
                 //Forgot Password
 
                 TextButton(
-                  onPressed: ()=> forgotInstance.sendPasswordResetEmail() ,
+                  onPressed: () => Get.to(() => const ForgotPassword()),
                   child: const Text(TTexts.forgotPassword),
                 ),
               ],
@@ -107,9 +105,7 @@ class _StudentLoginFormState extends State<StudentLoginForm> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  if (instance.key.currentState!.validate()) {
-                    
-                  }
+                  if (instance.key.currentState!.validate()) {}
                 },
                 child: const Text(TTexts.signIn),
               ),
