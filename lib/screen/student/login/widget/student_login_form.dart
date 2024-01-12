@@ -105,7 +105,9 @@ class _StudentLoginFormState extends State<StudentLoginForm> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  if (instance.key.currentState!.validate()) {}
+                  if (instance.key.currentState!.validate()) {
+                    instance.isAuthentication();
+                  }
                 },
                 child: const Text(TTexts.signIn),
               ),
