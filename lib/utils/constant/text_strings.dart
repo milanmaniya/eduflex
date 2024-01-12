@@ -51,6 +51,8 @@ class TTexts {
   static const String lastName = 'Last Name';
   static const String email = 'E-Mail';
   static const String about = 'About';
+  static const String degree = 'Degree';
+  static const String experience = 'Experience';
   static const String password = 'Paasowrd';
   static const String newPassword = 'New passowrd';
   static const String userName = 'UserName';

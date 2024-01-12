@@ -219,8 +219,8 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             controller: instance.txtDegree,
             validator: ValidationBuilder().required().build(),
             decoration: const InputDecoration(
-              labelText: TTexts.userName,
-              prefixIcon: Icon(Iconsax.user_tick),
+              labelText: TTexts.degree,
+              prefixIcon: Icon(Iconsax.information),
             ),
           ),
 
@@ -233,8 +233,8 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             controller: instance.txtExperience,
             validator: ValidationBuilder().required().build(),
             decoration: const InputDecoration(
-              labelText: TTexts.userName,
-              prefixIcon: Icon(Iconsax.user_tick),
+              labelText: TTexts.experience,
+              prefixIcon: Icon(Iconsax.information),
             ),
           ),
 
@@ -247,8 +247,8 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             controller: instance.txtAbout,
             validator: ValidationBuilder().required().build(),
             decoration: const InputDecoration(
-              labelText: TTexts.userName,
-              prefixIcon: Icon(Iconsax.user_tick),
+              labelText: TTexts.about,
+              prefixIcon: Icon(Iconsax.info_circle),
             ),
           ),
 
