@@ -22,6 +22,9 @@ class TeacherSignUpController extends GetxController {
   TextEditingController txtUserName = TextEditingController();
   TextEditingController txtPhoneNumber = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
+  TextEditingController txtDegree = TextEditingController();
+  TextEditingController txtExperience = TextEditingController();
+  TextEditingController txtAbout = TextEditingController();
 
   RxString fieldValue = ''.obs;
   RxString yearValue = ''.obs;
@@ -49,10 +52,12 @@ class TeacherSignUpController extends GetxController {
       yearValue: yearValue.value,
       isOnline: false,
       createAt: time,
-      image: '',
+      image: userCredential.user!.photoURL ?? '',
       pushToken: '',
       id: userCredential.user!.uid,
-      about: '',
+      about: txtAbout.text.trim(),
+      degree: txtDegree.text.trim(),
+      experince: txtExperience.text.trim(),
     );
 
     final localStorage = GetStorage();

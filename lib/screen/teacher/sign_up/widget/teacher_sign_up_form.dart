@@ -139,7 +139,10 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
               width: double.infinity,
               child: DropdownButtonFormField2(
                 decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 10,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -148,7 +151,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                 isExpanded: true,
                 hint: Text(
                   instance.fieldValue.isEmpty
-                      ? 'Select Item'
+                      ? 'Select Your Field'
                       : instance.fieldValue.value,
                 ),
                 items: const [
@@ -183,7 +186,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                 isExpanded: true,
                 hint: Text(
                   instance.yearValue.isEmpty
-                      ? 'Select Item'
+                      ? 'Select Your Year'
                       : instance.yearValue.value,
                 ),
                 items: instance.fieldValue.value == 'BBA'
@@ -204,6 +207,48 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                         )
                         .toList(),
               ),
+            ),
+          ),
+
+          const SizedBox(
+            height: TSize.spaceBtwItems,
+          ),
+
+          // degree
+          TextFormField(
+            controller: instance.txtDegree,
+            validator: ValidationBuilder().required().build(),
+            decoration: const InputDecoration(
+              labelText: TTexts.userName,
+              prefixIcon: Icon(Iconsax.user_tick),
+            ),
+          ),
+
+          const SizedBox(
+            height: TSize.spaceBtwItems,
+          ),
+
+          // experince
+          TextFormField(
+            controller: instance.txtExperience,
+            validator: ValidationBuilder().required().build(),
+            decoration: const InputDecoration(
+              labelText: TTexts.userName,
+              prefixIcon: Icon(Iconsax.user_tick),
+            ),
+          ),
+
+          const SizedBox(
+            height: TSize.spaceBtwItems,
+          ),
+
+          // About
+          TextFormField(
+            controller: instance.txtAbout,
+            validator: ValidationBuilder().required().build(),
+            decoration: const InputDecoration(
+              labelText: TTexts.userName,
+              prefixIcon: Icon(Iconsax.user_tick),
             ),
           ),
 

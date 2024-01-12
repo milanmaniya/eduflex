@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 Teacher teacherFromJson(String str) => Teacher.fromJson(json.decode(str));
@@ -19,6 +20,8 @@ class Teacher {
   String pushToken;
   String id;
   String about;
+  String degree;
+  String experince;
 
   Teacher({
     required this.firstName,
@@ -35,6 +38,8 @@ class Teacher {
     required this.pushToken,
     required this.id,
     required this.about,
+    required this.degree,
+    required this.experince,
   });
 
   factory Teacher.fromJson(Map<String, dynamic> json) => Teacher(
@@ -52,6 +57,8 @@ class Teacher {
         pushToken: json["pushToken"],
         id: json["id"],
         about: json["about"],
+        degree: json['degree'],
+        experince: json['experince'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -69,5 +76,7 @@ class Teacher {
         "pushToken": pushToken,
         "id": id,
         "about": about,
+        "degree": degree,
+        "experince": experince,
       };
 }
