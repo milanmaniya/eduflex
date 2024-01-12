@@ -69,6 +69,8 @@ class TeacherLoginController extends GetxController {
       pushToken: '',
       id: userCredential.user!.uid,
       about: '',
+      degree: '',
+      experince: '',
     );
 
     FirebaseFirestore.instance
