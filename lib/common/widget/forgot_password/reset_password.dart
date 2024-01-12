@@ -1,13 +1,21 @@
+import 'package:eduflex/screen/student/login/student_login_screen.dart';
+import 'package:eduflex/screen/teacher/login/teacher_login_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class ResetPassword extends StatelessWidget {
-  const ResetPassword({super.key});
+  const ResetPassword({super.key, required this.email});
+
+  final String email;
 
   @override
   Widget build(BuildContext context) {
+    final localStorage = GetStorage();
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -19,11 +27,20 @@ class ResetPassword extends StatelessWidget {
             children: [
               Image(
                 image: const AssetImage(
-                    'assets/images/animation/verify_email.png'),
+                  'assets/images/verify_email.png',
+                ),
                 width: THelperFunction.screenWidth() * 0.6,
               ),
               const SizedBox(
                 height: TSize.spaceBtwSections,
+              ),
+              Text(
+                email,
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: TSize.spaceBtwItems,
               ),
               Text(
                 TTexts.changePasswordTitle,
@@ -44,7 +61,9 @@ class ResetPassword extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => localStorage.read('Screen') == 'Teacher'
+                      ? Get.offAll(() => const TeacherLoginScreen())
+                      : const StudentLoginScreen(),
                   child: const Text(TTexts.done),
                 ),
               ),

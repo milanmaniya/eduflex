@@ -1,10 +1,11 @@
+import 'package:eduflex/common/widget/forgot_password/reset_password.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ForgotPassord extends GetxController {
-  static ForgotPassord get instance => Get.find();
+class ForgotPassordController extends GetxController {
+  static ForgotPassordController get instance => Get.find();
 
   TextEditingController txtEmail = TextEditingController();
 
@@ -14,10 +15,14 @@ class ForgotPassord extends GetxController {
   sendPasswordResetEmail() async {
     try {
       await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: txtEmail.text.trim()).then((value) {
-             TLoader.successSnackBar(
-            title: 'Email Sent', message: 'Email Link Sent to Reset your Password'.tr);
-          });
+          .sendPasswordResetEmail(email: txtEmail.text.trim())
+          .then((value) {
+        TLoader.successSnackBar(
+            title: 'Email Sent',
+            message: 'Email Link Sent to Reset your Password'.tr);
+
+        Get.to(() => ResetPassword(email: txtEmail.text.trim()));
+      });
     } catch (e) {
       TLoader.warningSnackBar(
           title: 'Email Send Verification', message: e.toString());
@@ -25,5 +30,18 @@ class ForgotPassord extends GetxController {
   }
 
   // resend the email for forgot password
-  resendPasswordResetEmail() {}
+  resendPasswordResetEmail(String email) async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: txtEmail.text.trim())
+          .then((value) {
+        TLoader.successSnackBar(
+            title: 'Email Sent',
+            message: 'Email Link Sent to Reset your Password'.tr);
+      });
+    } catch (e) {
+      TLoader.warningSnackBar(
+          title: 'Email Send Verification', message: e.toString());
+    }
+  }
 }

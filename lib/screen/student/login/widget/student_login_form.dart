@@ -1,3 +1,4 @@
+import 'package:eduflex/common/widget/forgot_password/controller/forgot_password_controller.dart';
 import 'package:eduflex/screen/student/login/controller/student_login_controller.dart';
 import 'package:eduflex/screen/student/sign_up/student_sign_up_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
@@ -18,6 +19,8 @@ class _StudentLoginFormState extends State<StudentLoginForm> {
   @override
   Widget build(BuildContext context) {
     final instance = Get.put(StudentLoginController());
+
+    final forgotInstance = Get.put(ForgotPassordController());
 
     return Form(
       key: instance.key,
@@ -90,7 +93,7 @@ class _StudentLoginFormState extends State<StudentLoginForm> {
                 //Forgot Password
 
                 TextButton(
-                  onPressed: () {},
+                  onPressed: ()=> forgotInstance.sendPasswordResetEmail() ,
                   child: const Text(TTexts.forgotPassword),
                 ),
               ],

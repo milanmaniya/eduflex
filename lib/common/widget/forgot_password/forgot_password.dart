@@ -1,15 +1,20 @@
-import 'package:eduflex/common/widget/forgot_password/reset_password.dart';
+import 'package:eduflex/common/widget/forgot_password/controller/forgot_password_controller.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class ForgotPassword extends StatelessWidget {
-  const ForgotPassword({super.key});
+  const ForgotPassword({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final instance = Get.put(ForgotPassordController());
+
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -31,10 +36,18 @@ class ForgotPassword extends StatelessWidget {
             const SizedBox(
               height: TSize.spaceBtwSections * 2,
             ),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: TTexts.email,
-                prefixIcon: Icon(Iconsax.direct_right_bold),
+            Form(
+              key: instance.key,
+              child: TextFormField(
+                controller: instance.txtEmail,
+                validator: MultiValidator([
+                  RequiredValidator(errorText: 'Email is is required'),
+                  EmailValidator(errorText: 'Email is not valid format'),
+                ]),
+                decoration: const InputDecoration(
+                  labelText: TTexts.email,
+                  prefixIcon: Icon(Iconsax.direct_right_bold),
+                ),
               ),
             ),
             const SizedBox(
@@ -43,7 +56,9 @@ class ForgotPassword extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => Get.off(() => const ResetPassword()),
+                onPressed: () {
+                  instance.sendPasswordResetEmail();
+                },
                 child: const Text(TTexts.tContinue),
               ),
             ),
