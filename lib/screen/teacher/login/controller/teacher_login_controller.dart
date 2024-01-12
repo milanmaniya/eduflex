@@ -32,6 +32,7 @@ class TeacherLoginController extends GetxController {
     super.onInit();
   }
 
+  // login with email id and password
   void isAuthentication() async {
     if (isChecked.value) {
       localStorage.write('REMEMBER_ME_EMAIL', txtEmail.text.trim());
@@ -46,6 +47,7 @@ class TeacherLoginController extends GetxController {
     });
   }
 
+  // sign in with google
   void iaGoogleAuthentication() async {
     final userCredential =
         await AuthenticationReposotiry.instance.signInWithGoogle();

@@ -77,4 +77,16 @@ class AuthenticationReposotiry extends GetxController {
       TLoader.warningSnackBar(title: '', message: e.toString());
     }
   }
+
+  // forgot password
+
+  Future<void> sendPasswordResetEmail(String email) async{
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      
+    } catch (e) {
+      TLoader.warningSnackBar(
+          title: 'Email Send Verification', message: e.toString());
+    }
+  }
 }
