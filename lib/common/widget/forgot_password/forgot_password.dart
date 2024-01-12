@@ -16,7 +16,9 @@ class ForgotPassword extends StatelessWidget {
     final instance = Get.put(ForgotPassordController());
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(TSize.defaultSpace),
         child: Column(

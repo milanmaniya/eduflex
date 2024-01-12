@@ -14,7 +14,7 @@ class ForgotPassordController extends GetxController {
   // send reset password email
   sendPasswordResetEmail() async {
     try {
-      await FirebaseAuth.instance
+     await FirebaseAuth.instance
           .sendPasswordResetEmail(email: txtEmail.text.trim())
           .then((value) {
         TLoader.successSnackBar(
@@ -23,6 +23,8 @@ class ForgotPassordController extends GetxController {
 
         Get.to(() => ResetPassword(email: txtEmail.text.trim()));
       });
+
+      
     } catch (e) {
       TLoader.warningSnackBar(
           title: 'Email Send Verification', message: e.toString());
