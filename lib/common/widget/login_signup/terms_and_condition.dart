@@ -1,4 +1,3 @@
-import 'package:eduflex/screen/student/sign_up/controller/student_sign_up_controller.dart';
 import 'package:eduflex/screen/teacher/sign_up/controller/teacher_sign_up_controller.dart';
 import 'package:eduflex/utils/constant/colors.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
@@ -19,8 +18,6 @@ class _TermsAndConditionTextState extends State<TermsAndConditionText> {
   @override
   Widget build(BuildContext context) {
     final instance = Get.put(TeacherSignUpController());
-
-    final con = Get.put(StudentSignUpController());
 
     final dark = THelperFunction.isDarkMode(context);
 

@@ -6,10 +6,20 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-class ForgotPassword extends StatelessWidget {
+class ForgotPassword extends StatefulWidget {
   const ForgotPassword({
     super.key,
   });
+
+  @override
+  State<ForgotPassword> createState() => _ForgotPasswordState();
+}
+
+class _ForgotPasswordState extends State<ForgotPassword> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +69,9 @@ class ForgotPassword extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  instance.sendPasswordResetEmail();
+                  if (instance.key.currentState!.validate()) {
+                    instance.sendPasswordResetEmail();
+                  }
                 },
                 child: const Text(TTexts.tContinue),
               ),
