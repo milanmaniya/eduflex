@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_screen/widget/all_subject_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class AllSemesterScreen extends StatefulWidget {
@@ -16,8 +18,9 @@ class _AllSemesterScreenState extends State<AllSemesterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text(
-          'All Subject',
+          'All Semester',
         ),
         centerTitle: true,
       ),
@@ -44,7 +47,13 @@ class _AllSemesterScreenState extends State<AllSemesterScreen> {
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               return InkWell(
-                onTap: () {},
+                onTap: () {
+                  final localStorage = GetStorage();
+
+                  localStorage.write('Semester', allSemList[index]);
+
+                  Get.to(() => const AllSubjectScreen());
+                },
                 child: Container(
                   height: 100,
                   margin: const EdgeInsets.symmetric(
@@ -58,7 +67,7 @@ class _AllSemesterScreenState extends State<AllSemesterScreen> {
                   alignment: Alignment.center,
                   child: Text(
                     allSemList[index],
-                    style: Theme.of(context).textTheme.labelMedium!.apply(
+                    style: Theme.of(context).textTheme.bodyLarge!.apply(
                           color: Colors.black,
                         ),
                   ),

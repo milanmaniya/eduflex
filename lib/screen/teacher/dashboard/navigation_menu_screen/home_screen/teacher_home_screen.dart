@@ -1,4 +1,6 @@
+import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_screen/widget/all_semester_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logger/logger.dart';
 
@@ -18,11 +20,8 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'All Course',
-          style: Theme.of(context).textTheme.labelLarge!.apply(
-                color: Colors.black,
-              ),
         ),
       ),
       body: Column(
@@ -34,6 +33,8 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
             onTap: () {
               localStorage.write('Field', 'BCA');
               Logger().i(localStorage.read('Field'));
+
+              Get.to(() => const AllSemesterScreen());
             },
           ),
           CommonFieldCard(
@@ -41,8 +42,10 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
             text: 'BBA',
             desciption: 'Internal English Medium',
             onTap: () {
-              localStorage.write('Field', 'BCA');
+              localStorage.write('Field', 'BBA');
               Logger().i(localStorage.read('Field'));
+
+              Get.to(() => const AllSemesterScreen());
             },
           ),
         ],
@@ -86,17 +89,21 @@ class CommonFieldCard extends StatelessWidget {
               width: 15,
             ),
             Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   text,
-                  style: Theme.of(context).textTheme.labelMedium!.apply(
+                  style: Theme.of(context).textTheme.bodyLarge!.apply(
                         color: Colors.black,
                       ),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
                 Text(
                   desciption,
-                  style: Theme.of(context).textTheme.labelSmall!.apply(
+                  style: Theme.of(context).textTheme.bodyLarge!.apply(
                         color: Colors.black87,
                       ),
                 ),
