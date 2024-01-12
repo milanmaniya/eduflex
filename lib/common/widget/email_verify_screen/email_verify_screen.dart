@@ -1,6 +1,6 @@
 import 'package:eduflex/authentication_repository/authentication_repository.dart';
 import 'package:eduflex/common/widget/success_screen/success_screen.dart';
-import 'package:eduflex/screen/home_screen/home_screen.dart';
+import 'package:eduflex/screen/splash%20_screen/splash_service.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
@@ -78,16 +78,15 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     await FirebaseAuth.instance.currentUser!.reload();
 
                     setState(() {
-                      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+                      isEmailVerified =
+                          FirebaseAuth.instance.currentUser!.emailVerified;
                     });
 
                     if (isEmailVerified!) {
                       Get.to(
                         () => SucessScreen(
                           imageString: 'assets/animation/Success.gif',
-                          pressed: () => Get.offAll(
-                            () => const HomeScreen(),
-                          ),
+                          pressed: () => SplashService().navigate(),
                           subTitle: TTexts.yourAccountCreatedSubTitle,
                           title: TTexts.yourAccountCreatedTitle,
                         ),

@@ -1,5 +1,4 @@
 import 'package:eduflex/common/widget/forgot_password/forgot_password.dart';
-import 'package:eduflex/screen/home_screen/home_screen.dart';
 import 'package:eduflex/screen/teacher/login/controller/teacher_login_controller.dart';
 import 'package:eduflex/screen/teacher/sign_up/teacher_sign_up_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
@@ -107,9 +106,7 @@ class _TeacherLoginFormState extends State<TeacherLoginForm> {
               child: ElevatedButton(
                 onPressed: () {
                   if (instance.key.currentState!.validate()) {
-                    Get.to(
-                      () => const HomeScreen(),
-                    );
+                    instance.isAuthentication();
                   }
                 },
                 child: const Text(TTexts.signIn),
