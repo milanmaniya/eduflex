@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_screen/widget/all_chapter_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class AllSubjectScreen extends StatefulWidget {
@@ -57,34 +59,39 @@ class _AllSubjectScreenState extends State<AllSubjectScreen> {
 
             return ListView.separated(
               itemCount: allSubject.length,
-              itemBuilder: (context, index) => Card(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        ClipRect(
-                          child: Image.network(
-                            allSubject[index]['Image'],
-                            height: 110,
-                            fit: BoxFit.contain,
+              itemBuilder: (context, index) => InkWell(
+                onTap: () {
+                  Get.to(() => const AllChapterScreen());
+                },
+                child: Card(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          ClipRect(
+                            child: Image.network(
+                              allSubject[index]['Image'],
+                              height: 110,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          allSubject[index]['Name'],
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodyLarge!.apply(
-                                color: Colors.black,
-                              ),
-                        ),
-                      ],
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            allSubject[index]['Name'],
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.bodyLarge!.apply(
+                                  color: Colors.black,
+                                ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
