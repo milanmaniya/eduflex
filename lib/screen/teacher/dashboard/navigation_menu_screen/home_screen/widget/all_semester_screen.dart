@@ -24,58 +24,65 @@ class _AllSemesterScreenState extends State<AllSemesterScreen> {
         ),
         centerTitle: true,
       ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection(localStorage.read('Field'))
-            .snapshots(),
-        builder: (context, snapshot) {
-          final allSemList = [];
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 15,
+        ),
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection(localStorage.read('Field'))
+              .snapshots(),
+          builder: (context, snapshot) {
+            final allSemList = [];
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          if (snapshot.hasData) {
-            for (var element in snapshot.data!.docs) {
-              allSemList.add(element.id);
-            }
-          }
-
-          return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  final localStorage = GetStorage();
-
-                  localStorage.write('Semester', allSemList[index]);
-
-                  Get.to(() => const AllSubjectScreen());
-                },
-                child: Container(
-                  height: 100,
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 15,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    allSemList[index],
-                    style: Theme.of(context).textTheme.bodyLarge!.apply(
-                          color: Colors.black,
-                        ),
-                  ),
-                ),
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
-            },
-          );
-        },
+            }
+
+            if (snapshot.hasData) {
+              for (var element in snapshot.data!.docs) {
+                allSemList.add(element.id);
+              }
+            }
+
+            return ListView.separated(
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 8,
+              ),
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    final localStorage = GetStorage();
+
+                    localStorage.write('Semester', allSemList[index]);
+
+                    Get.to(() => const AllSubjectScreen());
+                  },
+                  child: Card(
+                    child: Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                        // color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        allSemList[index],
+                        style: Theme.of(context).textTheme.bodyLarge!.apply(
+                              color: Colors.black,
+                            ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

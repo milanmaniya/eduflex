@@ -7,8 +7,8 @@ class TAppBarTheme {
     elevation: 0,
     centerTitle: false,
     scrolledUnderElevation: 0,
-    backgroundColor: Colors.transparent,
-    foregroundColor: Colors.transparent,
+    // backgroundColor: Colors.transparent,
+    // foregroundColor: Colors.transparent,
     iconTheme: IconThemeData(
       color: Colors.black,
       size: 24,
