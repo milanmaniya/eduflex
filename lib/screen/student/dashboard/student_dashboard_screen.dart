@@ -1,20 +1,20 @@
-import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_screen/teacher_home_screen.dart';
-import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen.dart';
-import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_chat_screen.dart';
-import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_notice_screen.dart';
+import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_chat_screen.dart';
+import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_home_screen.dart';
+import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_notice_screen.dart';
+import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_profile_screen.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-class TeacherDashBoardScreen extends StatefulWidget {
-  const TeacherDashBoardScreen({super.key});
+class StudentDashBoardScreen extends StatefulWidget {
+  const StudentDashBoardScreen({super.key});
 
   @override
-  State<TeacherDashBoardScreen> createState() => _TeacherDashBoardScreenState();
+  State<StudentDashBoardScreen> createState() => _StudentDashBoardScreenState();
 }
 
-class _TeacherDashBoardScreenState extends State<TeacherDashBoardScreen> {
+class _StudentDashBoardScreenState extends State<StudentDashBoardScreen> {
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunction.isDarkMode(context);
@@ -35,8 +35,9 @@ class _TeacherDashBoardScreenState extends State<TeacherDashBoardScreen> {
           selectedIndex: controller.selectedIndex.value,
           destinations: const [
             NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
-            NavigationDestination(icon: Icon(Iconsax. message), label: 'Chat'),
-            NavigationDestination(icon: Icon(Iconsax.notification), label: 'Notice'),
+            NavigationDestination(icon: Icon(Iconsax.message), label: 'Chat'),
+            NavigationDestination(
+                icon: Icon(Iconsax.notification), label: 'Notice'),
             NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
           ],
         ),
@@ -54,9 +55,9 @@ class NavigationMenuController extends GetxController {
   final selectedIndex = 0.obs;
 
   final screenList = [
-    const TeacherHomeScreen(),
-    const TeacherChatScreen(),
-    const TeacherNoticeScreen(),
-    const TeacherAccountScreen(),
+    const StudentHomeScreen(),
+    const StudentChatScreen(),
+    const StudentNoticeScreen(),
+    const StudentProfileScreen(),
   ];
 }

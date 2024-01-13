@@ -55,29 +55,42 @@ class _AllSubjectScreenState extends State<AllSubjectScreen> {
               }
             }
 
-            return ListView.builder(
+            return ListView.separated(
               itemCount: allSubject.length,
-              itemBuilder: (context, index) => Container(
-                height: 200,
-                width: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  children: [
-                    Image.network(
-                      allSubject[index]['Image'],
-                      height: 100,
-                      width: 200,
-                    ),
-                    Text(
-                      allSubject[index]['Name'],
-                      style: Theme.of(context).textTheme.bodyLarge!.apply(
-                            color: Colors.black,
+              itemBuilder: (context, index) => Card(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        ClipRect(
+                          child: Image.network(
+                            allSubject[index]['Image'],
+                            height: 110,
+                            fit: BoxFit.contain,
                           ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          allSubject[index]['Name'],
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodyLarge!.apply(
+                                color: Colors.black,
+                              ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
+              ),
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 20,
               ),
             );
           },
