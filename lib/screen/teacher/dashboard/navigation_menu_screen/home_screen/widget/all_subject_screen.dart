@@ -3,6 +3,7 @@ import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_scr
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AllSubjectScreen extends StatefulWidget {
   const AllSubjectScreen({super.key});
@@ -14,9 +15,18 @@ class AllSubjectScreen extends StatefulWidget {
 class _AllSubjectScreenState extends State<AllSubjectScreen> {
   final localStorage = GetStorage();
 
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
+    Future.delayed(
+      const Duration(seconds: 3),
+    ).then((value) {
+      setState(() {
+        isLoading = true;
+      });
+    });
   }
 
   @override
@@ -72,13 +82,23 @@ class _AllSubjectScreenState extends State<AllSubjectScreen> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          ClipRect(
-                            child: Image.network(
-                              allSubject[index]['Image'],
-                              height: 110,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
+                          isLoading
+                              ? ClipRect(
+                                  child: Image.network(
+                                    allSubject[index]['Image'],
+                                    height: 110,
+                                    fit: BoxFit.contain,
+                                  ),
+                                )
+                              : Shimmer.fromColors(
+                                  baseColor: Colors.grey.shade300,
+                                  highlightColor: Colors.grey.shade100,
+                                  child: Container(
+                                    height: 110,
+                                    width: 110,
+                                    color: Colors.grey,
+                                  ),
+                                ),
                           const SizedBox(
                             width: 10,
                           ),
