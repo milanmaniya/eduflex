@@ -104,6 +104,7 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
                     backgroundColor: const Color(0xFFFE4A49),
                     onPressed: (context) => deletePdf(
                       pdfData![index]['downloadUrl'].toString(),
+                      pdfData[index]['Name'].toString(),
                     ),
                     foregroundColor: Colors.white,
                     icon: Icons.delete,
@@ -143,12 +144,12 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
     );
   }
 
-  void deletePdf(String url) {
+  void deletePdf(String url, String filename) {
     FirebaseFirestore.instance
         .collection(field)
         .doc(semester)
         .collection(sub)
-        .doc()
+        .doc(filename)
         .delete()
         .whenComplete(() {
       TLoader.successSnackBar(
@@ -161,6 +162,9 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
 
     storage.delete();
     log('file deleted successfully');
+    setState(() {
+      
+    });
   }
 
   void downloadPdf(String downloadUrl) {
@@ -178,6 +182,9 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
       },
       url: downloadUrl,
     );
+    setState(() {
+      
+    });
   }
 
   Future<String> uploadPdf(String fileName, File file) async {
@@ -220,7 +227,8 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
         'downloadUrl': downloadLink,
       });
 
-      log('Pdf Upload Successfully');
+      TLoader.successSnackBar(
+          title: 'Succesfully', message: 'File Uploaded Successfully');
     }
     setState(() {});
   }
