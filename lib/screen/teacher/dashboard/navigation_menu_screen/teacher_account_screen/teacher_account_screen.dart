@@ -89,8 +89,11 @@ class _TeacherAccountScreenState extends State<TeacherAccountScreen> {
                 SizedBox(
                   width: 300,
                   child: ElevatedButton(
-                    onPressed: () =>
-                        Get.to(() => const TeacherUpdateProfileScreen()),
+                    onPressed: () => Get.to(
+                      () => TeacherUpdateProfileScreen(
+                        data: data,
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
                       side: BorderSide.none,
                       shape: const StadiumBorder(),

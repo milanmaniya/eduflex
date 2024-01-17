@@ -112,6 +112,10 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
           Obx(
             () => TextFormField(
               validator: MultiValidator([
+                RangeValidator(
+                    min: 6,
+                    max: 18,
+                    errorText: 'Minumum 6 character are required'),
                 RequiredValidator(errorText: 'Password is required'),
               ]),
               controller: instance.txtPassword,
