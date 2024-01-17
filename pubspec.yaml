@@ -59,6 +59,7 @@ dependencies:
   flutter_slidable: ^3.0.1
   easy_pdf_viewer: ^1.0.7
   flutter_file_downloader: ^1.2.1
+  line_awesome_flutter: ^2.0.0
 
 dev_dependencies:
   flutter_test:
