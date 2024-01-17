@@ -71,7 +71,7 @@ class _AllSubjectScreenState extends State<AllSubjectScreen> {
               itemCount: allSubject.length,
               itemBuilder: (context, index) => InkWell(
                 onTap: () {
-                  localStorage.write('Subject', allSubject[index]);
+                  localStorage.write('Subject', allSubject[index]['Name']);
                   Get.to(() => const AllChapterScreen());
                 },
                 child: Card(
@@ -118,7 +118,7 @@ class _AllSubjectScreenState extends State<AllSubjectScreen> {
                 ),
               ),
               separatorBuilder: (context, index) => const SizedBox(
-                height: 20,
+                height: 10,
               ),
             );
           },
