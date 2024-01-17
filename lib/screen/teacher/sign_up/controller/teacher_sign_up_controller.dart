@@ -75,7 +75,7 @@ class TeacherSignUpController extends GetxController {
 
       TLoader.successSnackBar(
         title: 'Congratulation',
-        message: 'Your account has been  created! Verify email to continue',
+        message: 'Your account has been created! Verify email to continue',
       );
     }).onError(
       (error, stackTrace) =>

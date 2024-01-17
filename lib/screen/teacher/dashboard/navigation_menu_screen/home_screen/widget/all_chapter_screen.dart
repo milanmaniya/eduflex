@@ -2,9 +2,11 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_screen/widget/pdf_viewer_screen.dart';
+import 'package:eduflex/utils/popups/loader.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -20,6 +22,7 @@ class AllChapterScreen extends StatefulWidget {
 class _AllChapterScreenState extends State<AllChapterScreen> {
   PlatformFile? pickedFile;
   UploadTask? uploadTask;
+  double _progress = 0.0;
 
   late String field;
   late String semester;
@@ -88,9 +91,8 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
                 motion: const StretchMotion(),
                 children: [
                   SlidableAction(
-                    onPressed: (context) {
-                      log('download the pdf');
-                    },
+                    onPressed: (context) =>
+                        downloadPdf(pdfData![index]['downloadUrl'].toString()),
                     autoClose: true,
                     backgroundColor: const Color(0xFF21B7CA),
                     foregroundColor: Colors.white,
@@ -100,9 +102,9 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
                   SlidableAction(
                     autoClose: true,
                     backgroundColor: const Color(0xFFFE4A49),
-                    onPressed: (context) {
-                      log('delete the pdf');
-                    },
+                    onPressed: (context) => deletePdf(
+                      pdfData![index]['downloadUrl'].toString(),
+                    ),
                     foregroundColor: Colors.white,
                     icon: Icons.delete,
                     label: 'Delete',
@@ -141,7 +143,42 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
     );
   }
 
-  void downloadPdf() {}
+  void deletePdf(String url) {
+    FirebaseFirestore.instance
+        .collection(field)
+        .doc(semester)
+        .collection(sub)
+        .doc()
+        .delete()
+        .whenComplete(() {
+      TLoader.successSnackBar(
+        title: 'Successfully',
+        message: 'Pdf Deleted Successfully',
+      );
+    });
+
+    final storage = FirebaseStorage.instance.refFromURL(url);
+
+    storage.delete();
+    log('file deleted successfully');
+  }
+
+  void downloadPdf(String downloadUrl) {
+    FileDownloader.downloadFile(
+      onDownloadError: (errorMessage) =>
+          TLoader.errorSnackBar(title: errorMessage.toString()),
+      onDownloadCompleted: (path) {
+        TLoader.successSnackBar(title: 'File Download Successfully');
+      },
+      onProgress: (fileName, progress) {
+        setState(() {
+          _progress = progress;
+          log(_progress.toString());
+        });
+      },
+      url: downloadUrl,
+    );
+  }
 
   Future<String> uploadPdf(String fileName, File file) async {
     final reference =
