@@ -71,6 +71,7 @@ class _AllSubjectScreenState extends State<AllSubjectScreen> {
               itemCount: allSubject.length,
               itemBuilder: (context, index) => InkWell(
                 onTap: () {
+                  localStorage.write('Subject', allSubject[index]);
                   Get.to(() => const AllChapterScreen());
                 },
                 child: Card(
