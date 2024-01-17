@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eduflex/authentication_repository/authentication_repository.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/teacher_information_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/update_profile_screen.dart';
 import 'package:eduflex/utils/constant/colors.dart';
@@ -137,7 +138,12 @@ class _TeacherAccountScreenState extends State<TeacherAccountScreen> {
                   menuName: 'Logout',
                   endIcon: false,
                   textColor: Colors.red,
-                  onTap: () {},
+                  onTap: () {
+                    AuthenticationReposotiry.instance.logout();
+                    setState(() {
+                      
+                    });
+                  },
                 ),
               ],
             );

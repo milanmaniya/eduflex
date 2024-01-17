@@ -4,7 +4,6 @@ import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:get/get.dart';
@@ -27,6 +26,15 @@ class _TeacherUpdateProfileScreenState
     final instance = Get.put(TeacherAccountScreenController());
 
     instance.txtFirstName.text = widget.data['firstName'];
+    instance.txtLatName.text = widget.data['lastName'];
+    instance.txtUserName.text = widget.data['userName'];
+    instance.txtEmail.text = widget.data['email'];
+    instance.txtPassword.text = widget.data['password'];
+    instance.fieldValue.value = widget.data['fieldValue'];
+    instance.yearValue.value = widget.data['yearValue'];
+    instance.txtDegree.text = widget.data['degree'];
+    instance.txtExperience.text = widget.data['experince'];
+    instance.txtAbout.text = widget.data['about'];
 
     setState(() {});
 
@@ -43,6 +51,7 @@ class _TeacherUpdateProfileScreenState
           top: 10,
           left: 15,
           right: 15,
+          bottom: 20,
         ),
         child: Form(
           key: instance.key,
@@ -109,31 +118,64 @@ class _TeacherUpdateProfileScreenState
               const SizedBox(
                 height: TSize.spaceBtwItems,
               ),
-              //password
-              // Obx(
-              //   () => TextFormField(
-              //     validator: MultiValidator([
-              //       RangeValidator(
-              //           min: 6,
-              //           max: 18,
-              //           errorText: 'Minumum 6 character are required'),
-              //       RequiredValidator(errorText: 'Password is required'),
-              //     ]),
-              //     controller: instance.txtPassword,
-              //     obscureText: instance.isObsecure.value,
-              //     decoration: InputDecoration(
-              //       labelText: TTexts.password,
-              //       prefixIcon: const Icon(Iconsax.password_check),
-              //       suffixIcon: IconButton(
-              //         icon: Icon(instance.isObsecure.value
-              //             ? Iconsax.eye_slash
-              //             : Iconsax.eye),
-              //         onPressed: () =>
-              //             instance.isObsecure.value = !instance.isObsecure.value,
-              //       ),
-              //     ),
-              //   ),
-              // ),
+
+              Obx(
+                () => TextFormField(
+                  validator: MultiValidator([
+                    RequiredValidator(errorText: 'Password is required'),
+                  ]),
+                  controller: instance.txtPassword,
+                  obscureText: instance.isObsecure.value,
+                  decoration: InputDecoration(
+                    labelText: TTexts.password,
+                    prefixIcon: const Icon(Iconsax.password_check),
+                    suffixIcon: IconButton(
+                      icon: Icon(instance.isObsecure.value
+                          ? Iconsax.eye_slash
+                          : Iconsax.eye),
+                      onPressed: () => instance.isObsecure.value =
+                          !instance.isObsecure.value,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                height: TSize.spaceBtwItems,
+              ),
+              Obx(
+                () => SizedBox(
+                  width: double.infinity,
+                  child: DropdownButtonFormField2(
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 16,
+                        horizontal: 10,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    onChanged: (value) => instance.fieldValue.value = value!,
+                    isExpanded: true,
+                    hint: Text(
+                      instance.fieldValue.isEmpty
+                          ? 'Select Your Field'
+                          : instance.fieldValue.value,
+                    ),
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'BBA',
+                        child: Text('BBA'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'BCA',
+                        child: Text('BCA'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
 
               const SizedBox(
                 height: TSize.spaceBtwItems,
@@ -235,7 +277,11 @@ class _TeacherUpdateProfileScreenState
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (instance.key.currentState!.validate()) {
+                      instance.updateData();
+                    }
+                  },
                   child: const Text(TTexts.createAccount),
                 ),
               ),
