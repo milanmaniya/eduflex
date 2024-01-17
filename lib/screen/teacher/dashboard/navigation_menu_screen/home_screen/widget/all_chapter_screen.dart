@@ -162,9 +162,7 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
 
     storage.delete();
     log('file deleted successfully');
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   void downloadPdf(String downloadUrl) {
@@ -182,9 +180,7 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
       },
       url: downloadUrl,
     );
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   Future<String> uploadPdf(String fileName, File file) async {

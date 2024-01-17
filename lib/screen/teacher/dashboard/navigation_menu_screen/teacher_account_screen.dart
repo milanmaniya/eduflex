@@ -11,9 +11,7 @@ class _TeacherAccountScreenState extends State<TeacherAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Column(
-        children: [Text('Teacher Account Screen')],
-      ),
+      body: Center(child: Text('Teacher Account Screen')),
     );
   }
 }
