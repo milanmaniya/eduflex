@@ -1,5 +1,3 @@
-import 'package:eduflex/common/widget/login_signup/divider.dart';
-import 'package:eduflex/common/widget/login_signup/social_buttons.dart';
 import 'package:eduflex/screen/teacher/sign_up/widget/teacher_sign_up_form.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
@@ -16,10 +14,14 @@ class _TeacherSignUpScreenState extends State<TeacherSignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(TSize.defaultSpace),
+          padding: const EdgeInsets.only(
+            top: 70,
+            left: 15,
+            right: 15,
+            bottom: 15,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -35,22 +37,6 @@ class _TeacherSignUpScreenState extends State<TeacherSignUpScreen> {
 
               // form
               const TeacherSignUpForm(),
-
-              const SizedBox(
-                height: TSize.spaceBtwSections,
-              ),
-
-              // divider
-              const FormDivider(dividerText: TTexts.orSignUpWith),
-
-              const SizedBox(
-                height: TSize.spaceBtwSections,
-              ),
-              // social buttons
-              SocialButtons(
-                facebook: () {},
-                google: () {},
-              ),
             ],
           ),
         ),
