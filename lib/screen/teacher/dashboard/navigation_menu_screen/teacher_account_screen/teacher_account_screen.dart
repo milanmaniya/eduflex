@@ -111,7 +111,6 @@ class _TeacherAccountScreenState extends State<TeacherAccountScreen> {
                 ),
 
                 // Menu
-
                 ProfileMenuWidget(
                   icon: LineAwesomeIcons.cog,
                   menuName: 'Setting',
@@ -140,9 +139,6 @@ class _TeacherAccountScreenState extends State<TeacherAccountScreen> {
                   textColor: Colors.red,
                   onTap: () {
                     AuthenticationReposotiry.instance.logout();
-                    setState(() {
-                      
-                    });
                   },
                 ),
               ],

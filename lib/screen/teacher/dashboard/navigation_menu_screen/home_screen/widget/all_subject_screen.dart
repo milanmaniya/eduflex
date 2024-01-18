@@ -84,7 +84,7 @@ class _AllSubjectScreenState extends State<AllSubjectScreen> {
                       child: Row(
                         children: [
                           isLoading
-                              ? ClipRect(
+                              ? ClipRRect(
                                   child: Image.network(
                                     allSubject[index]['Image'],
                                     height: 110,
@@ -95,9 +95,12 @@ class _AllSubjectScreenState extends State<AllSubjectScreen> {
                                   baseColor: Colors.grey.shade300,
                                   highlightColor: Colors.grey.shade100,
                                   child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.grey,
+                                    ),
                                     height: 110,
                                     width: 110,
-                                    color: Colors.grey,
                                   ),
                                 ),
                           const SizedBox(
