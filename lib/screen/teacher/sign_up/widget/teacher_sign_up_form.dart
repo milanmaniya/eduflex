@@ -89,6 +89,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
           const SizedBox(
             height: TSize.spaceBtwItems,
           ),
+
           // phone number
           TextFormField(
             controller: instance.txtPhoneNumber,
@@ -97,7 +98,16 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(10)
             ],
-            validator: ValidationBuilder().phone().build(),
+            validator: (value) {
+              if (value == null) {
+                return 'Phone Number is required';
+              }
+
+              if (value.length < 10) {
+                return 'Phone Number is 10 digit required';
+              }
+              return null;
+            },
             decoration: const InputDecoration(
               labelText: TTexts.phoneNumber,
               prefixIcon: Icon(Iconsax.call),

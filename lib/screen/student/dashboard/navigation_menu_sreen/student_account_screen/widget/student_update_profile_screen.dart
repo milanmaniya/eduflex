@@ -111,7 +111,16 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(10)
             ],
-            validator: ValidationBuilder().phone().build(),
+            validator: (value) {
+              if (value == null) {
+                return 'Phone Number is required';
+              }
+
+              if (value.length < 10) {
+                return 'Phone Number is 10 digit required';
+              }
+              return null;
+            },
             decoration: const InputDecoration(
               labelText: TTexts.phoneNumber,
               prefixIcon: Icon(Iconsax.call),
@@ -125,13 +134,16 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
           //password
           Obx(
             () => TextFormField(
-              validator: MultiValidator([
-                RangeValidator(
-                    min: 6,
-                    max: 18,
-                    errorText: 'Minumum 6 character are required'),
-                RequiredValidator(errorText: 'Password is required'),
-              ]),
+              validator: (value) {
+                if (value == null) {
+                  return 'Passowrd is required';
+                }
+
+                if (value.length <= 6) {
+                  return 'Minimum 6 character password is required';
+                }
+                return null;
+              },
               controller: instance.txtPassword,
               obscureText: instance.isObsecure.value,
               decoration: InputDecoration(
