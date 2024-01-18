@@ -1,6 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:eduflex/common/widget/login_signup/terms_and_condition.dart';
-import 'package:eduflex/screen/teacher/sign_up/controller/teacher_sign_up_controller.dart';
+import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/controller/studenr_account_controller.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
@@ -10,19 +10,33 @@ import 'package:form_validator/form_validator.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-class TeacherSignUpForm extends StatefulWidget {
-  const TeacherSignUpForm({
+class StudentUpdateProfile extends StatefulWidget {
+  const StudentUpdateProfile({
     super.key,
+    required this.data,
   });
 
+  final Map<String, dynamic> data;
+
   @override
-  State<TeacherSignUpForm> createState() => _TeacherSignUpFormState();
+  State<StudentUpdateProfile> createState() => _StudentUpdateProfileState();
 }
 
-class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
+class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
   @override
   Widget build(BuildContext context) {
-    final instance = Get.put(TeacherSignUpController());
+    final instance = Get.put(StudentAccountController());
+
+    instance.txtFirstName.text = widget.data['firstName'];
+    instance.txtLatName.text = widget.data['lastName'];
+    instance.txtUserName.text = widget.data['userName'];
+    instance.txtEmail.text = widget.data['email'];
+    instance.txtPassword.text = widget.data['password'];
+    instance.fieldValue.value = widget.data['fieldValue'];
+    instance.yearValue.value = widget.data['yearValue'];
+    instance.txtPhoneNumber.value = widget.data['phoneNumber'];
+
+    setState(() {});
 
     return Form(
       key: instance.key,
@@ -111,16 +125,13 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
           //password
           Obx(
             () => TextFormField(
-              validator: (value) {
-                if (value == null) {
-                  return 'Passowrd is required';
-                }
-
-                if (value.length <= 6) {
-                  return 'Minimum 6 character password is required';
-                }
-                return null;
-              },
+              validator: MultiValidator([
+                RangeValidator(
+                    min: 6,
+                    max: 18,
+                    errorText: 'Minumum 6 character are required'),
+                RequiredValidator(errorText: 'Password is required'),
+              ]),
               controller: instance.txtPassword,
               obscureText: instance.isObsecure.value,
               decoration: InputDecoration(
@@ -146,10 +157,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
               width: double.infinity,
               child: DropdownButtonFormField2(
                 decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: 10,
-                  ),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -158,7 +166,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                 isExpanded: true,
                 hint: Text(
                   instance.fieldValue.isEmpty
-                      ? 'Select Your Field'
+                      ? 'Select Item'
                       : instance.fieldValue.value,
                 ),
                 items: const [
@@ -193,7 +201,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                 isExpanded: true,
                 hint: Text(
                   instance.yearValue.isEmpty
-                      ? 'Select Your Year'
+                      ? 'Select Item'
                       : instance.yearValue.value,
                 ),
                 items: instance.fieldValue.value == 'BBA'
@@ -221,41 +229,32 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             height: TSize.spaceBtwItems,
           ),
 
-          // degree
-          TextFormField(
-            controller: instance.txtDegree,
-            validator: ValidationBuilder().required().build(),
-            decoration: const InputDecoration(
-              labelText: TTexts.degree,
-              prefixIcon: Icon(Iconsax.information),
-            ),
-          ),
-
-          const SizedBox(
-            height: TSize.spaceBtwItems,
-          ),
-
-          // experince
-          TextFormField(
-            controller: instance.txtExperience,
-            validator: ValidationBuilder().required().build(),
-            decoration: const InputDecoration(
-              labelText: TTexts.experience,
-              prefixIcon: Icon(Iconsax.information),
-            ),
-          ),
-
-          const SizedBox(
-            height: TSize.spaceBtwItems,
-          ),
-
-          // About
-          TextFormField(
-            controller: instance.txtAbout,
-            validator: ValidationBuilder().required().build(),
-            decoration: const InputDecoration(
-              labelText: TTexts.about,
-              prefixIcon: Icon(Iconsax.info_circle),
+          Obx(
+            () => SizedBox(
+              width: double.infinity,
+              child: DropdownButtonFormField2(
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+                onChanged: (value) => instance.divValue.value = value!,
+                isExpanded: true,
+                hint: Text(
+                  instance.divValue.isEmpty
+                      ? 'Select Item'
+                      : instance.divValue.value,
+                ),
+                items: instance.div
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(e),
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
           ),
 
@@ -277,7 +276,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             child: ElevatedButton(
               onPressed: () {
                 if (instance.key.currentState!.validate()) {
-                  instance.iaAuthentication();
+                  instance.updateData();
                 }
               },
               child: const Text(TTexts.createAccount),
