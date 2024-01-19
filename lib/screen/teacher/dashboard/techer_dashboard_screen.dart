@@ -1,6 +1,6 @@
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_screen/teacher_home_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/teacher_account_screen.dart';
-import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_chat_screen.dart';
+import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/chat_screen/teacher_chat_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_notice_screen.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
