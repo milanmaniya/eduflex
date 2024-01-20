@@ -60,6 +60,8 @@ dependencies:
   easy_pdf_viewer: ^1.0.7
   flutter_file_downloader: ^1.2.1
   line_awesome_flutter: ^2.0.0
+  zego_zim: ^2.13.1
+  zego_zimkit: ^1.16.1
 
 dev_dependencies:
   flutter_test:
