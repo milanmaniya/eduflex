@@ -58,7 +58,7 @@ class TeacherSignUpController extends GetxController {
       about: txtAbout.text.trim(),
       degree: txtDegree.text.trim(),
       experince: txtExperience.text.trim(),
-      lastActive: '',
+      lastActive: time,
     );
 
     final localStorage = GetStorage();

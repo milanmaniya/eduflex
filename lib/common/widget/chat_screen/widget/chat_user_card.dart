@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -27,16 +29,33 @@ class _ChatUserCardState extends State<ChatUserCard> {
       child: InkWell(
         onTap: () {},
         child: ListTile(
-          leading: const CircleAvatar(
-            child: Icon(Iconsax.people),
-          ),
-          title: Text(widget.title),
-          trailing: const Text(
-            '12:40 PM',
-            style: TextStyle(
-              color: Colors.black54,
+          leading: ClipRRect(
+            borderRadius:
+                BorderRadius.circular(THelperFunction.screenHeight() * .3),
+            child: CachedNetworkImage(
+              height: 55,
+              width: 55,
+              imageUrl: widget.image,
+              errorWidget: (context, url, error) => const CircleAvatar(
+                child: Icon(Iconsax.people),
+              ),
             ),
           ),
+          title: Text(widget.title),
+          trailing: Container(
+            height: 20,
+            width: 20,
+            decoration: const BoxDecoration(
+              color: Colors.green,
+              shape: BoxShape.circle,
+            ),
+          ),
+          // trailing: const Text(
+          //   '12:40 PM',
+          //   style: TextStyle(
+          //     color: Colors.black54,
+          //   ),
+          // ),
           subtitle: Text(
             widget.subTitle,
             maxLines: 1,

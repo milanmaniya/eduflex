@@ -52,7 +52,8 @@ class _ChatScreenState extends State<ChatScreen> {
         builder: (context, snapshot) {
           final List<Map<String, dynamic>> data = [];
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting ||
+              snapshot.connectionState == ConnectionState.none) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -64,22 +65,28 @@ class _ChatScreenState extends State<ChatScreen> {
             }
           }
 
-          return ListView.separated(
-            physics: const BouncingScrollPhysics(),
-            separatorBuilder: (context, index) => const SizedBox(
-              height: 5,
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            itemCount: data.length,
-            itemBuilder: (context, index) => ChatUserCard(
-              subTitle: data[index]['about'],
-              title: data[index]['userName'],
-              image: data[index]['image'],
-            ),
-          );
+          if (data.isNotEmpty) {
+            return ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 5,
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 10,
+              ),
+              itemCount: data.length,
+              itemBuilder: (context, index) => ChatUserCard(
+                subTitle: data[index]['about'],
+                title: data[index]['userName'],
+                image: data[index]['image'],
+              ),
+            );
+          } else {
+            return const Center(
+              child: Text('No Connection Found!'),
+            );
+          }
         },
       ),
     );

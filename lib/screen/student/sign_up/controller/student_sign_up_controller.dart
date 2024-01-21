@@ -75,7 +75,8 @@ class StudentSignUpController extends GetxController {
       pushToken: '',
       id: userCredential.user!.uid,
       about: '',
-      div: divValue.value, lastActive: '',
+      div: divValue.value,
+      lastActive: time,
     );
 
     final localStorage = GetStorage();
