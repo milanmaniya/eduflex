@@ -63,12 +63,21 @@ class _TeacherAccountScreenState extends State<TeacherAccountScreen> {
                 SizedBox(
                   height: 120,
                   width: 120,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image(
-                      image: NetworkImage(data['image']),
-                    ),
-                  ),
+                  child: data['image'] != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Image(
+                            image: NetworkImage(data['image']),
+                          ),
+                        )
+                      : Container(
+                          height: 120,
+                          width: 120,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red,
+                          ),
+                        ),
                 ),
                 const SizedBox(
                   height: 10,
