@@ -1214,7 +1214,7 @@ packages:
     source: hosted
     version: "2.7.4"
   zego_zim:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: zego_zim
       sha256: "37a0480b42e12b2e23ab839adba9084295ab4c407f6f4adb342a923c123ff607"
