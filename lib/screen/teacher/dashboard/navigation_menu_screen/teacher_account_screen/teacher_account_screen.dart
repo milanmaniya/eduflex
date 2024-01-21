@@ -5,7 +5,6 @@ import 'package:eduflex/authentication_repository/authentication_repository.dart
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/widget/teacher_information_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/widget/update_profile_screen.dart';
 import 'package:eduflex/utils/constant/colors.dart';
-import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -64,11 +63,10 @@ class _TeacherAccountScreenState extends State<TeacherAccountScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      THelperFunction.screenHeight() * .3),
+                  borderRadius: BorderRadius.circular(100),
                   child: CachedNetworkImage(
-                    height: 55,
-                    width: 55,
+                    height: 120,
+                    width: 120,
                     imageUrl: data['image'],
                     errorWidget: (context, url, error) => const CircleAvatar(
                       child: Icon(Iconsax.people),

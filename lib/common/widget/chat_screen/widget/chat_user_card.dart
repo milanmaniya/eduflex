@@ -33,18 +33,16 @@ class _ChatUserCardState extends State<ChatUserCard> {
             borderRadius:
                 BorderRadius.circular(THelperFunction.screenHeight() * .3),
             child: CachedNetworkImage(
-              height: 55,
-              width: 55,
+              height: 50,
+              width: 50,
               imageUrl: widget.image,
-              errorWidget: (context, url, error) => const CircleAvatar(
-                child: Icon(Iconsax.people),
-              ),
+              errorWidget: (context, url, error) => const Icon(Iconsax.people),
             ),
           ),
           title: Text(widget.title),
           trailing: Container(
-            height: 20,
-            width: 20,
+            height: 12,
+            width: 12,
             decoration: const BoxDecoration(
               color: Colors.green,
               shape: BoxShape.circle,
