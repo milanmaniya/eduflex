@@ -25,17 +25,6 @@ class _TeacherUpdateProfileScreenState
   Widget build(BuildContext context) {
     final instance = Get.put(TeacherAccountScreenController());
 
-    instance.txtFirstName.text = widget.data['firstName'];
-    instance.txtLatName.text = widget.data['lastName'];
-    instance.txtUserName.text = widget.data['userName'];
-    instance.txtEmail.text = widget.data['email'];
-    instance.txtPassword.text = widget.data['password'];
-    instance.fieldValue.value = widget.data['fieldValue'];
-    instance.yearValue.value = widget.data['yearValue'];
-    instance.txtDegree.text = widget.data['degree'];
-    instance.txtExperience.text = widget.data['experince'];
-    instance.txtAbout.text = widget.data['about'];
-
     setState(() {});
 
     return Scaffold(
@@ -61,6 +50,7 @@ class _TeacherUpdateProfileScreenState
                 children: [
                   Expanded(
                     child: TextFormField(
+                      initialValue: widget.data['firstName'],
                       controller: instance.txtFirstName,
                       validator: ValidationBuilder().required().build(),
                       expands: false,
@@ -75,6 +65,7 @@ class _TeacherUpdateProfileScreenState
                   ),
                   Expanded(
                     child: TextFormField(
+                      initialValue: widget.data['lastName'],
                       controller: instance.txtLatName,
                       validator: ValidationBuilder().required().build(),
                       expands: false,
@@ -92,6 +83,7 @@ class _TeacherUpdateProfileScreenState
 
               // username
               TextFormField(
+                initialValue: widget.data['userName'],
                 controller: instance.txtUserName,
                 validator: ValidationBuilder().required().build(),
                 decoration: const InputDecoration(
@@ -105,6 +97,7 @@ class _TeacherUpdateProfileScreenState
 
               // Email
               TextFormField(
+                initialValue: widget.data['email'],
                 controller: instance.txtEmail,
                 validator: MultiValidator([
                   RequiredValidator(errorText: 'Email is required'),
@@ -121,6 +114,7 @@ class _TeacherUpdateProfileScreenState
 
               Obx(
                 () => TextFormField(
+                  initialValue: widget.data['password'],
                   validator: MultiValidator([
                     RequiredValidator(errorText: 'Password is required'),
                   ]),
@@ -225,6 +219,7 @@ class _TeacherUpdateProfileScreenState
 
               // degree
               TextFormField(
+                initialValue: widget.data['degree'],
                 controller: instance.txtDegree,
                 validator: ValidationBuilder().required().build(),
                 decoration: const InputDecoration(
@@ -239,6 +234,7 @@ class _TeacherUpdateProfileScreenState
 
               // experince
               TextFormField(
+                initialValue: widget.data['experince'],
                 controller: instance.txtExperience,
                 validator: ValidationBuilder().required().build(),
                 decoration: const InputDecoration(
@@ -253,6 +249,7 @@ class _TeacherUpdateProfileScreenState
 
               // About
               TextFormField(
+                initialValue: widget.data['about'],
                 controller: instance.txtAbout,
                 validator: ValidationBuilder().required().build(),
                 decoration: const InputDecoration(

@@ -27,14 +27,8 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
   Widget build(BuildContext context) {
     final instance = Get.put(StudentAccountController());
 
-    instance.txtFirstName.text = widget.data['firstName'];
-    instance.txtLatName.text = widget.data['lastName'];
-    instance.txtUserName.text = widget.data['userName'];
-    instance.txtEmail.text = widget.data['email'];
-    instance.txtPassword.text = widget.data['password'];
     instance.fieldValue.value = widget.data['fieldValue'];
     instance.yearValue.value = widget.data['yearValue'];
-    instance.txtPhoneNumber.value = widget.data['phoneNumber'];
 
     setState(() {});
 
@@ -46,6 +40,7 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
             children: [
               Expanded(
                 child: TextFormField(
+                  initialValue: widget.data['firstName'],
                   controller: instance.txtFirstName,
                   validator: ValidationBuilder().required().build(),
                   expands: false,
@@ -60,6 +55,7 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
               ),
               Expanded(
                 child: TextFormField(
+                  initialValue: widget.data['lastName'],
                   controller: instance.txtLatName,
                   validator: ValidationBuilder().required().build(),
                   expands: false,
@@ -77,6 +73,7 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
 
           // username
           TextFormField(
+            initialValue: widget.data['userName'],
             controller: instance.txtUserName,
             validator: ValidationBuilder().required().build(),
             decoration: const InputDecoration(
@@ -90,6 +87,7 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
 
           // Email
           TextFormField(
+            initialValue: widget.data['email'],
             controller: instance.txtEmail,
             validator: MultiValidator([
               RequiredValidator(errorText: 'Email is required'),
@@ -105,6 +103,7 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
           ),
           // phone number
           TextFormField(
+            initialValue: widget.data['phoneNumber'],
             controller: instance.txtPhoneNumber,
             keyboardType: TextInputType.number,
             inputFormatters: [
@@ -134,6 +133,7 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
           //password
           Obx(
             () => TextFormField(
+              initialValue: widget.data['password'],
               validator: (value) {
                 if (value == null) {
                   return 'Passowrd is required';
