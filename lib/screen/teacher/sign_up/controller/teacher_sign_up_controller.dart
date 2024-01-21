@@ -6,7 +6,6 @@ import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:zego_zimkit/zego_zimkit.dart';
 
 class TeacherSignUpController extends GetxController {
   static TeacherSignUpController get instance => Get.find();
@@ -63,8 +62,6 @@ class TeacherSignUpController extends GetxController {
 
     final localStorage = GetStorage();
 
-    connectUser(id: userCredential.user!.uid);
-
     FirebaseFirestore.instance
         .collection(localStorage.read('Screen'))
         .doc(userCredential.user!.uid)
@@ -79,13 +76,6 @@ class TeacherSignUpController extends GetxController {
     }).onError(
       (error, stackTrace) =>
           TLoader.errorSnackBar(title: 'Oh Snap! ', message: error),
-    );
-  }
-
-  Future<void> connectUser({required String id}) async {
-    await ZIMKit().connectUser(
-      id: id,
-      name: txtUserName.text.trim(),
     );
   }
 }
