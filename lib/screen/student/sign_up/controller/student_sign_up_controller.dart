@@ -61,7 +61,7 @@ class StudentSignUpController extends GetxController {
 
     final time = DateTime.now().microsecondsSinceEpoch.toString();
 
-    final newTeacher = Student(
+    final newStudent = Student(
       firstName: txtFirstName.text.trim(),
       lastName: txtLatName.text.trim(),
       userName: txtUserName.text.trim(),
@@ -85,13 +85,13 @@ class StudentSignUpController extends GetxController {
     FirebaseFirestore.instance
         .collection(localStorage.read('Screen'))
         .doc(userCredential.user!.uid)
-        .set(newTeacher.toJson())
+        .set(newStudent.toJson())
         .then((value) {
       SplashService().navigate();
 
       TLoader.successSnackBar(
         title: 'Congratulation',
-        message: 'Your account has been  created! Verify email to continue',
+        message: 'Your account has been created! Verify email to continue',
       );
     }).onError(
       (error, stackTrace) =>

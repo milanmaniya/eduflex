@@ -36,7 +36,8 @@ class _ChatUserCardState extends State<ChatUserCard> {
               height: 50,
               width: 50,
               imageUrl: widget.image,
-              errorWidget: (context, url, error) => const Icon(Iconsax.people),
+              errorWidget: (context, url, error) =>
+                  const CircleAvatar(child: Icon(Iconsax.people)),
             ),
           ),
           title: Text(widget.title),
