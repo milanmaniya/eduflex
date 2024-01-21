@@ -13,7 +13,6 @@ void main() async {
   // getx local storage
   await GetStorage.init();
 
-
   //initialize firebase & authentication repository
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) {
