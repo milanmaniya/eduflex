@@ -1,13 +1,16 @@
 import 'dart:developer';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/authentication_repository/authentication_repository.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/widget/teacher_information_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/widget/update_profile_screen.dart';
 import 'package:eduflex/utils/constant/colors.dart';
+import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class TeacherAccountScreen extends StatefulWidget {
@@ -60,25 +63,19 @@ class _TeacherAccountScreenState extends State<TeacherAccountScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 120,
-                  width: 120,
-                  child: data['image'] != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image(
-                            image: NetworkImage(data['image']),
-                          ),
-                        )
-                      : Container(
-                          height: 120,
-                          width: 120,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.red,
-                          ),
-                        ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      THelperFunction.screenHeight() * .3),
+                  child: CachedNetworkImage(
+                    height: 55,
+                    width: 55,
+                    imageUrl: data['image'],
+                    errorWidget: (context, url, error) => const CircleAvatar(
+                      child: Icon(Iconsax.people),
+                    ),
+                  ),
                 ),
+
                 const SizedBox(
                   height: 10,
                 ),
