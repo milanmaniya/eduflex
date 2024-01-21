@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/authentication_repository/authentication_repository.dart';
-import 'package:eduflex/common/widget/email_verify_screen/email_verify_screen.dart';
+import 'package:eduflex/screen/splash%20_screen/splash_service.dart';
 import 'package:eduflex/screen/teacher/model/teacher_model.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
@@ -70,11 +70,7 @@ class TeacherSignUpController extends GetxController {
         .doc(userCredential.user!.uid)
         .set(newTeacher.toJson())
         .then((value) {
-      Get.offAll(
-        () => VerifyEmail(
-          email: txtEmail.text.trim(),
-        ),
-      );
+      SplashService().navigate();
 
       TLoader.successSnackBar(
         title: 'Congratulation',
