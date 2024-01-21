@@ -2,14 +2,14 @@ import 'package:eduflex/common/widget/chat_user/chat_user_card.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
-class TeacherChatScreen extends StatefulWidget {
-  const TeacherChatScreen({super.key});
+class ChatScreen extends StatefulWidget {
+  const ChatScreen({super.key});
 
   @override
-  State<TeacherChatScreen> createState() => _TeacherChatScreenState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _TeacherChatScreenState extends State<TeacherChatScreen> {
+class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

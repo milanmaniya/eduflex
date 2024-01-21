@@ -1,6 +1,6 @@
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_screen/teacher_home_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/teacher_account_screen.dart';
-import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/chat_screen/teacher_chat_screen.dart';
+import 'package:eduflex/common/widget/chat_screen/chat_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_notice_screen.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +35,9 @@ class _TeacherDashBoardScreenState extends State<TeacherDashBoardScreen> {
           selectedIndex: controller.selectedIndex.value,
           destinations: const [
             NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
-            NavigationDestination(icon: Icon(Iconsax. message), label: 'Chat'),
-            NavigationDestination(icon: Icon(Iconsax.notification), label: 'Notice'),
+            NavigationDestination(icon: Icon(Iconsax.message), label: 'Chat'),
+            NavigationDestination(
+                icon: Icon(Iconsax.notification), label: 'Notice'),
             NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
           ],
         ),
@@ -55,7 +56,7 @@ class NavigationMenuController extends GetxController {
 
   final screenList = [
     const TeacherHomeScreen(),
-    const TeacherChatScreen(),
+    const ChatScreen(),
     const TeacherNoticeScreen(),
     const TeacherAccountScreen(),
   ];
