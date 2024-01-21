@@ -18,12 +18,10 @@ void main() async {
   String appSignId =
       '37069f0f58db671091a3a0e7dcd51250986c5e4c5507b9237c96f131c9c82192';
 
-  ZIMAppConfig appConfig = ZIMAppConfig();
-
-  appConfig.appID = appId;
-  appConfig.appSign = appSignId;
-
-  ZIM.create(appConfig);
+  ZIMKit().init(
+    appID: appId,
+    appSign: appSignId,
+  );
 
   //initialize firebase & authentication repository
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
