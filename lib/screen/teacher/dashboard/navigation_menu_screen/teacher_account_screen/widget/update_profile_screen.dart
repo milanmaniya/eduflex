@@ -34,7 +34,7 @@ class _TeacherUpdateProfileScreenState
     instance.fieldValue.value = widget.data['fieldValue'];
     instance.yearValue.value = widget.data['yearValue'];
     instance.txtDegree.text = widget.data['degree'];
-    instance.txtExperience.text = widget.data['experience'];
+    instance.txtExperience.text = widget.data['experince'];
     instance.txtAbout.text = widget.data['about'];
 
     setState(() {});
