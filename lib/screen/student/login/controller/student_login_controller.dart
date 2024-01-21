@@ -57,7 +57,7 @@ class StudentLoginController extends GetxController {
       image: userCredential.user!.photoURL ?? '',
       pushToken: '',
       id: userCredential.user!.uid,
-      about: '',
+      about: '', lastActive: '',
     );
 
     FirebaseFirestore.instance

@@ -71,6 +71,7 @@ class TeacherLoginController extends GetxController {
       about: '',
       degree: '',
       experince: '',
+      lastActive: '',
     );
 
     FirebaseFirestore.instance

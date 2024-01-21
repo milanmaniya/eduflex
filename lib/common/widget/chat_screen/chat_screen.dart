@@ -1,5 +1,9 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/common/widget/chat_screen/widget/chat_user_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -10,6 +14,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final localStorage = GetStorage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,13 +24,19 @@ class _ChatScreenState extends State<ChatScreen> {
           'Messages',
         ),
         actions: const [
-          Icon(Iconsax.search_normal),
-          SizedBox(
-            width: 10,
+          Icon(
+            Iconsax.search_normal,
+            size: 20,
           ),
-          Icon(Iconsax.menu),
           SizedBox(
-            width: 10,
+            width: 20,
+          ),
+          Icon(
+            Iconsax.menu,
+            size: 20,
+          ),
+          SizedBox(
+            width: 20,
           ),
         ],
         centerTitle: true,
@@ -34,17 +45,42 @@ class _ChatScreenState extends State<ChatScreen> {
         child: const Icon(Iconsax.add),
         onPressed: () {},
       ),
-      body: ListView.separated(
-        physics: const BouncingScrollPhysics(),
-        separatorBuilder: (context, index) => const SizedBox(
-          height: 7,
-        ),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 10,
-        ),
-        itemCount: 10,
-        itemBuilder: (context, index) => const ChatUserCard(),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection(localStorage.read('Screen'))
+            .snapshots(),
+        builder: (context, snapshot) {
+          final List<Map<String, dynamic>> data = [];
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.hasData) {
+            for (var element in snapshot.data!.docs) {
+              data.add(element.data());
+              log(data.toString());
+            }
+          }
+
+          return ListView.separated(
+            physics: const BouncingScrollPhysics(),
+            separatorBuilder: (context, index) => const SizedBox(
+              height: 5,
+            ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 10,
+            ),
+            itemCount: data.length,
+            itemBuilder: (context, index) => ChatUserCard(
+              subTitle: data[index]['about'],
+              title: data[index]['userName'],
+              image: data[index]['image'],
+            ),
+          );
+        },
       ),
     );
   }
