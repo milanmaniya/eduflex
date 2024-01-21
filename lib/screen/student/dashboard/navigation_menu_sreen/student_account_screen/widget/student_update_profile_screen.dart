@@ -28,6 +28,7 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
     final instance = Get.put(StudentAccountController());
 
     instance.fieldValue.value = widget.data['fieldValue'];
+    instance.txtAbout.text = widget.data['about'];
     instance.yearValue.value = widget.data['yearValue'];
     instance.divValue.value = widget.data['divValue'];
     instance.txtFirstName.text = widget.data['firstName'];
@@ -268,6 +269,20 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
                     )
                     .toList(),
               ),
+            ),
+          ),
+          const SizedBox(
+            height: TSize.spaceBtwItems,
+          ),
+
+          TextFormField(
+            controller: instance.txtAbout,
+            validator: MultiValidator([
+              RequiredValidator(errorText: 'about is required'),
+            ]),
+            decoration: const InputDecoration(
+              labelText: TTexts.about,
+              prefixIcon: Icon(Iconsax.information),
             ),
           ),
 

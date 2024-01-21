@@ -23,6 +23,7 @@ class StudentAccountController extends GetxController {
   TextEditingController txtUserName = TextEditingController();
   TextEditingController txtPhoneNumber = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
+  TextEditingController txtAbout = TextEditingController();
 
   RxString fieldValue = ''.obs;
   RxString yearValue = ''.obs;
@@ -66,6 +67,7 @@ class StudentAccountController extends GetxController {
       'yearValue': yearValue.value.trim(),
       'divValue': divValue.value.trim(),
       'phoneNumber': txtPhoneNumber.text.trim(),
+      'about': txtAbout.text.trim(),
     }).then((value) {
       TLoader.successSnackBar(
           title: 'Update Data', message: 'Data Updated Successfully');
