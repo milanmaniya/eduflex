@@ -22,6 +22,7 @@ class StudentSignUpController extends GetxController {
   TextEditingController txtUserName = TextEditingController();
   TextEditingController txtPhoneNumber = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
+  TextEditingController txtAbout = TextEditingController();
 
   RxString fieldValue = ''.obs;
   RxString yearValue = ''.obs;
@@ -74,7 +75,7 @@ class StudentSignUpController extends GetxController {
       image: '',
       pushToken: '',
       id: userCredential.user!.uid,
-      about: '',
+      about: txtAbout.text.trim(),
       div: divValue.value,
       lastActive: time,
     );

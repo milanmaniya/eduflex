@@ -254,6 +254,20 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
               ),
             ),
           ),
+          const SizedBox(
+            height: TSize.spaceBtwItems,
+          ),
+
+          TextFormField(
+            controller: instance.txtAbout,
+            validator: MultiValidator([
+              RequiredValidator(errorText: 'about is required'),
+            ]),
+            decoration: const InputDecoration(
+              labelText: TTexts.about,
+              prefixIcon: Icon(Iconsax.information),
+            ),
+          ),
 
           const SizedBox(
             height: TSize.spaceBtwSections,
