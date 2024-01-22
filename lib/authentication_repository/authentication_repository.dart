@@ -35,7 +35,6 @@ class AuthenticationReposotiry extends GetxController {
         email: email,
         password: password,
       );
-
       return user;
     } catch (e) {
       throw 'Sometimes went wrong. Please try again';
