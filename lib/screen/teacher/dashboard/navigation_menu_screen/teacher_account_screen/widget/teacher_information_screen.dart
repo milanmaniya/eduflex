@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 class TeacherInformationScreen extends StatefulWidget {
   const TeacherInformationScreen({
@@ -33,15 +35,14 @@ class _TeacherInformationScreenState extends State<TeacherInformationScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: SizedBox(
-                  height: 120,
-                  width: 120,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image(
-                      image: NetworkImage(
-                        widget.data['image'],
-                      ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: CachedNetworkImage(
+                    height: 120,
+                    width: 120,
+                    imageUrl: widget.data['image'],
+                    errorWidget: (context, url, error) => const CircleAvatar(
+                      child: Icon(Iconsax.people),
                     ),
                   ),
                 ),
