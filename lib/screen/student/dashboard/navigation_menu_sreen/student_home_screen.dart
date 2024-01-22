@@ -24,31 +24,37 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
           'All Course',
         ),
       ),
-      body: Column(
-        children: [
-          CommonFieldCard(
-            image: 'assets/images/bca.png',
-            text: 'BCA',
-            desciption: 'Internal English Medium',
-            onTap: () {
-              localStorage.write('Field', 'BCA');
-              Logger().i(localStorage.read('Field'));
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8,
+          vertical: 10,
+        ),
+        child: Column(
+          children: [
+            CommonFieldCard(
+              image: 'assets/images/bca.png',
+              text: 'BCA',
+              desciption: 'Internal English Medium',
+              onTap: () {
+                localStorage.write('Field', 'BCA');
+                Logger().i(localStorage.read('Field'));
 
-              Get.to(() => const AllSemesterScreen());
-            },
-          ),
-          CommonFieldCard(
-            image: 'assets/images/bba.png',
-            text: 'BBA',
-            desciption: 'Internal English Medium',
-            onTap: () {
-              localStorage.write('Field', 'BBA');
-              Logger().i(localStorage.read('Field'));
+                Get.to(() => const AllSemesterScreen());
+              },
+            ),
+            CommonFieldCard(
+              image: 'assets/images/bba.png',
+              text: 'BBA',
+              desciption: 'Internal English Medium',
+              onTap: () {
+                localStorage.write('Field', 'BBA');
+                Logger().i(localStorage.read('Field'));
 
-              Get.to(() => const AllSemesterScreen());
-            },
-          ),
-        ],
+                Get.to(() => const AllSemesterScreen());
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -71,45 +77,46 @@ class CommonFieldCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Container(
-        height: 100,
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        alignment: Alignment.center,
-        child: Row(
-          children: [
-            Image.asset(
-              image,
-              width: 100,
-            ),
-            const SizedBox(
-              width: 15,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  text,
-                  style: Theme.of(context).textTheme.bodyLarge!.apply(
-                        color: Colors.black,
-                      ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  desciption,
-                  style: Theme.of(context).textTheme.bodyLarge!.apply(
-                        color: Colors.black87,
-                      ),
-                ),
-              ],
-            ),
-          ],
+      child: Card(
+        child: Container(
+          height: 100,
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          alignment: Alignment.center,
+          child: Row(
+            children: [
+              Image.asset(
+                image,
+                width: 100,
+              ),
+              const SizedBox(
+                width: 15,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    text,
+                    style: Theme.of(context).textTheme.bodyLarge!.apply(
+                          color: Colors.black,
+                        ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    desciption,
+                    style: Theme.of(context).textTheme.bodyLarge!.apply(
+                          color: Colors.black87,
+                        ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
