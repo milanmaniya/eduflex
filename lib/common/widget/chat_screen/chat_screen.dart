@@ -1,6 +1,5 @@
 import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eduflex/common/widget/chat_screen/apis/apis.dart';
 import 'package:eduflex/common/widget/chat_screen/widget/chat_user_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -46,9 +45,7 @@ class _ChatScreenState extends State<ChatScreen> {
         onPressed: () {},
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection(localStorage.read('Screen'))
-            .snapshots(),
+        stream: APIS.getAllUser(),
         builder: (context, snapshot) {
           final List<Map<String, dynamic>> data = [];
 
