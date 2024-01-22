@@ -14,7 +14,7 @@ class SplashService {
       Timer(const Duration(seconds: 3), () {
         localStorage.read('Screen') == 'Teacher'
             ? Get.offAll(() => const TeacherDashBoardScreen())
-            : const StudentDashBoardScreen();
+            : Get.offAll(() => const StudentDashBoardScreen());
       });
     } else {
       Timer(const Duration(seconds: 3), () {
