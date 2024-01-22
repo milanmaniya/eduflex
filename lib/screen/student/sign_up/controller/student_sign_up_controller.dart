@@ -87,6 +87,7 @@ class StudentSignUpController extends GetxController {
         .doc(userCredential.user!.uid)
         .set(newStudent.toJson())
         .then((value) {
+          
       SplashService().navigate();
 
       TLoader.successSnackBar(
