@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'package:eduflex/common/widget/chat_screen/apis/apis.dart';
+import 'package:eduflex/common/widget/chat_screen/widget/chat_search_screen.dart';
 import 'package:eduflex/common/widget/chat_screen/widget/chat_user_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -22,20 +24,20 @@ class _ChatScreenState extends State<ChatScreen> {
         title: const Text(
           'Messages',
         ),
-        actions: const [
-          Icon(
-            Iconsax.search_normal,
-            size: 20,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Iconsax.search_normal,
+              size: 20,
+            ),
+            onPressed: () => Get.to(() => const ChatSearchScreen()),
           ),
-          SizedBox(
-            width: 20,
-          ),
-          Icon(
-            Iconsax.menu,
-            size: 20,
-          ),
-          SizedBox(
-            width: 20,
+          IconButton(
+            icon: const Icon(
+              Iconsax.menu,
+              size: 20,
+            ),
+            onPressed: () {},
           ),
         ],
         centerTitle: true,
