@@ -49,10 +49,12 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
         ),
         centerTitle: true,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => pickFile(),
-        child: const Icon(Iconsax.add),
-      ),
+      floatingActionButton: localStorage.read('Screen') == 'Teacher'
+          ? FloatingActionButton(
+              onPressed: () => pickFile(),
+              child: const Icon(Iconsax.add),
+            )
+          : null,
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(field)
@@ -90,26 +92,32 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
               startActionPane: ActionPane(
                 motion: const StretchMotion(),
                 children: [
-                  SlidableAction(
-                    onPressed: (context) =>
-                        downloadPdf(pdfData![index]['downloadUrl'].toString()),
-                    autoClose: true,
-                    backgroundColor: const Color(0xFF21B7CA),
-                    foregroundColor: Colors.white,
-                    icon: Icons.download,
-                    label: 'Download',
-                  ),
-                  SlidableAction(
-                    autoClose: true,
-                    backgroundColor: const Color(0xFFFE4A49),
-                    onPressed: (context) => deletePdf(
-                      pdfData![index]['downloadUrl'].toString(),
-                      pdfData[index]['Name'].toString(),
-                    ),
-                    foregroundColor: Colors.white,
-                    icon: Icons.delete,
-                    label: 'Delete',
-                  ),
+                  localStorage.read('Screen') == 'Student'
+                      ? SlidableAction(
+                          onPressed: (context) {
+                            downloadPdf(
+                                pdfData![index]['downloadUrl'].toString());
+                          },
+                          autoClose: true,
+                          backgroundColor: const Color(0xFF21B7CA),
+                          foregroundColor: Colors.white,
+                          icon: Icons.download,
+                          label: 'Download',
+                        )
+                      : const SizedBox(),
+                  localStorage.read('Screen') == ' Teacher'
+                      ? SlidableAction(
+                          autoClose: true,
+                          backgroundColor: const Color(0xFFFE4A49),
+                          onPressed: (context) => deletePdf(
+                            pdfData![index]['downloadUrl'].toString(),
+                            pdfData[index]['Name'].toString(),
+                          ),
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          label: 'Delete',
+                        )
+                      : const SizedBox(),
                 ],
               ),
               child: InkWell(
