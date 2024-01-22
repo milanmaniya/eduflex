@@ -65,7 +65,7 @@ class StudentAccountController extends GetxController {
       'userName': txtUserName.text.trim(),
       'fieldValue': fieldValue.value.trim(),
       'yearValue': yearValue.value.trim(),
-      'divValue': divValue.value.trim(),
+      'div': divValue.value.trim(),
       'phoneNumber': txtPhoneNumber.text.trim(),
       'about': txtAbout.text.trim(),
     }).then((value) {

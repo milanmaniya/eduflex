@@ -28,36 +28,34 @@ class _ChatUserCardState extends State<ChatUserCard> {
       ),
       child: InkWell(
         onTap: () {},
-        child: ListTile(
-          leading: ClipRRect(
-            borderRadius:
-                BorderRadius.circular(THelperFunction.screenHeight() * .3),
-            child: CachedNetworkImage(
-              height: 50,
-              width: 50,
-              imageUrl: widget.image,
-              errorWidget: (context, url, error) =>
-                  const CircleAvatar(child: Icon(Iconsax.people)),
+        child: Container(
+          alignment: Alignment.center,
+          height: 90,
+          child: ListTile(
+            leading: ClipRRect(
+              borderRadius:
+                  BorderRadius.circular(THelperFunction.screenHeight() * .3),
+              child: CachedNetworkImage(
+                height: 50,
+                width: 50,
+                imageUrl: widget.image,
+                errorWidget: (context, url, error) =>
+                    const CircleAvatar(child: Icon(Iconsax.people)),
+              ),
             ),
-          ),
-          title: Text(widget.title),
-          trailing: Container(
-            height: 12,
-            width: 12,
-            decoration: const BoxDecoration(
-              color: Colors.green,
-              shape: BoxShape.circle,
+            title: Text(widget.title),
+            trailing: Container(
+              height: 12,
+              width: 12,
+              decoration: const BoxDecoration(
+                color: Colors.green,
+                shape: BoxShape.circle,
+              ),
             ),
-          ),
-          // trailing: const Text(
-          //   '12:40 PM',
-          //   style: TextStyle(
-          //     color: Colors.black54,
-          //   ),
-          // ),
-          subtitle: Text(
-            widget.subTitle,
-            maxLines: 1,
+            subtitle: Text(
+              widget.subTitle,
+              maxLines: 1,
+            ),
           ),
         ),
       ),
