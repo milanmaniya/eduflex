@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:logger/logger.dart';
@@ -81,6 +84,32 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
             ),
           ),
         ),
+      ),
+      bottomNavigationBar: MessageBar(
+        onSend: (p0) {
+          log(p0.toString());
+        },
+        actions: [
+          InkWell(
+            child: const Icon(
+              Icons.add,
+              color: Colors.black,
+              size: 24,
+            ),
+            onTap: () {},
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            child: InkWell(
+              child: const Icon(
+                Icons.camera_alt,
+                color: Colors.green,
+                size: 24,
+              ),
+              onTap: () {},
+            ),
+          ),
+        ],
       ),
     );
   }
