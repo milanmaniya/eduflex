@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:eduflex/common/widget/login_signup/terms_and_condition.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/controller/teacher_account_controller.dart';
@@ -8,6 +11,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TeacherUpdateProfileScreen extends StatefulWidget {
   const TeacherUpdateProfileScreen({super.key, required this.data});
@@ -23,7 +27,79 @@ class _TeacherUpdateProfileScreenState
     extends State<TeacherUpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    String? _image;
+
     final instance = Get.put(TeacherAccountScreenController());
+
+    void _showModalSheet() {
+      showModalBottomSheet(
+        context: context,
+        isDismissible: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
+          ),
+        ),
+        builder: (context) => Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 10,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'Pick Profile Picture',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(
+                height: TSize.spaceBtwItems,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton.icon(
+                    icon: const Icon(Iconsax.camera),
+                    onPressed: () async {
+                      final ImagePicker picker = ImagePicker();
+                      final XFile? image = await picker.pickImage(
+                        source: ImageSource.camera,
+                      );
+                      if (image != null) {
+                        _image = image.path;
+                      }
+                      setState(() {});
+                    },
+                    label: const Text('Camera'),
+                  ),
+                  ElevatedButton.icon(
+                    icon: const Icon(Iconsax.gallery),
+                    onPressed: () async {
+                      final ImagePicker picker = ImagePicker();
+                      final XFile? image = await picker.pickImage(
+                        source: ImageSource.gallery,
+                      );
+                      if (image != null) {
+                        _image = image.path;
+                      }
+                      setState(() {});
+                    },
+                    label: const Text('Gallery'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     instance.txtFirstName.text = widget.data['firstName'];
     instance.txtLatName.text = widget.data['lastName'];
@@ -57,7 +133,38 @@ class _TeacherUpdateProfileScreenState
         child: Form(
           key: instance.key,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              InkWell(
+                onTap: () {
+                  _showModalSheet();
+                },
+                child: _image != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.file(
+                          File(_image!),
+                          height: 120,
+                          width: 120,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: CachedNetworkImage(
+                          height: 120,
+                          width: 120,
+                          imageUrl: widget.data['image'],
+                          errorWidget: (context, url, error) =>
+                              const CircleAvatar(
+                            child: Icon(Iconsax.people),
+                          ),
+                        ),
+                      ),
+              ),
+              const SizedBox(
+                height: TSize.spaceBtwSections,
+              ),
               Row(
                 children: [
                   Expanded(
