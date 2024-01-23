@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/chat_screen/widget/chat_search_screen.dart';
 import 'package:eduflex/screen/chat_screen/widget/chat_user_card.dart';
+import 'package:eduflex/screen/chat_screen/widget/user_messaging_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -79,6 +80,11 @@ class _ChatScreenState extends State<ChatScreen> {
                 subTitle: data[index]['about'],
                 title: data[index]['userName'],
                 image: data[index]['image'],
+                onPressed: () => Get.to(
+                  () => UserMessagingScreen(
+                    data: data[index],
+                  ),
+                ),
               ),
             );
           } else {

@@ -7,13 +7,15 @@ class ChatUserCard extends StatefulWidget {
   const ChatUserCard({
     super.key,
     required this.title,
-    this.image = '',
+    required this.image,
     required this.subTitle,
+    required this.onPressed,
   });
 
   final String title;
   final String image;
   final String subTitle;
+  final VoidCallback onPressed;
 
   @override
   State<ChatUserCard> createState() => _ChatUserCardState();
@@ -27,7 +29,7 @@ class _ChatUserCardState extends State<ChatUserCard> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: widget.onPressed,
         child: Container(
           alignment: Alignment.center,
           height: 90,

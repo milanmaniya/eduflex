@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/chat_screen/widget/chat_user_card.dart';
+import 'package:eduflex/screen/chat_screen/widget/user_messaging_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class ChatSearchScreen extends StatefulWidget {
@@ -95,6 +97,11 @@ class _ChatSearchScreenState extends State<ChatSearchScreen> {
                       title: searchData[index]['userName'],
                       subTitle: searchData[index]['about'],
                       image: searchData[index]['image'],
+                      onPressed: () => Get.to(
+                        () => UserMessagingScreen(
+                          data: searchData[index],
+                        ),
+                      ),
                     );
                   } else {
                     return const Center(
