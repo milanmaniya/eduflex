@@ -448,6 +448,7 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
                     });
 
                     APIS.updateProfilePicture(File(_image!));
+                    
                     Navigator.pop(context);
                   }
                 },

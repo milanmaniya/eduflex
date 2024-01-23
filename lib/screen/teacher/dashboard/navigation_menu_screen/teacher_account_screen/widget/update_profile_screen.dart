@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:eduflex/common/widget/chat_screen/apis/apis.dart';
 import 'package:eduflex/common/widget/login_signup/terms_and_condition.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/controller/teacher_account_controller.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
@@ -73,8 +77,15 @@ class _TeacherUpdateProfileScreenState
                         source: ImageSource.camera,
                       );
                       if (image != null) {
-                        _image = image.path;
-                        setState(() {});
+                        log(image.path.toString());
+
+                        setState(() {
+                          _image = image.path;
+                        });
+
+                        APIS.updateProfilePicture(File(_image!));
+
+                        Navigator.pop(context);
                       }
                     },
                     label: const Text('Camera'),
@@ -87,8 +98,15 @@ class _TeacherUpdateProfileScreenState
                         source: ImageSource.gallery,
                       );
                       if (image != null) {
-                        _image = image.path;
-                        setState(() {});
+                        log(image.path.toString());
+
+                        setState(() {
+                          _image = image.path;
+                        });
+
+                        APIS.updateProfilePicture(File(_image!));
+
+                        Navigator.pop(context);
                       }
                     },
                     label: const Text('Gallery'),
