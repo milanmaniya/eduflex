@@ -40,6 +40,7 @@ class _TeacherInformationScreenState extends State<TeacherInformationScreen> {
                   child: CachedNetworkImage(
                     height: 120,
                     width: 120,
+                    fit: BoxFit.cover,
                     imageUrl: widget.data['image'],
                     errorWidget: (context, url, error) => const CircleAvatar(
                       child: Icon(Iconsax.people),

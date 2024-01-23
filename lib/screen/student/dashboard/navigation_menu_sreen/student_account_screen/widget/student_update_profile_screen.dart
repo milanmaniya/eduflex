@@ -84,6 +84,7 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child: CachedNetworkImage(
+                          fit: BoxFit.cover,
                           height: 120,
                           width: 120,
                           imageUrl: widget.data['image'],
@@ -448,7 +449,7 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
                     });
 
                     APIS.updateProfilePicture(File(_image!));
-                    
+
                     Navigator.pop(context);
                   }
                 },

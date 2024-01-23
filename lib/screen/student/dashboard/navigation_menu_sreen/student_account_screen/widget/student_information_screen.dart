@@ -39,6 +39,7 @@ class _StudentInformationScreenState extends State<StudentInformationScreen> {
                   borderRadius: BorderRadius.circular(100),
                   child: CachedNetworkImage(
                     height: 120,
+                     fit: BoxFit.cover,
                     width: 120,
                     imageUrl: widget.data['image'],
                     errorWidget: (context, url, error) => const CircleAvatar(

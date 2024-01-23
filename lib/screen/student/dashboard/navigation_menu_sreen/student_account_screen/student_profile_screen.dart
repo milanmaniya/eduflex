@@ -67,6 +67,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                   child: CachedNetworkImage(
                     height: 120,
                     width: 120,
+                    fit: BoxFit.cover,
                     imageUrl: data['image'],
                     errorWidget: (context, url, error) => const CircleAvatar(
                       child: Icon(Iconsax.people),
