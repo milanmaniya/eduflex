@@ -74,8 +74,8 @@ class _TeacherUpdateProfileScreenState
                       );
                       if (image != null) {
                         _image = image.path;
+                        setState(() {});
                       }
-                      setState(() {});
                     },
                     label: const Text('Camera'),
                   ),
@@ -88,8 +88,8 @@ class _TeacherUpdateProfileScreenState
                       );
                       if (image != null) {
                         _image = image.path;
+                        setState(() {});
                       }
-                      setState(() {});
                     },
                     label: const Text('Gallery'),
                   ),
