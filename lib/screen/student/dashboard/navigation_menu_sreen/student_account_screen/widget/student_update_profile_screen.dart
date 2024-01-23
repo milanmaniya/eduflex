@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:eduflex/common/widget/chat_screen/apis/apis.dart';
 import 'package:eduflex/common/widget/login_signup/terms_and_condition.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/controller/studenr_account_controller.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
@@ -27,88 +31,10 @@ class StudentUpdateProfile extends StatefulWidget {
 }
 
 class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
+  String? _image;
   @override
   Widget build(BuildContext context) {
-    String? _image;
-
     final instance = Get.put(StudentAccountController());
-
-    void _showModalSheet() {
-      showModalBottomSheet(
-        context: context,
-        isDismissible: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(12),
-            topRight: Radius.circular(12),
-          ),
-        ),
-        builder: (context) => Padding(
-          padding: const EdgeInsets.only(
-            bottom: 30,
-            left: 15,
-            right: 15,
-            top: 10,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                'Pick Profile Picture',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(
-                height: TSize.spaceBtwItems,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 60,
-                child: ElevatedButton.icon(
-                  icon: const Icon(Iconsax.camera),
-                  onPressed: () async {
-                    final ImagePicker picker = ImagePicker();
-                    final XFile? image = await picker.pickImage(
-                      source: ImageSource.camera,
-                    );
-                    if (image != null) {
-                      _image = image.path;
-                      setState(() {});
-                    }
-                  },
-                  label: const Text('Camera'),
-                ),
-              ),
-              const SizedBox(
-                height: TSize.spaceBtwItems,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 60,
-                child: ElevatedButton.icon(
-                  icon: const Icon(Iconsax.gallery),
-                  onPressed: () async {
-                    final ImagePicker picker = ImagePicker();
-                    final XFile? image = await picker.pickImage(
-                      source: ImageSource.gallery,
-                    );
-                    if (image != null) {
-                      _image = image.path;
-                      setState(() {});
-                    }
-                  },
-                  label: const Text('Gallery'),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
 
     instance.fieldValue.value = widget.data['fieldValue'];
     instance.txtAbout.text = widget.data['about'];
@@ -120,8 +46,6 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
     instance.txtEmail.text = widget.data['email'];
     instance.txtPassword.text = widget.data['password'];
     instance.txtPhoneNumber.text = widget.data['phoneNumber'];
-
-    setState(() {});
 
     return Scaffold(
       appBar: AppBar(
@@ -441,6 +365,96 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  void _showModalSheet() {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+        ),
+      ),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.only(
+          bottom: 30,
+          left: 15,
+          right: 15,
+          top: 10,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Pick Profile Picture',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(
+              height: TSize.spaceBtwItems,
+            ),
+            SizedBox(
+              width: double.infinity,
+              height: 60,
+              child: ElevatedButton.icon(
+                icon: const Icon(Iconsax.camera),
+                onPressed: () async {
+                  final ImagePicker picker = ImagePicker();
+                  final XFile? image = await picker.pickImage(
+                    source: ImageSource.camera,
+                  );
+                  if (image != null) {
+                    log(image.path.toString());
+
+                    setState(() {
+                      _image = image.path;
+                    });
+
+                    APIS.updateProfilePicture(File(_image!));
+
+                    Navigator.pop(context);
+                  }
+                },
+                label: const Text('Camera'),
+              ),
+            ),
+            const SizedBox(
+              height: TSize.spaceBtwItems,
+            ),
+            SizedBox(
+              width: double.infinity,
+              height: 60,
+              child: ElevatedButton.icon(
+                icon: const Icon(Iconsax.gallery),
+                onPressed: () async {
+                  final ImagePicker picker = ImagePicker();
+                  final XFile? image = await picker.pickImage(
+                    source: ImageSource.gallery,
+                  );
+                  if (image != null) {
+                    log(image.path.toString());
+
+                    setState(() {
+                      _image = image.path;
+                    });
+
+                    APIS.updateProfilePicture(File(_image!));
+                    Navigator.pop(context);
+                  }
+                },
+                label: const Text('Gallery'),
+              ),
+            ),
+          ],
         ),
       ),
     );
