@@ -5,7 +5,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:eduflex/common/widget/chat_screen/apis/apis.dart';
+import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/common/widget/login_signup/terms_and_condition.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/controller/studenr_account_controller.dart';
 import 'package:eduflex/utils/constant/sizes.dart';

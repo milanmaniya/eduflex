@@ -1,7 +1,7 @@
 import 'dart:developer';
-import 'package:eduflex/common/widget/chat_screen/apis/apis.dart';
-import 'package:eduflex/common/widget/chat_screen/widget/chat_search_screen.dart';
-import 'package:eduflex/common/widget/chat_screen/widget/chat_user_card.dart';
+import 'package:eduflex/screen/chat_screen/apis/apis.dart';
+import 'package:eduflex/screen/chat_screen/widget/chat_search_screen.dart';
+import 'package:eduflex/screen/chat_screen/widget/chat_user_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';

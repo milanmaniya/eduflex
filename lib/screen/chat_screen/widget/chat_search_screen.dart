@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eduflex/common/widget/chat_screen/widget/chat_user_card.dart';
+import 'package:eduflex/screen/chat_screen/widget/chat_user_card.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
