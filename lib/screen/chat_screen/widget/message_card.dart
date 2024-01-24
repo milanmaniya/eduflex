@@ -27,7 +27,7 @@ class _MessageCardState extends State<MessageCard> {
             minWidth: MediaQuery.of(context).size.width * 0.2,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 widget.message.message,
@@ -37,13 +37,26 @@ class _MessageCardState extends State<MessageCard> {
               const SizedBox(
                 height: 3,
               ),
-              Text(
-                widget.message.sent,
-                textAlign: TextAlign.justify,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 8,
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    widget.message.sent,
+                    textAlign: TextAlign.justify,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Icon(
+                    Icons.done_all_rounded,
+                    color: Colors.white,
+                    size: 18,
+                  ),
+                ],
               ),
             ],
           ),
@@ -57,22 +70,39 @@ class _MessageCardState extends State<MessageCard> {
         child: Container(
           constraints: BoxConstraints(
             maxWidth: MediaQuery.of(context).size.width * 0.7,
+            minWidth: MediaQuery.of(context).size.width * 0.2,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 widget.message.message,
                 textAlign: TextAlign.start,
                 style: const TextStyle(color: Colors.black),
               ),
-              Text(
-                widget.message.sent,
-                textAlign: TextAlign.justify,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 8,
-                ),
+              const SizedBox(
+                height: 3,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    widget.message.sent,
+                    textAlign: TextAlign.justify,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 10,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Icon(
+                    Icons.done_all_rounded,
+                    color: Colors.black,
+                    size: 18,
+                  ),
+                ],
               ),
             ],
           ),

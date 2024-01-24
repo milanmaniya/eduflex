@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
 import 'package:eduflex/screen/chat_screen/widget/message_card.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:logger/logger.dart';
@@ -26,6 +23,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
   }
 
   List<Message> _list = [];
+  final _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,42 +33,20 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
         children: [
           Expanded(
             child: StreamBuilder(
-              stream: APIS.getAllMessage(),
+              stream: APIS.getAllMessage(id: widget.data['id']),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting ||
                     snapshot.connectionState == ConnectionState.none) {
                   return const Center(
-                    child: CircularProgressIndicator(),
+                    child: SizedBox(),
                   );
                 }
 
                 if (snapshot.hasData) {
-                  for (var element in snapshot.data!.docs) {
-                    log(element.id.toString());
-                  }
-                }
+                  final data = snapshot.data!.docs;
 
-                _list.clear();
-                _list.add(
-                  Message(
-                    fromId: FirebaseAuth.instance.currentUser!.uid,
-                    toId: 'xyz',
-                    message: 'Hill',
-                    read: '',
-                    sent: '12:00 AM',
-                    type: Type.text,
-                  ),
-                );
-                _list.add(
-                  Message(
-                    toId: FirebaseAuth.instance.currentUser!.uid,
-                    fromId: 'xyz',
-                    message: 'Hello',
-                    read: '',
-                    sent: '12:05 AM',
-                    type: Type.text,
-                  ),
-                );
+                  _list = data.map((e) => Message.fromJson(e.data())).toList();
+                }
 
                 if (_list.isNotEmpty) {
                   return ListView.builder(
@@ -177,11 +153,12 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                     onPressed: () {},
                     icon: const Icon(Iconsax.emoji_happy),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: TextField(
+                      controller: _textController,
                       maxLines: null,
                       keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         hintText: 'Type Something...',
@@ -207,7 +184,14 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
             flex: 1,
             child: MaterialButton(
               shape: const CircleBorder(),
-              onPressed: () {},
+              onPressed: () {
+                if (_textController.text.isNotEmpty) {
+                  APIS.sendMessage(
+                    widget.data['id'],
+                    _textController.text.trim(),
+                  );
+                }
+              },
               child: const Icon(
                 Icons.send,
                 size: 25,

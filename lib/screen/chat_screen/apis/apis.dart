@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_storage/get_storage.dart';
@@ -44,7 +45,33 @@ class APIS {
 
   // chat releated functions
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessage() {
-    return _firebaseFirestore.collection('Message').snapshots();
+  static getConversationId(String id) =>
+      _auth.currentUser!.uid.hashCode <= id.hashCode
+          ? '${_auth.currentUser!.uid}_$id'
+          : '${id}_${_auth.currentUser!.uid}';
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessage(
+      {required String id}) {
+    return _firebaseFirestore
+        .collection('chats/${getConversationId(id)}/messages')
+        .snapshots();
+  }
+
+  static Future<void> sendMessage(String id, String msg) async {
+    final time = DateTime.now().millisecondsSinceEpoch.toString();
+
+    final Message message = Message(
+      fromId: _auth.currentUser!.uid,
+      toId: id,
+      message: msg,
+      read: '',
+      sent: time,
+      type: Type.text,
+    );
+
+    final ref = _firebaseFirestore
+        .collection('chats/${getConversationId(id)}/messages');
+
+    ref.doc(time).set(message.toJson());
   }
 }
