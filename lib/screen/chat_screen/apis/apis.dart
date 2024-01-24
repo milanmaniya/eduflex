@@ -83,4 +83,12 @@ class APIS {
       'read': DateTime.now().millisecondsSinceEpoch.toString(),
     });
   }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessage(String id) {
+    return _firebaseFirestore
+        .collection('chats/${getConversationId(id)}/messages')
+        .orderBy('sent', descending: true)
+        .limit(1)
+        .snapshots();
+  }
 }

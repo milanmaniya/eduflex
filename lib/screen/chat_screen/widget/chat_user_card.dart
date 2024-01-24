@@ -1,21 +1,19 @@
+// ignore: unused_import
+import 'dart:ffi';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eduflex/screen/chat_screen/widget/user_messaging_screen.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class ChatUserCard extends StatefulWidget {
   const ChatUserCard({
     super.key,
-    required this.title,
-    required this.image,
-    required this.subTitle,
-    required this.onPressed,
+    required this.data,
   });
 
-  final String title;
-  final String image;
-  final String subTitle;
-  final VoidCallback onPressed;
+  final Map<String, dynamic> data;
 
   @override
   State<ChatUserCard> createState() => _ChatUserCardState();
@@ -29,7 +27,11 @@ class _ChatUserCardState extends State<ChatUserCard> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        onTap: widget.onPressed,
+        onTap: () => Get.to(
+          () => UserMessagingScreen(
+            data: widget.data,
+          ),
+        ),
         child: Container(
           alignment: Alignment.center,
           height: 90,
@@ -40,12 +42,12 @@ class _ChatUserCardState extends State<ChatUserCard> {
               child: CachedNetworkImage(
                 height: 50,
                 width: 50,
-                imageUrl: widget.image,
+                imageUrl: widget.data['image'],
                 errorWidget: (context, url, error) =>
                     const CircleAvatar(child: Icon(Iconsax.people)),
               ),
             ),
-            title: Text(widget.title),
+            title: Text(widget.data['userName']),
             trailing: Container(
               height: 12,
               width: 12,
@@ -55,7 +57,7 @@ class _ChatUserCardState extends State<ChatUserCard> {
               ),
             ),
             subtitle: Text(
-              widget.subTitle,
+              widget.data['about'],
               maxLines: 1,
             ),
           ),
