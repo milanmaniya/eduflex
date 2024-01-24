@@ -41,4 +41,10 @@ class APIS {
       'image': downloadUrl,
     });
   }
+
+  // chat releated functions
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessage() {
+    return _firebaseFirestore.collection('Message').snapshots();
+  }
 }

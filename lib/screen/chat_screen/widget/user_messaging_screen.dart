@@ -1,4 +1,10 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eduflex/screen/chat_screen/apis/apis.dart';
+import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
+import 'package:eduflex/screen/chat_screen/widget/message_card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:logger/logger.dart';
@@ -19,6 +25,8 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
     super.initState();
   }
 
+  List<Message> _list = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,16 +35,62 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
         children: [
           Expanded(
             child: StreamBuilder(
-              stream: null,
+              stream: APIS.getAllMessage(),
               builder: (context, snapshot) {
-                // if (snapshot.connectionState == ConnectionState.waiting ||
-                //     snapshot.connectionState == ConnectionState.none) {
-                //   return const Center(
-                //     child: CircularProgressIndicator(),
-                //   );
-                // }
+                if (snapshot.connectionState == ConnectionState.waiting ||
+                    snapshot.connectionState == ConnectionState.none) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
 
-                return const Center(child: Text('Say Hill 👋'));
+                if (snapshot.hasData) {
+                  for (var element in snapshot.data!.docs) {
+                    log(element.id.toString());
+                  }
+                }
+
+                _list.clear();
+                _list.add(
+                  Message(
+                    fromId: FirebaseAuth.instance.currentUser!.uid,
+                    toId: 'xyz',
+                    message: 'Hill',
+                    read: '',
+                    sent: '12:00 AM',
+                    type: Type.text,
+                  ),
+                );
+                _list.add(
+                  Message(
+                    toId: FirebaseAuth.instance.currentUser!.uid,
+                    fromId: 'xyz',
+                    message: 'Hello',
+                    read: '',
+                    sent: '12:05 AM',
+                    type: Type.text,
+                  ),
+                );
+
+                if (_list.isNotEmpty) {
+                  return ListView.builder(
+                    itemCount: _list.length,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 10,
+                    ),
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return MessageCard(
+                        message: _list[index],
+                      );
+                    },
+                  );
+                } else {
+                  return const Center(
+                    child: Text('Say Hill 👋'),
+                  );
+                }
               },
             ),
           ),
