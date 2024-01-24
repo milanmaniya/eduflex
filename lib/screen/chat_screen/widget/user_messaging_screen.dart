@@ -190,6 +190,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                     widget.data['id'],
                     _textController.text.trim(),
                   );
+                  _textController.clear();
                 }
               },
               child: const Icon(
