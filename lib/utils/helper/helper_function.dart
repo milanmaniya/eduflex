@@ -56,6 +56,12 @@ class THelperFunction {
     );
   }
 
+  static String timeFormat(
+      {required BuildContext context, required String time}) {
+    final date = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
+    return TimeOfDay.fromDateTime(date).format(context);
+  }
+
   static bool isDarkMode(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark;
   }

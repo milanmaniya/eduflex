@@ -74,4 +74,13 @@ class APIS {
 
     ref.doc(time).set(message.toJson());
   }
+
+  static Future<void> updateMessageReadStatus(Message message) async {
+    _firebaseFirestore
+        .collection('chats/${getConversationId(message.fromId)}/messages')
+        .doc(message.sent)
+        .update({
+      'read': DateTime.now().millisecondsSinceEpoch.toString(),
+    });
+  }
 }

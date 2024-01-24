@@ -1,4 +1,6 @@
+import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
+import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
@@ -41,7 +43,10 @@ class _MessageCardState extends State<MessageCard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    widget.message.sent,
+                    THelperFunction.timeFormat(
+                      context: context,
+                      time: widget.message.sent,
+                    ),
                     textAlign: TextAlign.justify,
                     style: const TextStyle(
                       color: Colors.white,
@@ -51,8 +56,10 @@ class _MessageCardState extends State<MessageCard> {
                   const SizedBox(
                     width: 10,
                   ),
-                  const Icon(
-                    Icons.done_all_rounded,
+                  Icon(
+                    widget.message.read.isEmpty
+                        ? Icons.done
+                        : Icons.done_all_rounded,
                     color: Colors.white,
                     size: 18,
                   ),
@@ -63,6 +70,10 @@ class _MessageCardState extends State<MessageCard> {
         ),
       );
     } else {
+      if (widget.message.read.isNotEmpty) {
+        APIS.updateMessageReadStatus(widget.message);
+      }
+
       return ChatBubble(
         clipper: ChatBubbleClipper1(type: BubbleType.receiverBubble),
         backGroundColor: const Color(0xffE7E7ED),
@@ -76,7 +87,10 @@ class _MessageCardState extends State<MessageCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.message.message,
+                THelperFunction.timeFormat(
+                  context: context,
+                  time: widget.message.sent,
+                ),
                 textAlign: TextAlign.start,
                 style: const TextStyle(color: Colors.black),
               ),
@@ -97,8 +111,10 @@ class _MessageCardState extends State<MessageCard> {
                   const SizedBox(
                     width: 10,
                   ),
-                  const Icon(
-                    Icons.done_all_rounded,
+                  Icon(
+                    widget.message.read.isEmpty
+                        ? Icons.done
+                        : Icons.done_all_rounded,
                     color: Colors.black,
                     size: 18,
                   ),
