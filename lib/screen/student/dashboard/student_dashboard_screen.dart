@@ -1,11 +1,14 @@
+import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/chat_screen/chat_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_home_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_notice_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/student_profile_screen.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:logger/logger.dart';
 
 class StudentDashBoardScreen extends StatefulWidget {
   const StudentDashBoardScreen({super.key});
@@ -15,6 +18,19 @@ class StudentDashBoardScreen extends StatefulWidget {
 }
 
 class _StudentDashBoardScreenState extends State<StudentDashBoardScreen> {
+  @override
+  void initState() {
+    SystemChannels.lifecycle.setMessageHandler((message) {
+      Logger().i(message);
+
+      if (message.toString().contains('resume')) APIS.updateActiveStatus(true);
+      if (message.toString().contains('pause')) APIS.updateActiveStatus(false);
+
+      return Future.value(message);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunction.isDarkMode(context);
