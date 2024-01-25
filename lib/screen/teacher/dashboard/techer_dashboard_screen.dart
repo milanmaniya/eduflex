@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_screen/teacher_home_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/teacher_account_screen.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:logger/logger.dart';
 
 class TeacherDashBoardScreen extends StatefulWidget {
   const TeacherDashBoardScreen({super.key});
@@ -20,15 +20,23 @@ class TeacherDashBoardScreen extends StatefulWidget {
 class _TeacherDashBoardScreenState extends State<TeacherDashBoardScreen> {
   @override
   void initState() {
-    SystemChannels.lifecycle.setMessageHandler((message) {
-      Logger().i(message);
+    super.initState();
 
-      if (message.toString().contains('resume')) APIS.updateActiveStatus(true);
-      if (message.toString().contains('pause')) APIS.updateActiveStatus(false);
+    APIS.updateActiveStatus(true);
+
+    SystemChannels.lifecycle.setMessageHandler((message) {
+      log(message.toString());
+
+      if (message!.contains('resume')) {
+        APIS.updateActiveStatus(true);
+      }
+
+      if (message.contains('pause')) {
+        APIS.updateActiveStatus(false);
+      }
 
       return Future.value(message);
     });
-    super.initState();
   }
 
   @override
