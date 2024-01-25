@@ -111,4 +111,22 @@ class APIS {
       Type.image,
     );
   }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(
+      {required String chatUserID}) {
+    return _firebaseFirestore
+        .collection(localStorage.read('Screen'))
+        .where('id', isEqualTo: chatUserID)
+        .snapshots();
+  }
+
+  static Future<void> updateActiveStatus(bool isOnline) async {
+    _firebaseFirestore
+        .collection(localStorage.read('Screen'))
+        .doc(_auth.currentUser!.uid)
+        .update({
+      'isOnline': isOnline,
+      'lastActive': DateTime.now().millisecondsSinceEpoch.toString(),
+    });
+  }
 }

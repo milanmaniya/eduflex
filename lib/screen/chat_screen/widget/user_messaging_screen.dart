@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
 import 'package:eduflex/screen/chat_screen/widget/message_card.dart';
+import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,6 +26,8 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
     Logger().i(widget.data.toString());
     super.initState();
   }
+
+  bool _isUploading = false;
 
   List<Message> _list = [];
   final _textController = TextEditingController();
@@ -75,6 +78,19 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
               },
             ),
           ),
+          if (_isUploading)
+            const Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 10,
+                ),
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+              ),
+            ),
           _chatInput(),
         ],
       ),
@@ -92,50 +108,76 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
         ),
         child: InkWell(
           onTap: () {},
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Iconsax.arrow_left),
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: CachedNetworkImage(
-                  height: 45,
-                  width: 45,
-                  fit: BoxFit.cover,
-                  imageUrl: widget.data['image'],
-                  errorWidget: (context, url, error) => const CircleAvatar(
-                    child: Icon(Iconsax.people),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 15,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+          child: StreamBuilder(
+            stream: APIS.getUserInfo(chatUserID: widget.data['id']),
+            builder: (context, snapshot) {
+              final data = snapshot.data?.docs;
+
+              final list = [];
+              if (snapshot.hasData) {
+                for (var element in data!) {
+                  list.add(element.data());
+                }
+              }
+
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    widget.data['userName'],
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black87.withOpacity(0.7),
-                      fontWeight: FontWeight.bold,
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Iconsax.arrow_left),
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: CachedNetworkImage(
+                      height: 45,
+                      width: 45,
+                      fit: BoxFit.cover,
+                      imageUrl: list.isNotEmpty
+                          ? list[0]['image']
+                          : widget.data['image'],
+                      errorWidget: (context, url, error) => const CircleAvatar(
+                        child: Icon(Iconsax.people),
+                      ),
                     ),
                   ),
-                  const Text(
-                    'Last seen not available',
-                    style: TextStyle(
-                      fontSize: 12.5,
-                      color: Colors.black87,
-                    ),
+                  const SizedBox(
+                    width: 15,
                   ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        list.isNotEmpty
+                            ? list[0]['userName']
+                            : widget.data['userName'],
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black87.withOpacity(0.7),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        list.isNotEmpty
+                            ? list[0]['isOnline']
+                                ? 'Online'
+                                : THelperFunction.getLastActiveTime(
+                                    context: context,
+                                    lastActive: list[0]['lastActive'])
+                            : THelperFunction.getLastActiveTime(
+                                context: context,
+                                lastActive: widget.data['lastActive']),
+                        style: const TextStyle(
+                          fontSize: 12.5,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ],
+                  )
                 ],
-              )
-            ],
+              );
+            },
           ),
         ),
       ),
@@ -171,7 +213,21 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final ImagePicker picker = ImagePicker();
+                      final List<XFile> image = await picker.pickMultiImage();
+
+                      for (var element in image) {
+                        setState(() {
+                          _isUploading = true;
+                        });
+                        await APIS.sendChatImage(
+                            widget.data['id'], File(element.path));
+                        setState(() {
+                          _isUploading = false;
+                        });
+                      }
+                    },
                     icon: const Icon(
                       Iconsax.image,
                     ),
@@ -184,9 +240,14 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                       );
                       if (image != null) {
                         log(image.path.toString());
-
+                        setState(() {
+                          _isUploading = true;
+                        });
                         await APIS.sendChatImage(
                             widget.data['id'], File(image.path));
+                        setState(() {
+                          _isUploading = false;
+                        });
                       }
                     },
                     icon: const Icon(Iconsax.camera),
