@@ -1,3 +1,4 @@
+import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/welcome_screen/welcome_screen.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -73,6 +74,8 @@ class AuthenticationReposotiry extends GetxController {
   //logout
   Future<void> logout() async {
     try {
+      APIS.updateActiveStatus(false);
+
       await FirebaseAuth.instance.signOut();
       await GoogleSignIn().signOut();
 
