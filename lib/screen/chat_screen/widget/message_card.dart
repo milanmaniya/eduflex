@@ -35,10 +35,7 @@ class _MessageCardState extends State<MessageCard> {
             children: [
               widget.message.type == Type.text
                   ? Text(
-                      THelperFunction.timeFormat(
-                        context: context,
-                        time: widget.message.sent,
-                      ),
+                      widget.message.message,
                       textAlign: TextAlign.start,
                       style: const TextStyle(color: Colors.white),
                     )
@@ -107,10 +104,7 @@ class _MessageCardState extends State<MessageCard> {
             children: [
               widget.message.type == Type.text
                   ? Text(
-                      THelperFunction.timeFormat(
-                        context: context,
-                        time: widget.message.sent,
-                      ),
+                      widget.message.message,
                       textAlign: TextAlign.start,
                       style: const TextStyle(color: Colors.black),
                     )

@@ -88,7 +88,11 @@ class _ChatUserCardState extends State<ChatUserCard> {
                             ),
                           ),
                 subtitle: Text(
-                  msg != null ? msg!.message : widget.data['about'],
+                  msg != null
+                      ? msg!.type == Type.image
+                          ? 'image'
+                          : msg!.message
+                      : widget.data['about'],
                   maxLines: 1,
                 ),
               ),

@@ -54,6 +54,7 @@ class APIS {
       {required String id}) {
     return _firebaseFirestore
         .collection('chats/${getConversationId(id)}/messages')
+        .orderBy('sent', descending: true)
         .snapshots();
   }
 
@@ -101,7 +102,7 @@ class APIS {
     await ref.putFile(file).then((p0) {
       Logger().i(p0.bytesTransferred / 1000);
     });
- 
+
     final downloadUrl = await ref.getDownloadURL();
 
     await APIS.sendMessage(

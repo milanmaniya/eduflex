@@ -54,6 +54,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
 
                 if (_list.isNotEmpty) {
                   return ListView.builder(
+                    reverse: true,
                     itemCount: _list.length,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
