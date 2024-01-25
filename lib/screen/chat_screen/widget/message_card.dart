@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
+import 'package:iconsax/iconsax.dart';
 
 class MessageCard extends StatefulWidget {
   const MessageCard({super.key, required this.message});
@@ -31,11 +33,28 @@ class _MessageCardState extends State<MessageCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                widget.message.message,
-                textAlign: TextAlign.start,
-                style: const TextStyle(color: Colors.white),
-              ),
+              widget.message.type == Type.text
+                  ? Text(
+                      THelperFunction.timeFormat(
+                        context: context,
+                        time: widget.message.sent,
+                      ),
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(color: Colors.white),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
+                        imageUrl: widget.message.message,
+                        errorWidget: (context, url, error) =>
+                            const CircleAvatar(
+                          child: Icon(Iconsax.people),
+                        ),
+                      ),
+                    ),
               const SizedBox(
                 height: 3,
               ),
@@ -86,14 +105,28 @@ class _MessageCardState extends State<MessageCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                THelperFunction.timeFormat(
-                  context: context,
-                  time: widget.message.sent,
-                ),
-                textAlign: TextAlign.start,
-                style: const TextStyle(color: Colors.black),
-              ),
+              widget.message.type == Type.text
+                  ? Text(
+                      THelperFunction.timeFormat(
+                        context: context,
+                        time: widget.message.sent,
+                      ),
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(color: Colors.black),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: widget.message.message,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) =>
+                            const CircleAvatar(
+                          child: Icon(Iconsax.people),
+                        ),
+                      ),
+                    ),
               const SizedBox(
                 height: 3,
               ),

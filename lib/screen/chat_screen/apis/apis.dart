@@ -57,7 +57,7 @@ class APIS {
         .snapshots();
   }
 
-  static Future<void> sendMessage(String id, String msg) async {
+  static Future<void> sendMessage(String id, String msg, Type type) async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
     final Message message = Message(
@@ -66,7 +66,7 @@ class APIS {
       message: msg,
       read: '',
       sent: time,
-      type: Type.text,
+      type: type,
     );
 
     final ref = _firebaseFirestore
@@ -90,5 +90,24 @@ class APIS {
         .orderBy('sent', descending: true)
         .limit(1)
         .snapshots();
+  }
+
+  static Future<void> sendChatImage(String id, File file) async {
+    final extension = file.path.split('.').last;
+    Logger().i(extension.toString());
+    final ref = _firebaseStorage.ref().child(
+        'images/${getConversationId(id)}.${DateTime.now().millisecondsSinceEpoch}.$extension');
+
+    await ref.putFile(file).then((p0) {
+      Logger().i(p0.bytesTransferred / 1000);
+    });
+
+    final downloadUrl = await ref.getDownloadURL();
+
+    APIS.sendMessage(
+      id,
+      downloadUrl,
+      Type.image,
+    );
   }
 }

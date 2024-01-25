@@ -1,9 +1,13 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
 import 'package:eduflex/screen/chat_screen/widget/message_card.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 
 class UserMessagingScreen extends StatefulWidget {
@@ -149,10 +153,6 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
             child: Card(
               child: Row(
                 children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Iconsax.emoji_happy),
-                  ),
                   Expanded(
                     child: TextField(
                       controller: _textController,
@@ -173,7 +173,18 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final ImagePicker picker = ImagePicker();
+                      final XFile? image = await picker.pickImage(
+                        source: ImageSource.camera,
+                      );
+                      if (image != null) {
+                        log(image.path.toString());
+
+                        await APIS.sendChatImage(
+                            widget.data['id'], File(image.path));
+                      }
+                    },
                     icon: const Icon(Iconsax.camera),
                   ),
                 ],
@@ -189,6 +200,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                   APIS.sendMessage(
                     widget.data['id'],
                     _textController.text.trim(),
+                    Type.text,
                   );
                   _textController.clear();
                 }

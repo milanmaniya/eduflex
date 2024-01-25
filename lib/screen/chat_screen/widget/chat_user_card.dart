@@ -30,9 +30,10 @@ class _ChatUserCardState extends State<ChatUserCard> {
     return StreamBuilder(
       stream: APIS.getLastMessage(widget.data['id']),
       builder: (context, snapshot) {
-        final data = snapshot.data!.docs;
+        final data = snapshot.data?.docs;
 
-        final list = data.map((e) => Message.fromJson(e.data())).toList();
+        final list =
+            data?.map((e) => Message.fromJson(e.data())).toList() ?? [];
 
         if (list.isNotEmpty) {
           msg = list[0];
