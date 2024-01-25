@@ -153,6 +153,9 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
             child: Card(
               child: Row(
                 children: [
+                  const SizedBox(
+                    width: 15,
+                  ),
                   Expanded(
                     child: TextField(
                       controller: _textController,

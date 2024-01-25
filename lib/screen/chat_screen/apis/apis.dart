@@ -96,15 +96,15 @@ class APIS {
     final extension = file.path.split('.').last;
     Logger().i(extension.toString());
     final ref = _firebaseStorage.ref().child(
-        'images/${getConversationId(id)}.${DateTime.now().millisecondsSinceEpoch}.$extension');
+        'images/${getConversationId(id)}/${DateTime.now().millisecondsSinceEpoch}.$extension');
 
     await ref.putFile(file).then((p0) {
       Logger().i(p0.bytesTransferred / 1000);
     });
-
+ 
     final downloadUrl = await ref.getDownloadURL();
 
-    APIS.sendMessage(
+    await APIS.sendMessage(
       id,
       downloadUrl,
       Type.image,
