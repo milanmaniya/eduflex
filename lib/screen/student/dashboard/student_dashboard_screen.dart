@@ -24,6 +24,8 @@ class _StudentDashBoardScreenState extends State<StudentDashBoardScreen> {
   void initState() {
     super.initState();
 
+    APIS.getFirebaseMessagingToken();
+
     APIS.updateActiveStatus(true);
 
     SystemChannels.lifecycle.setMessageHandler((message) {

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logger/logger.dart';
@@ -15,6 +16,29 @@ class APIS {
   static final localStorage = GetStorage();
 
   static final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  static final FirebaseMessaging fMessaging = FirebaseMessaging.instance;
+
+  static String pushToken = '';
+
+  static Future<void> getFirebaseMessagingToken() async {
+    await fMessaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    await fMessaging.getToken().then((value) {
+      Logger().i(value.toString());
+      if (value != null) {
+        pushToken = value;
+      }
+    });
+  }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser() {
     return _firebaseFirestore
@@ -127,6 +151,7 @@ class APIS {
         .update({
       'isOnline': isOnline,
       'lastActive': DateTime.now().millisecondsSinceEpoch.toString(),
+      'pushToken': pushToken,
     });
   }
 }
