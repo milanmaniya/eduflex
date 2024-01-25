@@ -5,6 +5,7 @@ import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_
 import 'package:eduflex/screen/chat_screen/chat_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_notice_screen.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -27,12 +28,14 @@ class _TeacherDashBoardScreenState extends State<TeacherDashBoardScreen> {
     SystemChannels.lifecycle.setMessageHandler((message) {
       log(message.toString());
 
-      if (message!.contains('resume')) {
-        APIS.updateActiveStatus(true);
-      }
+      if (FirebaseAuth.instance.currentUser != null) {
+        if (message!.contains('resume')) {
+          APIS.updateActiveStatus(true);
+        }
 
-      if (message.contains('pause')) {
-        APIS.updateActiveStatus(false);
+        if (message.contains('pause')) {
+          APIS.updateActiveStatus(false);
+        }
       }
 
       return Future.value(message);
