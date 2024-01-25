@@ -1,9 +1,15 @@
+import 'dart:developer';
+
 import 'package:eduflex/app.dart';
 import 'package:eduflex/authentication_repository/authentication_repository.dart';
 import 'package:eduflex/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_notification_channel/flutter_notification_channel.dart';
+import 'package:flutter_notification_channel/notification_importance.dart';
+// ignore: unused_import
+import 'package:flutter_notification_channel/notification_visibility.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -26,6 +32,13 @@ void main() async {
     Get.put(AuthenticationReposotiry());
   });
 
-  // load all material design/ theme/ localization /bindings
+  var result = await FlutterNotificationChannel.registerNotificationChannel(
+    description: 'For Showing Message Notification',
+    id: 'eduFlex',
+    importance: NotificationImportance.IMPORTANCE_HIGH,
+    name: 'EduFlex',
+  );
+  log(result.toString());
+
   runApp(const MyApp());
 }

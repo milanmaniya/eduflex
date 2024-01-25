@@ -1,11 +1,15 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
+import 'package:eduflex/utils/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logger/logger.dart';
+import 'package:http/http.dart' as http;
 
 class APIS {
   static final FirebaseFirestore _firebaseFirestore =
@@ -17,25 +21,56 @@ class APIS {
 
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  static final FirebaseMessaging fMessaging = FirebaseMessaging.instance;
+  static FirebaseMessaging fMessaging = FirebaseMessaging.instance;
 
-  static String pushToken = '';
+  static Future<void> sendPushNotification(
+      String pushToken, String message, String title) async {
+    try {
+      final body = {
+        "to": pushToken,
+        "notification": {
+          "title": title,
+          "body": message,
+          "android_channel_id": "eduFlex",
+        }
+      };
+
+      var response = await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'key=AAAAamlAXiE:APA91bERFLoxL4OMm4AvxAikpUJ-Ht29n1yrpkaOskCI3gRa8gQ-8BSGDzeByQ38fsI4R9Lci3bHnWxLcyUlFZCgxDsjtrUNxmbpJ9R1GjI565xWcZUdtz7HhdziawdePeCZuh8EtUVA'
+        },
+        body: jsonEncode(body),
+      );
+      log(response.statusCode.toString());
+    } catch (e) {
+      TLoader.errorSnackBar(title: 'Oh Snap!', message: e);
+    }
+  }
 
   static Future<void> getFirebaseMessagingToken() async {
-    await fMessaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
+    await fMessaging.requestPermission();
 
     await fMessaging.getToken().then((value) {
       Logger().i(value.toString());
       if (value != null) {
-        pushToken = value;
+        _firebaseFirestore
+            .collection(localStorage.read('Screen'))
+            .doc(_auth.currentUser!.uid)
+            .update({
+          'pushToken': value,
+        });
+      }
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      log('Got a message whilst in the foreground!');
+      log('Message data: ${message.data}');
+
+      if (message.notification != null) {
+        log('Message also contained a notification: ${message.notification}');
       }
     });
   }
@@ -82,7 +117,13 @@ class APIS {
         .snapshots();
   }
 
-  static Future<void> sendMessage(String id, String msg, Type type) async {
+  static Future<void> sendMessage({
+    required String id,
+    required String msg,
+    required Type type,
+    String title = '',
+    String pushToken = '',
+  }) async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
     final Message message = Message(
@@ -97,7 +138,9 @@ class APIS {
     final ref = _firebaseFirestore
         .collection('chats/${getConversationId(id)}/messages');
 
-    ref.doc(time).set(message.toJson());
+    await ref.doc(time).set(message.toJson()).then((value) {
+      sendPushNotification('', type == Type.text ? msg : 'image', '');
+    });
   }
 
   static Future<void> updateMessageReadStatus(Message message) async {
@@ -130,9 +173,9 @@ class APIS {
     final downloadUrl = await ref.getDownloadURL();
 
     await APIS.sendMessage(
-      id,
-      downloadUrl,
-      Type.image,
+      id: id,
+      msg: downloadUrl,
+      type: Type.image,
     );
   }
 
@@ -151,7 +194,6 @@ class APIS {
         .update({
       'isOnline': isOnline,
       'lastActive': DateTime.now().millisecondsSinceEpoch.toString(),
-      'pushToken': pushToken,
     });
   }
 }

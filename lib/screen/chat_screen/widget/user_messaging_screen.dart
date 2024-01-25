@@ -263,9 +263,11 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
               onPressed: () {
                 if (_textController.text.isNotEmpty) {
                   APIS.sendMessage(
-                    widget.data['id'],
-                    _textController.text.trim(),
-                    Type.text,
+                    id: widget.data['id'],
+                    msg: _textController.text.trim(),
+                    type: Type.text,
+                    pushToken: widget.data['pushToken'],
+                    title: widget.data['userName'],
                   );
                   _textController.clear();
                 }
