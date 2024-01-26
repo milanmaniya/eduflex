@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:logger/logger.dart';
 
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
@@ -52,17 +54,6 @@ class _MessageCardState extends State<MessageCard> {
             vertical: 10,
           ),
           children: [
-            Container(
-              height: 5,
-              margin: EdgeInsets.symmetric(
-                vertical: TSize.spaceBtwItems,
-                horizontal: THelperFunction.screenWidth() * .4,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
             widget.message.type == Type.text
                 ? _OptionItem(
                     name: 'Copy Text',
@@ -87,13 +78,28 @@ class _MessageCardState extends State<MessageCard> {
                       color: Colors.blue,
                       size: 26,
                     ),
-                    onTap: () {},
+                    onTap: () async {
+                      var response = await Dio().get(
+                        widget.message.message,
+                        options: Options(responseType: ResponseType.bytes),
+                      );
+                      final result = await ImageGallerySaver.saveImage(
+                        Uint8List.fromList(response.data),
+                        quality: 60,
+                        name: "hello",
+                      );
+
+                      print(result);
+
+                      Navigator.pop(context);
+                      setState(() {});
+                    },
                   ),
             if (isMe)
-              Divider(
+              const Divider(
                 color: Colors.black54,
-                endIndent: THelperFunction.screenWidth() * .4,
-                indent: THelperFunction.screenWidth() * .4,
+                endIndent: TSize.spaceBtwItems,
+                indent: TSize.spaceBtwItems,
               ),
             if (widget.message.type == Type.text && isMe)
               _OptionItem(
@@ -115,14 +121,14 @@ class _MessageCardState extends State<MessageCard> {
                 ),
                 onTap: () async {
                   await APIS.deleteMessage(widget.message).then((value) {
-                    Navigator.pop(context); 
+                    Navigator.pop(context);
                   });
                 },
               ),
-            Divider(
+            const Divider(
               color: Colors.black54,
-              endIndent: THelperFunction.screenWidth() * .4,
-              indent: THelperFunction.screenWidth() * .4,
+              endIndent: TSize.spaceBtwItems,
+              indent: TSize.spaceBtwItems,
             ),
             _OptionItem(
               name:
@@ -295,8 +301,8 @@ class _OptionItem extends StatelessWidget {
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.only(
-          top: 15,
-          left: 50,
+          top: 10,
+          left: 15,
           bottom: TSize.spaceBtwItems,
         ),
         child: Row(

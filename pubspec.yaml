@@ -65,6 +65,8 @@ dependencies:
   flutter_chat_bubble: ^2.0.2
   firebase_messaging: ^14.7.10
   flutter_notification_channel: ^2.0.0
+  image_gallery_saver: ^2.0.3
+  dio: ^5.4.0
 
 dev_dependencies:
   flutter_test:
