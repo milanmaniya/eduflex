@@ -23,11 +23,8 @@ class APIS {
 
   static FirebaseMessaging fMessaging = FirebaseMessaging.instance;
 
-  static Future<void> sendPushNotification({
-    required String pushToken,
-    required String message,
-    required String title,
-  }) async {
+  static Future<void> sendPushNotification(
+      String pushToken, String message, String title) async {
     try {
       final body = {
         "to": pushToken,
@@ -66,15 +63,15 @@ class APIS {
           'pushToken': value,
         });
       }
+    });
 
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        log('Got a message whilst in the foreground!');
-        log('Message data: ${message.data}');
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      log('Got a message whilst in the foreground!');
+      log('Message data: ${message.data}');
 
-        if (message.notification != null) { 
-          log('Message also contained a notification: ${message.notification}');
-        }
-      });
+      if (message.notification != null) {
+        log('Message also contained a notification: ${message.notification}');
+      }
     });
   }
 
@@ -120,28 +117,29 @@ class APIS {
         .snapshots();
   }
 
-  static Future<void> sendMessage(
-      Map<String, dynamic> data, String msg, Type type) async {
+  static Future<void> sendMessage({
+    required String id,
+    required String msg,
+    required Type type,
+    String title = '',
+    String pushToken = '',
+  }) async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
     final Message message = Message(
       fromId: _auth.currentUser!.uid,
-      toId: data['id'],
+      toId: id,
       message: msg,
       read: '',
       sent: time,
-      type: Type.text,
+      type: type,
     );
 
     final ref = _firebaseFirestore
-        .collection("chats/${getConversationId(data['id'])}/messages");
+        .collection('chats/${getConversationId(id)}/messages');
 
     await ref.doc(time).set(message.toJson()).then((value) {
-      sendPushNotification(
-        pushToken: data['pushToken'],
-        title: data['userName'],
-        message: type == Type.text ? msg : 'image',
-      );
+      sendPushNotification('', type == Type.text ? msg : 'image', '');
     });
   }
 
@@ -162,12 +160,11 @@ class APIS {
         .snapshots();
   }
 
-  static Future<void> sendChatImage(
-      {required File file, required Map<String, dynamic> data}) async {
+  static Future<void> sendChatImage(String id, File file) async {
     final extension = file.path.split('.').last;
     Logger().i(extension.toString());
     final ref = _firebaseStorage.ref().child(
-        "images/${getConversationId(data['id'])}/${DateTime.now().millisecondsSinceEpoch}.$extension");
+        'images/${getConversationId(id)}/${DateTime.now().millisecondsSinceEpoch}.$extension');
 
     await ref.putFile(file).then((p0) {
       Logger().i(p0.bytesTransferred / 1000);
@@ -176,9 +173,9 @@ class APIS {
     final downloadUrl = await ref.getDownloadURL();
 
     await APIS.sendMessage(
-      data,
-      downloadUrl,
-      Type.image,
+      id: id,
+      msg: downloadUrl,
+      type: Type.image,
     );
   }
 

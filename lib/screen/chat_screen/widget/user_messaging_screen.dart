@@ -222,7 +222,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                           _isUploading = true;
                         });
                         await APIS.sendChatImage(
-                            data: widget.data, file: File(element.path));
+                            widget.data['id'], File(element.path));
                         setState(() {
                           _isUploading = false;
                         });
@@ -244,7 +244,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                           _isUploading = true;
                         });
                         await APIS.sendChatImage(
-                            data: widget.data, file: File(image.path));
+                            widget.data['id'], File(image.path));
                         setState(() {
                           _isUploading = false;
                         });
@@ -263,9 +263,11 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
               onPressed: () {
                 if (_textController.text.isNotEmpty) {
                   APIS.sendMessage(
-                    widget.data,
-                    _textController.text,
-                    Type.text,
+                    id: widget.data['id'],
+                    msg: _textController.text.trim(),
+                    type: Type.text,
+                    pushToken: widget.data['pushToken'],
+                    title: widget.data['userName'],
                   );
                   _textController.clear();
                 }

@@ -86,8 +86,9 @@ class _MessageCardState extends State<MessageCard> {
         ),
       );
     } else {
-      
-      APIS.updateMessageReadStatus(widget.message);
+      if (widget.message.read.isNotEmpty) {
+        APIS.updateMessageReadStatus(widget.message);
+      }
 
       return ChatBubble(
         clipper: ChatBubbleClipper1(type: BubbleType.receiverBubble),
@@ -133,20 +134,20 @@ class _MessageCardState extends State<MessageCard> {
                     ),
                     textAlign: TextAlign.justify,
                     style: const TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontSize: 10,
                     ),
                   ),
-                  // const SizedBox(
-                  //   width: 10,
-                  // ),
-                  // Icon(
-                  //   widget.message.read.isEmpty
-                  //       ? Icons.done
-                  //       : Icons.done_all_rounded,
-                  //   color: Colors.black,
-                  //   size: 18,
-                  // ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Icon(
+                    widget.message.read.isEmpty
+                        ? Icons.done
+                        : Icons.done_all_rounded,
+                    color: Colors.black,
+                    size: 18,
+                  ),
                 ],
               ),
             ],
