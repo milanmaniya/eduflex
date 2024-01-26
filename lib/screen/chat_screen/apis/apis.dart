@@ -23,8 +23,11 @@ class APIS {
 
   static FirebaseMessaging fMessaging = FirebaseMessaging.instance;
 
-  static Future<void> sendPushNotification(
-      String pushToken, String message, String title) async {
+  static Future<void> sendPushNotification({
+    required String pushToken,
+    required String message,
+    required String title,
+  }) async {
     try {
       final body = {
         "to": pushToken,
@@ -139,7 +142,11 @@ class APIS {
         .collection('chats/${getConversationId(id)}/messages');
 
     await ref.doc(time).set(message.toJson()).then((value) {
-      sendPushNotification('', type == Type.text ? msg : 'image', '');
+      sendPushNotification(
+        pushToken: pushToken,
+        message: type == Type.text ? msg : 'image',
+        title: title,
+      );
     });
   }
 

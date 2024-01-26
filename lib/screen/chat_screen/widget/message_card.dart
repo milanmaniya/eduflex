@@ -128,7 +128,10 @@ class _MessageCardState extends State<MessageCard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    widget.message.sent,
+                    THelperFunction.timeFormat(
+                      context: context,
+                      time: widget.message.sent,
+                    ),
                     textAlign: TextAlign.justify,
                     style: const TextStyle(
                       color: Colors.black,
