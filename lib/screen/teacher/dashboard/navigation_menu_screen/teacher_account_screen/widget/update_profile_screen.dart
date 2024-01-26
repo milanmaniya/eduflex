@@ -29,95 +29,10 @@ class TeacherUpdateProfileScreen extends StatefulWidget {
 
 class _TeacherUpdateProfileScreenState
     extends State<TeacherUpdateProfileScreen> {
+  String? _image;
   @override
   Widget build(BuildContext context) {
-    String? _image;
-
     final instance = Get.put(TeacherAccountScreenController());
-
-    void _showModalSheet() {
-      showModalBottomSheet(
-        context: context,
-        isDismissible: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(12),
-            topRight: Radius.circular(12),
-          ),
-        ),
-        builder: (context) => Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 10,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                'Pick Profile Picture',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(
-                height: TSize.spaceBtwItems,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton.icon(
-                    icon: const Icon(Iconsax.camera),
-                    onPressed: () async {
-                      final ImagePicker picker = ImagePicker();
-                      final XFile? image = await picker.pickImage(
-                        source: ImageSource.camera,
-                      );
-                      if (image != null) {
-                        log(image.path.toString());
-
-                        setState(() {
-                          _image = image.path;
-                        });
-
-                        APIS.updateProfilePicture(File(_image!));
-
-                        Navigator.pop(context);
-                      }
-                    },
-                    label: const Text('Camera'),
-                  ),
-                  ElevatedButton.icon(
-                    icon: const Icon(Iconsax.gallery),
-                    onPressed: () async {
-                      final ImagePicker picker = ImagePicker();
-                      final XFile? image = await picker.pickImage(
-                        source: ImageSource.gallery,
-                      );
-                      if (image != null) {
-                        log(image.path.toString());
-
-                        setState(() {
-                          _image = image.path;
-                        });
-
-                        APIS.updateProfilePicture(File(_image!));
-
-                        Navigator.pop(context);
-                      }
-                    },
-                    label: const Text('Gallery'),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
-    }
 
     instance.txtFirstName.text = widget.data['firstName'];
     instance.txtLatName.text = widget.data['lastName'];
@@ -418,4 +333,88 @@ class _TeacherUpdateProfileScreenState
       ),
     );
   }
-}
+
+  void _showModalSheet() {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+        ),
+      ),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 10,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Pick Profile Picture',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(
+              height: TSize.spaceBtwItems,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton.icon(
+                  icon: const Icon(Iconsax.camera),
+                  onPressed: () async {
+                    final ImagePicker picker = ImagePicker();
+                    final XFile? image = await picker.pickImage(
+                      source: ImageSource.camera,
+                    );
+                    if (image != null) {
+                      log(image.path.toString());
+
+                      setState(() {
+                        _image = image.path;
+                      });
+
+                      APIS.updateProfilePicture(File(_image!));
+
+                      Navigator.pop(context);
+                    }
+                  },
+                  label: const Text('Camera'),
+                ),
+                ElevatedButton.icon(
+                  icon: const Icon(Iconsax.gallery),
+                  onPressed: () async {
+                    final ImagePicker picker = ImagePicker();
+                    final XFile? image = await picker.pickImage(
+                      source: ImageSource.gallery,
+                    );
+                    if (image != null) {
+                      log(image.path.toString());
+
+                      setState(() {
+                        _image = image.path;
+                      });
+
+                      APIS.updateProfilePicture(File(_image!));
+
+                      Navigator.pop(context);
+                    }
+                  },
+                  label: const Text('Gallery'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+   }
