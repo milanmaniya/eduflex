@@ -86,9 +86,7 @@ class _MessageCardState extends State<MessageCard> {
         ),
       );
     } else {
-      if (widget.message.read.isNotEmpty) {
-        APIS.updateMessageReadStatus(widget.message);
-      }
+      APIS.updateMessageReadStatus(widget.message);
 
       return ChatBubble(
         clipper: ChatBubbleClipper1(type: BubbleType.receiverBubble),
