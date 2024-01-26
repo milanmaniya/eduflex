@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
@@ -184,7 +183,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
     );
   }
 
-  Widget _chatInput() {
+  Widget _chatInput() {                                                                                                                         
     return Padding(
       padding: const EdgeInsets.only(
         left: 12,
