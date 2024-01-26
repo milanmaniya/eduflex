@@ -120,32 +120,27 @@ class APIS {
         .snapshots();
   }
 
-  static Future<void> sendMessage({
-    required String id,
-    required String msg,
-    required Type type,
-    String title = '',
-    String pushToken = '',
-  }) async {
+  static Future<void> sendMessage(
+      Map<String, dynamic> data, String msg, Type type) async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
     final Message message = Message(
       fromId: _auth.currentUser!.uid,
-      toId: id,
+      toId: data['id'],
       message: msg,
       read: '',
       sent: time,
-      type: type,
+      type: Type.text,
     );
 
     final ref = _firebaseFirestore
-        .collection('chats/${getConversationId(id)}/messages');
+        .collection("chats/${getConversationId(data['id'])}/messages");
 
     await ref.doc(time).set(message.toJson()).then((value) {
       sendPushNotification(
-        pushToken: pushToken,
+        pushToken: data['pushToken'],
+        title: data['userName'],
         message: type == Type.text ? msg : 'image',
-        title: title,
       );
     });
   }
@@ -167,11 +162,12 @@ class APIS {
         .snapshots();
   }
 
-  static Future<void> sendChatImage(String id, File file) async {
+  static Future<void> sendChatImage(
+      {required File file, required Map<String, dynamic> data}) async {
     final extension = file.path.split('.').last;
     Logger().i(extension.toString());
     final ref = _firebaseStorage.ref().child(
-        'images/${getConversationId(id)}/${DateTime.now().millisecondsSinceEpoch}.$extension');
+        "images/${getConversationId(data['id'])}/${DateTime.now().millisecondsSinceEpoch}.$extension");
 
     await ref.putFile(file).then((p0) {
       Logger().i(p0.bytesTransferred / 1000);
@@ -180,9 +176,9 @@ class APIS {
     final downloadUrl = await ref.getDownloadURL();
 
     await APIS.sendMessage(
-      id: id,
-      msg: downloadUrl,
-      type: Type.image,
+      data,
+      downloadUrl,
+      Type.image,
     );
   }
 
