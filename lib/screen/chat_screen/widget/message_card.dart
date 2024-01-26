@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:logger/logger.dart';
@@ -70,7 +71,14 @@ class _MessageCardState extends State<MessageCard> {
                       color: Colors.blue,
                       size: 26,
                     ),
-                    onTap: () {},
+                    onTap: () async {
+                      await Clipboard.setData(
+                              ClipboardData(text: widget.message.message))
+                          .then((value) {
+                        Navigator.pop(context);
+                        THelperFunction.showSnackBar('Text Copied');
+                      });
+                    },
                   )
                 : _OptionItem(
                     name: 'Save Image',
@@ -105,7 +113,11 @@ class _MessageCardState extends State<MessageCard> {
                   color: Colors.red,
                   size: 26,
                 ),
-                onTap: () {},
+                onTap: () async {
+                  await APIS.deleteMessage(widget.message).then((value) {
+                    Navigator.pop(context); 
+                  });
+                },
               ),
             Divider(
               color: Colors.black54,
@@ -113,7 +125,8 @@ class _MessageCardState extends State<MessageCard> {
               indent: THelperFunction.screenWidth() * .4,
             ),
             _OptionItem(
-              name: 'Sent At',
+              name:
+                  'Sent At: ${THelperFunction.getMessageTimme(context: context, time: widget.message.sent)}',
               icon: const Icon(
                 Icons.remove_red_eye,
                 color: Colors.blue,
@@ -121,7 +134,9 @@ class _MessageCardState extends State<MessageCard> {
               onTap: () {},
             ),
             _OptionItem(
-              name: 'Read At',
+              name: widget.message.read.isEmpty
+                  ? "Read At: Not seen yet"
+                  : 'Read At: ${THelperFunction.getMessageTimme(context: context, time: widget.message.read)}',
               icon: const Icon(
                 Icons.remove_red_eye_rounded,
                 color: Colors.green,

@@ -56,6 +56,19 @@ class THelperFunction {
     );
   }
 
+  static String getMessageTimme(
+      {required BuildContext context, required String time}) {
+    final sent = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
+    final now = DateTime.now();
+
+    if (now.day == sent.day &&
+        now.month == sent.month &&
+        now.year == sent.year) {
+      return timeFormat(context: context, time: time);
+    }
+    return '${sent.day} ${_getMonth(sent)}';
+  }
+
   static String timeFormat(
       {required BuildContext context, required String time}) {
     final date = DateTime.fromMillisecondsSinceEpoch(int.parse(time));

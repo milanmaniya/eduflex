@@ -142,6 +142,16 @@ class APIS {
     });
   }
 
+  static Future<void> deleteMessage(Message message) async {
+    await _firebaseFirestore
+        .collection('chats/${getConversationId(message.toId)}/messages')
+        .doc(message.sent)
+        .delete();
+    if (message.type == Type.image) {
+      await _firebaseStorage.refFromURL(message.message).delete();
+    }
+  }
+
   static Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessage(String id) {
     return _firebaseFirestore
         .collection('chats/${getConversationId(id)}/messages')
