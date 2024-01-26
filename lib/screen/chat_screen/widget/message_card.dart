@@ -86,6 +86,7 @@ class _MessageCardState extends State<MessageCard> {
         ),
       );
     } else {
+      
       APIS.updateMessageReadStatus(widget.message);
 
       return ChatBubble(
@@ -136,16 +137,16 @@ class _MessageCardState extends State<MessageCard> {
                       fontSize: 10,
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    widget.message.read.isEmpty
-                        ? Icons.done
-                        : Icons.done_all_rounded,
-                    color: Colors.black,
-                    size: 18,
-                  ),
+                  // const SizedBox(
+                  //   width: 10,
+                  // ),
+                  // Icon(
+                  //   widget.message.read.isEmpty
+                  //       ? Icons.done
+                  //       : Icons.done_all_rounded,
+                  //   color: Colors.black,
+                  //   size: 18,
+                  // ),
                 ],
               ),
             ],
