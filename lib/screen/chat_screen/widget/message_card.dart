@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:logger/logger.dart';
 
 class MessageCard extends StatefulWidget {
   const MessageCard({super.key, required this.message});
@@ -73,9 +74,9 @@ class _MessageCardState extends State<MessageCard> {
                     width: 10,
                   ),
                   Icon(
-                    widget.message.read.isEmpty
-                        ? Icons.done
-                        : Icons.done_all_rounded,
+                    widget.message.read.isNotEmpty
+                        ? Icons.done_all_rounded
+                        : Icons.done,
                     color: Colors.white,
                     size: 18,
                   ),
@@ -86,8 +87,9 @@ class _MessageCardState extends State<MessageCard> {
         ),
       );
     } else {
-      if (widget.message.read.isNotEmpty) {
+      if (widget.message.read.isEmpty) {
         APIS.updateMessageReadStatus(widget.message);
+        Logger().i('Message read updated!');
       }
 
       return ChatBubble(
@@ -137,16 +139,6 @@ class _MessageCardState extends State<MessageCard> {
                       color: Colors.white,
                       fontSize: 10,
                     ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    widget.message.read.isEmpty
-                        ? Icons.done
-                        : Icons.done_all_rounded,
-                    color: Colors.black,
-                    size: 18,
                   ),
                 ],
               ),

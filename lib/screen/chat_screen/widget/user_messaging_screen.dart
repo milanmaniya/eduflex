@@ -56,7 +56,6 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
 
                 if (_list.isNotEmpty) {
                   return ListView.builder(
-                    reverse: true,
                     itemCount: _list.length,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
@@ -183,7 +182,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
     );
   }
 
-  Widget _chatInput() {                                                                                                                         
+  Widget _chatInput() {
     return Padding(
       padding: const EdgeInsets.only(
         left: 12,
