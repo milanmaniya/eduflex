@@ -64,15 +64,6 @@ class APIS {
         });
       }
     });
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      log('Got a message whilst in the foreground!');
-      log('Message data: ${message.data}');
-
-      if (message.notification != null) {
-        log('Message also contained a notification: ${message.notification}');
-      }
-    });
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser() {
@@ -121,8 +112,8 @@ class APIS {
     required String id,
     required String msg,
     required Type type,
-    String title = '',
-    String pushToken = '',
+    required String title,
+    required String pushToken,
   }) async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -139,7 +130,7 @@ class APIS {
         .collection('chats/${getConversationId(id)}/messages');
 
     await ref.doc(time).set(message.toJson()).then((value) {
-      sendPushNotification('', type == Type.text ? msg : 'image', '');
+      sendPushNotification(pushToken, type == Type.text ? msg : 'image', title);
     });
   }
 
@@ -160,7 +151,8 @@ class APIS {
         .snapshots();
   }
 
-  static Future<void> sendChatImage(String id, File file) async {
+  static Future<void> sendChatImage(
+      String id, File file, Type type, String title, String pushToken) async {
     final extension = file.path.split('.').last;
     Logger().i(extension.toString());
     final ref = _firebaseStorage.ref().child(
@@ -173,10 +165,11 @@ class APIS {
     final downloadUrl = await ref.getDownloadURL();
 
     await APIS.sendMessage(
-      id: id,
-      msg: downloadUrl,
-      type: Type.image,
-    );
+        id: id,
+        msg: downloadUrl,
+        type: type,
+        title: title,
+        pushToken: pushToken);
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(
