@@ -73,7 +73,7 @@ class _MessageCardState extends State<MessageCard> {
                 : _OptionItem(
                     name: 'Save Image',
                     icon: const Icon(
-                      Icons.download_done_rounded,
+                      Icons.download,
                       color: Colors.blue,
                       size: 26,
                     ),
