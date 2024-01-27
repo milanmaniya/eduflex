@@ -1,14 +1,12 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:logger/logger.dart';
-
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
@@ -89,7 +87,7 @@ class _MessageCardState extends State<MessageCard> {
                         name: "hello",
                       );
 
-                      print(result);
+                      log(result.toString());
 
                       Navigator.pop(context);
                       setState(() {});
@@ -186,8 +184,9 @@ class _MessageCardState extends State<MessageCard> {
                       imageUrl: widget.message.message,
                       placeholder: (context, url) =>
                           const CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => const CircleAvatar(
-                        child: Icon(Iconsax.people),
+                      errorWidget: (context, url, error) => const Icon(
+                        Icons.image,
+                        size: 70,
                       ),
                     ),
                   ),
@@ -243,8 +242,9 @@ class _MessageCardState extends State<MessageCard> {
                       placeholder: (context, url) =>
                           const CircularProgressIndicator(),
                       imageUrl: widget.message.message,
-                      errorWidget: (context, url, error) => const CircleAvatar(
-                        child: Icon(Iconsax.people),
+                      errorWidget: (context, url, error) => const Icon(
+                        Icons.image,
+                        size: 70,
                       ),
                     ),
                   ),

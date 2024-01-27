@@ -167,18 +167,21 @@ class APIS {
     final ref = _firebaseStorage.ref().child(
         'images/${getConversationId(id)}/${DateTime.now().millisecondsSinceEpoch}.$extension');
 
-    await ref.putFile(file).then((p0) {
-      Logger().i(p0.bytesTransferred / 1000);
+    await ref
+        .putFile(file, SettableMetadata(contentType: 'image/$extension'))
+        .then((p0) {
+      Logger().i('Data Transfered: ${p0.bytesTransferred / 1000} kb');
     });
 
     final downloadUrl = await ref.getDownloadURL();
 
     await APIS.sendMessage(
-        id: id,
-        msg: downloadUrl,
-        type: type,
-        title: title,
-        pushToken: pushToken);
+      id: id,
+      msg: downloadUrl,
+      type: type,
+      title: title,
+      pushToken: pushToken,
+    );
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(

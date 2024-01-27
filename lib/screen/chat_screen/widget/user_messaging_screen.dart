@@ -214,7 +214,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                     onPressed: () async {
                       final ImagePicker picker = ImagePicker();
                       final List<XFile> image = await picker.pickMultiImage();
-
+ 
                       for (var element in image) {
                         setState(() {
                           _isUploading = true;
@@ -224,7 +224,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                             File(element.path),
                             Type.image,
                             widget.data['userName'],
-                            widget.data['pushTokens']);
+                            widget.data['pushToken']);
                         setState(() {
                           _isUploading = false;
                         });
@@ -242,7 +242,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                       );
                       if (image != null) {
                         log(image.path.toString());
-                        setState(() {
+                        setState(() {  
                           _isUploading = true;
                         });
 
@@ -251,7 +251,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                             File(image.path),
                             Type.image,
                             widget.data['userName'],
-                            widget.data['pushTokens']);
+                            widget.data['pushToken']);
                         setState(() {
                           _isUploading = false;
                         });
