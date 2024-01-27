@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
+import 'package:eduflex/utils/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -86,6 +87,10 @@ class _MessageCardState extends State<MessageCard> {
                         quality: 60,
                         name: "hello",
                       );
+
+                      TLoader.successSnackBar(
+                          title: 'Image Saved',
+                          message: 'Image Saved Successfully!');
 
                       log(result.toString());
 

@@ -221,11 +221,12 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                           _isUploading = true;
                         });
                         await APIS.sendChatImage(
-                            widget.data['id'],
-                            File(element.path), 
-                            Type.image,
-                            widget.data['userName'],
-                            widget.data['pushToken']);
+                          widget.data['id'],
+                          File(element.path),
+                          Type.image,
+                          widget.data['userName'],
+                          widget.data['pushToken'],
+                        );
                         setState(() {
                           _isUploading = false;
                         });
