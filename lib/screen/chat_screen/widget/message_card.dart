@@ -344,7 +344,7 @@ class _MessageCardState extends State<MessageCard> {
       ),
     );
   }
-}
+   }
 
 class _OptionItem extends StatelessWidget {
   const _OptionItem({

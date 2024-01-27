@@ -2,7 +2,9 @@ import 'dart:developer';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/chat_screen/widget/chat_search_screen.dart';
 import 'package:eduflex/screen/chat_screen/widget/chat_user_card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
@@ -16,6 +18,32 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final localStorage = GetStorage();
+
+  @override
+  void initState() {
+    super.initState();
+
+    APIS.getFirebaseMessagingToken();
+
+    APIS.updateActiveStatus(true);
+
+    SystemChannels.lifecycle.setMessageHandler((message) {
+      log(message.toString());
+
+      if (FirebaseAuth.instance.currentUser != null) {
+        if (message!.contains('resume')) {
+          APIS.updateActiveStatus(true);
+        }
+
+        if (message.contains('pause')) {
+          APIS.updateActiveStatus(false);
+        }
+      }
+
+      return Future.value(message);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

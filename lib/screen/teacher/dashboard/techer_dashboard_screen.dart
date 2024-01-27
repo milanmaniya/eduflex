@@ -1,13 +1,9 @@
-import 'dart:developer';
-import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_screen/teacher_home_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/teacher_account_screen.dart';
 import 'package:eduflex/screen/chat_screen/chat_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_notice_screen.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -19,31 +15,7 @@ class TeacherDashBoardScreen extends StatefulWidget {
 }
 
 class _TeacherDashBoardScreenState extends State<TeacherDashBoardScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    APIS.getFirebaseMessagingToken();
-
-    APIS.updateActiveStatus(true);
-
-    SystemChannels.lifecycle.setMessageHandler((message) {
-      log(message.toString());
-
-      if (FirebaseAuth.instance.currentUser != null) {
-        if (message!.contains('resume')) {
-          APIS.updateActiveStatus(true);
-        }
-
-        if (message.contains('pause')) {
-          APIS.updateActiveStatus(false);
-        }
-      }
-
-      return Future.value(message);
-    });
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunction.isDarkMode(context);
