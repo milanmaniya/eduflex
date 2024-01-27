@@ -153,6 +153,14 @@ class APIS {
     }
   }
 
+  static Future<void> updateMessage(
+      Message message, String updatedMessage) async {
+    await _firebaseFirestore
+        .collection('chats/${getConversationId(message.toId)}/messages')
+        .doc(message.sent)
+        .update({'message': updatedMessage});
+  }
+
   static Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessage(String id) {
     return _firebaseFirestore
         .collection('chats/${getConversationId(id)}/messages')

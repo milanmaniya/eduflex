@@ -112,7 +112,11 @@ class _MessageCardState extends State<MessageCard> {
                   color: Colors.blue,
                   size: 26,
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+
+                  _showMessageUpdateDialog();
+                },
               ),
             if (isMe)
               _OptionItem(
@@ -284,6 +288,59 @@ class _MessageCardState extends State<MessageCard> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showMessageUpdateDialog() {
+    String updateMsg = widget.message.message;
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        contentPadding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 20,
+          bottom: 10,
+        ),
+        title: const Row(
+          children: [
+            Icon(
+              Icons.message,
+              color: Colors.blue,
+              size: 28,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text('Update Message')
+          ],
+        ),
+        content: TextFormField(
+          maxLines: null,
+          onChanged: (value) {
+            setState(() {
+              updateMsg = value;
+            });
+          },
+          initialValue: updateMsg,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              APIS.updateMessage(widget.message, updateMsg);
+            },
+            child: const Text('Update'),
+          ),
+        ],
       ),
     );
   }
