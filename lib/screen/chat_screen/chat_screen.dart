@@ -72,7 +72,9 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Iconsax.add),
-        onPressed: () {},
+        onPressed: () {
+          _showAddChatUserDialog();
+        },
       ),
       body: StreamBuilder(
         stream: APIS.getAllUser(),
@@ -113,6 +115,58 @@ class _ChatScreenState extends State<ChatScreen> {
             );
           }
         },
+      ),
+    );
+  }
+
+  void _showAddChatUserDialog() {
+    String email = '';
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        contentPadding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 20,
+          bottom: 10,
+        ),
+        title: const Row(
+          children: [
+            Icon(
+              Icons.message,
+              color: Colors.blue,
+              size: 28,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text('Add User')
+          ],
+        ),
+        content: TextFormField(
+          maxLines: null,
+          onChanged: (value) {
+            setState(() {
+              email = value;
+            });
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              // APIS.updateMessage('', email);
+            },
+            child: const Text('Add'),
+          ),
+        ],
       ),
     );
   }
