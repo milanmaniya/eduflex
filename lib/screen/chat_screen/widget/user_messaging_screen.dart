@@ -56,6 +56,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
 
                 if (_list.isNotEmpty) {
                   return ListView.builder(
+                    reverse: true,
                     itemCount: _list.length,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
@@ -214,7 +215,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                     onPressed: () async {
                       final ImagePicker picker = ImagePicker();
                       final List<XFile> image = await picker.pickMultiImage();
- 
+
                       for (var element in image) {
                         setState(() {
                           _isUploading = true;
@@ -242,7 +243,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                       );
                       if (image != null) {
                         log(image.path.toString());
-                        setState(() {  
+                        setState(() {
                           _isUploading = true;
                         });
 

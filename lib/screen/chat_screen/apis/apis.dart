@@ -104,6 +104,7 @@ class APIS {
       {required String id}) {
     return _firebaseFirestore
         .collection('chats/${getConversationId(id)}/messages')
+        .orderBy('sent', descending: true)
         .snapshots();
   }
 
