@@ -214,15 +214,15 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                   IconButton(
                     onPressed: () async {
                       final ImagePicker picker = ImagePicker();
-                      final List<XFile> image = await picker.pickMultiImage();
+                      final List<XFile> images = await picker.pickMultiImage();
 
-                      for (var element in image) {
+                      for (var element in images) {
                         setState(() {
                           _isUploading = true;
                         });
                         await APIS.sendChatImage(
                             widget.data['id'],
-                            File(element.path),
+                            File(element.path), 
                             Type.image,
                             widget.data['userName'],
                             widget.data['pushToken']);
