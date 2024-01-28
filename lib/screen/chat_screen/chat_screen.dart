@@ -2,9 +2,12 @@ import 'dart:developer';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/chat_screen/widget/chat_search_screen.dart';
 import 'package:eduflex/screen/chat_screen/widget/chat_user_card.dart';
+import 'package:eduflex/utils/constant/text_strings.dart';
+import 'package:eduflex/utils/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
@@ -77,64 +80,76 @@ class _ChatScreenState extends State<ChatScreen> {
         },
       ),
       body: StreamBuilder(
-        stream: APIS.getAllUser(),
-        builder: (context, snapshot) {
-          final List<Map<String, dynamic>> data = [];
-
-          if (snapshot.connectionState == ConnectionState.waiting ||
-              snapshot.connectionState == ConnectionState.none) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasData) {
-            for (var element in snapshot.data!.docs) {
-              data.add(element.data());
-              log(data.toString());
+          stream: APIS.getMyUserId(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting ||
+                snapshot.connectionState == ConnectionState.none) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }
-          }
 
-          if (data.isNotEmpty) {
-            return ListView.separated(
-              physics: const BouncingScrollPhysics(),
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 5,
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 10,
-              ),
-              itemCount: data.length,
-              itemBuilder: (context, index) => ChatUserCard(
-                data: data[index],
-              ),
+            return StreamBuilder(
+              stream: APIS.getAllUser(
+                  snapshot.data?.docs.map((e) => e.id).toList() ?? []),
+              builder: (context, snapshot) {
+                final List<Map<String, dynamic>> data = [];
+
+                if (snapshot.connectionState == ConnectionState.waiting ||
+                    snapshot.connectionState == ConnectionState.none) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (snapshot.hasData) {
+                  for (var element in snapshot.data!.docs) {
+                    data.add(element.data());
+                    log(data.toString());
+                  }
+                }
+
+                if (data.isNotEmpty) {
+                  return ListView.separated(
+                    physics: const BouncingScrollPhysics(),
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 5,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 10,
+                    ),
+                    itemCount: data.length,
+                    itemBuilder: (context, index) => ChatUserCard(
+                      data: data[index],
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    child: Text('No Connection Found!'),
+                  );
+                }
+              },
             );
-          } else {
-            return const Center(
-              child: Text('No Connection Found!'),
-            );
-          }
-        },
-      ),
+          }),
     );
   }
 
   void _showAddChatUserDialog() {
-    String email = '';
+    String _email = '';
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         contentPadding: const EdgeInsets.only(
-          left: 20,
-          right: 20,
+          left: 12,
+          right: 12,
           top: 20,
           bottom: 10,
         ),
         title: const Row(
           children: [
             Icon(
-              Icons.message,
+              Iconsax.user_add,
               color: Colors.blue,
               size: 28,
             ),
@@ -145,12 +160,20 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
         content: TextFormField(
-          maxLines: null,
           onChanged: (value) {
             setState(() {
-              email = value;
+              _email = value;
             });
           },
+          maxLines: null,
+          validator: MultiValidator([
+            RequiredValidator(errorText: 'Email is required'),
+            EmailValidator(errorText: 'Email is not a valid format'),
+          ]),
+          decoration: const InputDecoration(
+            labelText: TTexts.email,
+            prefixIcon: Icon(Iconsax.direct),
+          ),
         ),
         actions: [
           TextButton(
@@ -160,9 +183,16 @@ class _ChatScreenState extends State<ChatScreen> {
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(context);
-              // APIS.updateMessage('', email);
+              if (_email.isNotEmpty) {
+                await APIS.addChatUser(_email.toString()).then((value) {
+                  if (!value) {
+                    TLoader.errorSnackBar(
+                        title: 'Oh Snap! ', message: 'User Does Not Exists!');
+                  }
+                });
+              }
             },
             child: const Text('Add'),
           ),

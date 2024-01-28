@@ -66,10 +66,37 @@ class APIS {
     });
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser() {
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUserId() {
     return _firebaseFirestore
         .collection(localStorage.read('Screen'))
-        .where('id', isNotEqualTo: _auth.currentUser!.uid)
+        .doc(_auth.currentUser!.uid)
+        .collection('my_users')
+        .snapshots();
+  }
+
+  static Future<void> sendFirstMessage({
+    required String id,
+    required String msg,
+    required Type type,
+    required String title,
+    required String pushToken,
+  }) async {
+    await _firebaseFirestore
+        .collection(localStorage.read('Screen'))
+        .doc(id)
+        .collection('my_users')
+        .doc(_auth.currentUser!.uid)
+        .set({}).then((value) {
+      sendMessage(
+          id: id, msg: msg, type: type, title: title, pushToken: pushToken);
+    });
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser(
+      List<String> userIds) {
+    return _firebaseFirestore
+        .collection(localStorage.read('Screen'))
+        .where('id', whereIn: userIds)
         .snapshots();
   }
 
@@ -191,6 +218,26 @@ class APIS {
       title: title,
       pushToken: pushToken,
     );
+  }
+
+  static Future<bool> addChatUser(String email) async {
+    final data = await _firebaseFirestore
+        .collection(localStorage.read('Screen'))
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (data.docs.isNotEmpty && data.docs.first.id != _auth.currentUser!.uid) {
+      _firebaseFirestore
+          .collection(localStorage.read('Screen'))
+          .doc(_auth.currentUser!.uid)
+          .collection('my_users')
+          .doc(data.docs.first.id)
+          .set({});
+
+      return true;
+    } else {
+      return false;
+    }
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(
