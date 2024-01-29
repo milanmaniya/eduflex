@@ -80,6 +80,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 style: const TextStyle(fontSize: 17),
                 onChanged: (value) {},
                 onCompleted: (pin) {
+                  TTexts.otpPinValue = pin;
                   Logger().i(pin.toString());
                 },
               ),
