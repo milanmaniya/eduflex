@@ -1,12 +1,9 @@
 import 'dart:developer';
-
-import 'package:eduflex/common/widget/success_screen/success_screen.dart';
 import 'package:eduflex/screen/splash%20_screen/splash_service.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
@@ -137,14 +134,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       .signInWithCredential(credential)
                       .then((value) {
                     log('login success');
-                    Get.offAll(
-                      () => SucessScreen(
-                        title: TTexts.yourAccountCreatedTitle,
-                        subTitle: TTexts.yourAccountCreatedSubTitle,
-                        pressed: () => SplashService().navigate(),
-                        imageString: 'assets/animation/Success.gif',
-                      ),
-                    );
+                    SplashService().navigate();
                   });
                 },
                 child: const Text(
