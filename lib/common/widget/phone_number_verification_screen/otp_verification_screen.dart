@@ -37,7 +37,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
-                      "assets/otp.jpg",
+                      "assets/animation/otp_send.gif",
                     ),
                     fit: BoxFit.fill,
                   ),
