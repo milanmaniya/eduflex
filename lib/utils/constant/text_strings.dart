@@ -1,4 +1,7 @@
 class TTexts {
+  static String phoneNumberValue = '';
+  static String otpPinValue = '';
+
   static const String appName = 'Trendy';
   static const String submit = 'Submit';
   static const String tContinue = 'Continue';
