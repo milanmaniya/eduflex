@@ -8,16 +8,16 @@ import 'package:logger/logger.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 
-class OtpTextFieldScreen extends StatefulWidget {
-  const OtpTextFieldScreen({super.key, required this.verificationId});
+class OtpVerificationScreen extends StatefulWidget {
+  const OtpVerificationScreen({super.key, required this.verificationId});
 
   final String verificationId;
 
   @override
-  State<OtpTextFieldScreen> createState() => _OtpTextFieldScreenState();
+  State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
 }
 
-class _OtpTextFieldScreenState extends State<OtpTextFieldScreen> {
+class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final OtpFieldController _txtOtp = OtpFieldController();
 
   @override

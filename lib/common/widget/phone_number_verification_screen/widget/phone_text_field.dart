@@ -1,3 +1,4 @@
+import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -35,6 +36,8 @@ Widget commonPhoneField({
                 initialCountryCode: 'IN',
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
+                  TTexts.phoneNumberValue = value.number;
+
                   Logger().i(value.number);
                 },
               ),

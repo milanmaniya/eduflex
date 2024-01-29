@@ -1,7 +1,9 @@
+import 'package:eduflex/common/widget/phone_number_verification_screen/otp_verification_screen.dart';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/welcome_screen/welcome_screen.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -69,6 +71,32 @@ class AuthenticationReposotiry extends GetxController {
       TLoader.warningSnackBar(
           title: 'Email Send Verification', message: e.toString());
     }
+  }
+
+  //phone number verification
+  void sendOtp(
+      {required String phoneNumber, required BuildContext context}) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    await auth.verifyPhoneNumber(
+      phoneNumber: '+91$phoneNumber',
+      codeAutoRetrievalTimeout: (verificationId) {},
+      codeSent: (verificationId, forceResendingToken) {
+        Get.to(
+          () => OtpVerificationScreen(verificationId: verificationId),
+        );
+      },
+      verificationFailed: (error) {
+        TLoader.errorSnackBar(title: 'Oh Snap!', message: error.toString());
+      },
+      verificationCompleted: (phoneAuthCredential) {
+        TLoader.successSnackBar(
+          title: 'Otp send successfully!',
+          message: 'Verification complete successfully',
+        );
+      },
+      timeout: const Duration(seconds: 30),
+    );
   }
 
   //logout

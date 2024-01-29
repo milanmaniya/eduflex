@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:eduflex/authentication_repository/authentication_repository.dart';
 import 'package:eduflex/common/widget/phone_number_verification_screen/widget/phone_text_field.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: THelperFunction.screenHeight() * 0.40,
                 width: THelperFunction.screenWidth() * 0.8,
                 margin: EdgeInsets.symmetric(
-                    horizontal: THelperFunction.screenWidth() * 0.1),
+                  horizontal: THelperFunction.screenWidth() * 0.1,
+                ),
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/welcome.png"),
@@ -68,8 +70,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: _txtPhoneNumber,
                 context: context,
                 onTap: () {
-                  // FirebaseApiAuth()
-                  //     .sendOtp(phoneNumber: _controller.text, context: context);
+                  AuthenticationReposotiry().sendOtp(
+                    phoneNumber: _txtPhoneNumber.text,
+                    context: context,
+                  );
                   log(_txtPhoneNumber.text);
                 },
               ),
