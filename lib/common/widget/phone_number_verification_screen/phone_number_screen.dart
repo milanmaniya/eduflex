@@ -35,7 +35,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                 ),
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/welcome.png"),
+                    image: AssetImage("assets/animation/otp_send.gif"),
                     fit: BoxFit.fill,
                   ),
                 ),
