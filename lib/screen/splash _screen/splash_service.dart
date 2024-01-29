@@ -13,7 +13,9 @@ class SplashService {
   void navigate() {
     if (FirebaseAuth.instance.currentUser != null) {
       localStorage.read('phoneVerify') == false
-          ? Get.offAll(() => const PhoneNumberScreen())
+          ? Timer(const Duration(seconds: 3), () {
+              Get.offAll(() => const PhoneNumberScreen());
+            })
           : Timer(const Duration(seconds: 3), () {
               localStorage.read('Screen') == 'Teacher'
                   ? Get.offAll(() => const TeacherDashBoardScreen())

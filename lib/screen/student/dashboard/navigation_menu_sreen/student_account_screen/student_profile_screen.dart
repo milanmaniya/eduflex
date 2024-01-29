@@ -51,7 +51,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
 
             if (snapshot.hasData) {
               for (var element in snapshot.data!.docs) {
-                if (element.id == FirebaseAuth.instance.currentUser!.uid) {
+                if (element.id == FirebaseAuth.instance.currentUser?.uid) {
                   data.addAll(element.data());
                   log(data.toString());
                 }
