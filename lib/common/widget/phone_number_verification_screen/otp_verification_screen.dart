@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:eduflex/common/widget/success_screen/success_screen.dart';
 import 'package:eduflex/screen/splash%20_screen/splash_service.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
@@ -134,6 +136,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   FirebaseAuth.instance
                       .signInWithCredential(credential)
                       .then((value) {
+                    log('login success');
                     Get.offAll(
                       () => SucessScreen(
                         title: TTexts.yourAccountCreatedTitle,
@@ -147,7 +150,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 child: const Text(
                   "Verify",
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.white,
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   ),
