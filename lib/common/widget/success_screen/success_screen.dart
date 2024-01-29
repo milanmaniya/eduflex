@@ -24,7 +24,7 @@ class _SucessScreenState extends State<SucessScreen> {
   void initState() {
     final localStorage = GetStorage();
 
-    localStorage.write('phoneVerify', false);
+    localStorage.write('phoneVerify', true);
     super.initState();
   }
 
