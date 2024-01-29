@@ -4,6 +4,8 @@ import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:logger/logger.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
@@ -130,19 +132,21 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     verificationId: widget.verificationId,
                     smsCode: TTexts.otpPinValue,
                   );
-                  FirebaseAuth.instance.signInWithCredential(credential).then(
-                        (value) => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SucessScreen(
-                              title: TTexts.yourAccountCreatedTitle,
-                              subTitle: TTexts.yourAccountCreatedSubTitle,
-                              pressed: () => SplashService().navigate(),
-                              imageString: 'assets/animation/Success.gif',
-                            ),
-                          ),
-                        ),
-                      );
+                  FirebaseAuth.instance
+                      .signInWithCredential(credential)
+                      .then((value) {
+                    Get.offAll(
+                      () => SucessScreen(
+                        title: TTexts.yourAccountCreatedTitle,
+                        subTitle: TTexts.yourAccountCreatedSubTitle,
+                        pressed: () => SplashService().navigate(),
+                        imageString: 'assets/animation/Success.gif',
+                      ),
+                    );
+                    final localStorage = GetStorage();
+
+                    localStorage.writeIfNull('phoneVerify', true);
+                  });
                 },
                 child: const Text(
                   "Verify",

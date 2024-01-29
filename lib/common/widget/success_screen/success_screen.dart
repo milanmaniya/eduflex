@@ -2,8 +2,9 @@ import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
-class SucessScreen extends StatelessWidget {
+class SucessScreen extends StatefulWidget {
   const SucessScreen(
       {super.key,
       required this.title,
@@ -13,6 +14,19 @@ class SucessScreen extends StatelessWidget {
 
   final String title, subTitle, imageString;
   final VoidCallback? pressed;
+
+  @override
+  State<SucessScreen> createState() => _SucessScreenState();
+}
+
+class _SucessScreenState extends State<SucessScreen> {
+  @override
+  void initState() {
+    final localStorage = GetStorage();
+
+    localStorage.write('phoneVerify', false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +46,7 @@ class SucessScreen extends StatelessWidget {
             children: [
               Image(
                 image: AssetImage(
-                  imageString,
+                  widget.imageString,
                 ),
                 width: THelperFunction.screenWidth() * 0.6,
               ),
@@ -40,7 +54,7 @@ class SucessScreen extends StatelessWidget {
                 height: TSize.spaceBtwSections,
               ),
               Text(
-                title,
+                widget.title,
                 style: Theme.of(context).textTheme.headlineMedium,
                 textAlign: TextAlign.center,
               ),
@@ -48,7 +62,7 @@ class SucessScreen extends StatelessWidget {
                 height: TSize.spaceBtwItems,
               ),
               Text(
-                subTitle,
+                widget.subTitle,
                 style: Theme.of(context).textTheme.labelMedium,
                 textAlign: TextAlign.center,
               ),
@@ -58,7 +72,7 @@ class SucessScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: pressed,
+                  onPressed: widget.pressed,
                   child: const Text(TTexts.tContinue),
                 ),
               ),

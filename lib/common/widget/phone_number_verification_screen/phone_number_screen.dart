@@ -4,14 +4,14 @@ import 'package:eduflex/common/widget/phone_number_verification_screen/widget/ph
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class PhoneNumberScreen extends StatefulWidget {
+  const PhoneNumberScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<PhoneNumberScreen> createState() => _PhoneNumberScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
   final TextEditingController _txtPhoneNumber = TextEditingController();
 
   @override
