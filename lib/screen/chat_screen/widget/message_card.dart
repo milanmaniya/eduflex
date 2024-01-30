@@ -212,7 +212,7 @@ class _MessageCardState extends State<MessageCard> {
                   ),
                   textAlign: TextAlign.justify,
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 10,
                   ),
                 ),
@@ -344,7 +344,7 @@ class _MessageCardState extends State<MessageCard> {
       ),
     );
   }
-   }
+}
 
 class _OptionItem extends StatelessWidget {
   const _OptionItem({
