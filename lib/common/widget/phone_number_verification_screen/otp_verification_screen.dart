@@ -1,9 +1,11 @@
-import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/splash%20_screen/splash_service.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
+import 'package:eduflex/utils/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:logger/logger.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
@@ -19,6 +21,8 @@ class OtpVerificationScreen extends StatefulWidget {
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final OtpFieldController _txtOtp = OtpFieldController();
+
+  final localStorage = GetStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -134,8 +138,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   FirebaseAuth.instance
                       .signInWithCredential(credential)
                       .then((value) {
-                    log('login success');
+                    TLoader.successSnackBar(
+                      title: 'Congratulation',
+                      message: 'Phone Number Verified Successfully!',
+                    );
                     SplashService().navigate();
+                    FirebaseFirestore.instance
+                        .collection(localStorage.read('Screen'))
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .update({'phoneNumber': TTexts.phoneNumberValue});
                   });
                 },
                 child: const Text(
