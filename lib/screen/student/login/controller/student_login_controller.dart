@@ -4,6 +4,7 @@ import 'package:eduflex/common/widget/phone_number_verification_screen/phone_num
 import 'package:eduflex/screen/splash%20_screen/splash_service.dart';
 import 'package:eduflex/screen/student/model/student_model.dart';
 import 'package:eduflex/utils/popups/loader.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -43,39 +44,58 @@ class StudentLoginController extends GetxController {
 
     final time = DateTime.now().microsecondsSinceEpoch.toString();
 
-    final newStudent = Student(
-      div: '',
-      firstName: '',
-      lastName: '',
-      userName: userCredential.user!.displayName ?? '',
-      email: userCredential.user!.email ?? '',
-      phoneNumber: userCredential.user!.phoneNumber ?? '',
-      password: txtPassword.text.trim(),
-      fieldValue: '',
-      yearValue: '',
-      isOnline: false,
-      createAt: time,
-      image: userCredential.user!.photoURL ?? '',
-      pushToken: '',
-      id: userCredential.user!.uid,
-      about: '',
-      lastActive: '',
-    );
+    if (FirebaseAuth.instance.currentUser!.uid.isNotEmpty) {
+      FirebaseFirestore.instance
+          .collection(localStorage.read('Screen'))
+          .doc(userCredential.user!.uid)
+          .update({
+        'createAt': time,
+      }).then((value) {
+        Get.to(() => const PhoneNumberScreen());
 
-    FirebaseFirestore.instance
-        .collection(localStorage.read('Screen'))
-        .doc(userCredential.user!.uid)
-        .set(newStudent.toJson())
-        .then((value) {
-      Get.to(() => const PhoneNumberScreen());
-
-      TLoader.successSnackBar(
-        title: 'Congratulation',
-        message: 'Your account has been  created! Verify email to continue',
+        TLoader.successSnackBar(
+          title: 'Congratulation',
+          message: 'Your account has been created',
+        );
+      }).onError(
+        (error, stackTrace) =>
+            TLoader.errorSnackBar(title: 'Oh Snap! ', message: error),
       );
-    }).onError(
-      (error, stackTrace) =>
-          TLoader.errorSnackBar(title: 'Oh Snap! ', message: error),
-    );
+    } else {
+      final newStudent = Student(
+        div: '',
+        firstName: '',
+        lastName: '',
+        userName: userCredential.user!.displayName ?? '',
+        email: userCredential.user!.email ?? '',
+        phoneNumber: userCredential.user!.phoneNumber ?? '',
+        password: txtPassword.text.trim(),
+        fieldValue: '',
+        yearValue: '',
+        isOnline: false,
+        createAt: time,
+        image: userCredential.user!.photoURL ?? '',
+        pushToken: '',
+        id: userCredential.user!.uid,
+        about: '',
+        lastActive: '',
+      );
+
+      FirebaseFirestore.instance
+          .collection(localStorage.read('Screen'))
+          .doc(userCredential.user!.uid)
+          .set(newStudent.toJson())
+          .then((value) {
+        Get.to(() => const PhoneNumberScreen());
+
+        TLoader.successSnackBar(
+          title: 'Congratulation',
+          message: 'Your account has been created',
+        );
+      }).onError(
+        (error, stackTrace) =>
+            TLoader.errorSnackBar(title: 'Oh Snap! ', message: error),
+      );
+    }
   }
 }
