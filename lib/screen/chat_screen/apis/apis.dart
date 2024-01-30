@@ -80,8 +80,8 @@ class APIS {
 
     return _firebaseFirestore
         .collection(localStorage.read('Screen'))
-        .where('id', isNotEqualTo: _auth.currentUser!.uid)
-        // .where('id', whereIn: userIds)
+        // .where('id', isNotEqualTo: _auth.currentUser!.uid)
+        .where('id', whereIn: userIds)
         .snapshots();
   }
 
