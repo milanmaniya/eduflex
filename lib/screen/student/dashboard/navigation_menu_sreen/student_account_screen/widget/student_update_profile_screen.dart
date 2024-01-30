@@ -10,6 +10,7 @@ import 'package:eduflex/common/widget/login_signup/terms_and_condition.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/controller/studenr_account_controller.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
+import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -45,7 +46,6 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
     instance.txtUserName.text = widget.data['userName'];
     instance.txtEmail.text = widget.data['email'];
     instance.txtPassword.text = widget.data['password'];
-    instance.txtPhoneNumber.text = widget.data['phoneNumber'];
 
     return Scaffold(
       appBar: AppBar(
@@ -154,32 +154,6 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
                 decoration: const InputDecoration(
                   labelText: TTexts.email,
                   prefixIcon: Icon(Iconsax.direct),
-                ),
-              ),
-              const SizedBox(
-                height: TSize.spaceBtwItems,
-              ),
-              // phone number
-              TextFormField(
-                controller: instance.txtPhoneNumber,
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(10)
-                ],
-                validator: (value) {
-                  if (value == null) {
-                    return 'Phone Number is required';
-                  }
-
-                  if (value.length < 10) {
-                    return 'Phone Number is 10 digit required';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(
-                  labelText: TTexts.phoneNumber,
-                  prefixIcon: Icon(Iconsax.call),
                 ),
               ),
 
@@ -420,7 +394,12 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
                       _image = image.path;
                     });
 
-                    APIS.updateProfilePicture(File(_image!));
+                    APIS.updateProfilePicture(File(_image!)).then((value) {
+                      TLoader.successSnackBar(
+                        title: 'Congratulation',
+                        message: 'Your Profile Picture is updated',
+                      );
+                    });
 
                     Navigator.pop(context);
                   }
@@ -448,7 +427,12 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
                       _image = image.path;
                     });
 
-                    APIS.updateProfilePicture(File(_image!));
+                    APIS.updateProfilePicture(File(_image!)).then((value) {
+                      TLoader.successSnackBar(
+                        title: 'Congratulation',
+                        message: 'Your Profile Picture is updated',
+                      );
+                    });
 
                     Navigator.pop(context);
                   }

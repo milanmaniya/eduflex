@@ -10,6 +10,7 @@ import 'package:eduflex/common/widget/login_signup/terms_and_condition.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/controller/teacher_account_controller.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
+import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:form_validator/form_validator.dart';
@@ -39,7 +40,6 @@ class _TeacherUpdateProfileScreenState
     instance.txtUserName.text = widget.data['userName'];
     instance.txtEmail.text = widget.data['email'];
     instance.txtPassword.text = widget.data['password'];
-    instance.txtPhoneNumber.text = widget.data['phoneNumber'];
     instance.fieldValue.value = widget.data['fieldValue'];
     instance.yearValue.value = widget.data['yearValue'];
     instance.txtDegree.text = widget.data['degree'];
@@ -382,7 +382,12 @@ class _TeacherUpdateProfileScreenState
                         _image = image.path;
                       });
 
-                      APIS.updateProfilePicture(File(_image!));
+                      APIS.updateProfilePicture(File(_image!)).then((value) {
+                        TLoader.successSnackBar(
+                          title: 'Congratulation',
+                          message: 'Your Profile Picture is updated',
+                        );
+                      });
 
                       Navigator.pop(context);
                     }
@@ -403,7 +408,12 @@ class _TeacherUpdateProfileScreenState
                         _image = image.path;
                       });
 
-                      APIS.updateProfilePicture(File(_image!));
+                      APIS.updateProfilePicture(File(_image!)).then((value) {
+                        TLoader.successSnackBar(
+                          title: 'Congratulation',
+                          message: 'Your Profile Picture is updated',
+                        );
+                      });
 
                       Navigator.pop(context);
                     }
@@ -417,4 +427,4 @@ class _TeacherUpdateProfileScreenState
       ),
     );
   }
-   }
+}

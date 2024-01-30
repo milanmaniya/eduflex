@@ -20,7 +20,6 @@ class StudentAccountController extends GetxController {
   TextEditingController txtFirstName = TextEditingController();
   TextEditingController txtLatName = TextEditingController();
   TextEditingController txtUserName = TextEditingController();
-  TextEditingController txtPhoneNumber = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
   TextEditingController txtAbout = TextEditingController();
 
@@ -65,7 +64,6 @@ class StudentAccountController extends GetxController {
       'fieldValue': fieldValue.value.trim(),
       'yearValue': yearValue.value.trim(),
       'div': divValue.value.trim(),
-      'phoneNumber': txtPhoneNumber.text.trim(),
       'about': txtAbout.text.trim(),
     }).then((value) {
       TLoader.successSnackBar(
