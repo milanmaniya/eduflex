@@ -66,9 +66,11 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                   borderRadius: BorderRadius.circular(100),
                   child: CachedNetworkImage(
                     height: 120,
-                    width: 120,
+                    width: 120, 
                     fit: BoxFit.cover,
                     imageUrl: data['image'],
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
                     errorWidget: (context, url, error) => const CircleAvatar(
                       child: Icon(Iconsax.people),
                     ),
