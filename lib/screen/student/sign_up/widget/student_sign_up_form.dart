@@ -4,7 +4,6 @@ import 'package:eduflex/screen/student/sign_up/controller/student_sign_up_contro
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:get/get.dart';
@@ -83,32 +82,6 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
             decoration: const InputDecoration(
               labelText: TTexts.email,
               prefixIcon: Icon(Iconsax.direct),
-            ),
-          ),
-          const SizedBox(
-            height: TSize.spaceBtwItems,
-          ),
-          // phone number
-          TextFormField(
-            controller: instance.txtPhoneNumber,
-            keyboardType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              LengthLimitingTextInputFormatter(10)
-            ],
-            validator: (value) {
-              if (value == null) {
-                return 'Phone Number is required';
-              }
-
-              if (value.length < 10) {
-                return 'Phone Number is 10 digit required';
-              }
-              return null;
-            },
-            decoration: const InputDecoration(
-              labelText: TTexts.phoneNumber,
-              prefixIcon: Icon(Iconsax.call),
             ),
           ),
 

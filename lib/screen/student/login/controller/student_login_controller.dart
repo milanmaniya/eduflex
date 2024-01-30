@@ -51,8 +51,7 @@ class StudentLoginController extends GetxController {
           .update({
         'createAt': time,
       }).then((value) {
-        Get.to(() => const PhoneNumberScreen());
-
+        SplashService().navigate();
         TLoader.successSnackBar(
           title: 'Congratulation',
           message: 'Your account has been created',

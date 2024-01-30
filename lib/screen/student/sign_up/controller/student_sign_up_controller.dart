@@ -20,7 +20,6 @@ class StudentSignUpController extends GetxController {
   TextEditingController txtFirstName = TextEditingController();
   TextEditingController txtLatName = TextEditingController();
   TextEditingController txtUserName = TextEditingController();
-  TextEditingController txtPhoneNumber = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
   TextEditingController txtAbout = TextEditingController();
 
@@ -53,9 +52,6 @@ class StudentSignUpController extends GetxController {
   ];
 
   void iaAuthentication() async {
-
-    
-
     final userCredential =
         await AuthenticationReposotiry().registerWithEmailAndPassword(
       email: txtEmail.text.trim(),
@@ -69,7 +65,7 @@ class StudentSignUpController extends GetxController {
       lastName: txtLatName.text.trim(),
       userName: txtUserName.text.trim(),
       email: txtEmail.text.trim(),
-      phoneNumber: txtPhoneNumber.text.trim(),
+      phoneNumber: '',
       password: txtPassword.text.trim(),
       fieldValue: fieldValue.value,
       yearValue: yearValue.value,
