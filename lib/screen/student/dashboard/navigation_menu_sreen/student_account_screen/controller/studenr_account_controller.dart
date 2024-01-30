@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/student_profile_screen.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +52,7 @@ class StudentAccountController extends GetxController {
     'DIV-4',
   ];
 
-  Future<void> updateData() async {
+  Future<void> updateData(BuildContext context) async {
     await FirebaseFirestore.instance
         .collection(localStorage.read('Screen'))
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -72,7 +71,7 @@ class StudentAccountController extends GetxController {
       TLoader.successSnackBar(
           title: 'Update Data', message: 'Data Updated Successfully');
 
-      Get.off(() => const StudentProfileScreen());
+      Navigator.pop(context);
     }).onError((error, stackTrace) {
       TLoader.errorSnackBar(title: 'Oh Snap! ', message: error.toString());
     });
