@@ -80,14 +80,20 @@ class _ChatScreenState extends State<ChatScreen> {
         },
       ),
       body: StreamBuilder(
-          stream: APIS.getMyUserId(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting ||
-                snapshot.connectionState == ConnectionState.none) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+        stream: APIS.getMyUserId(),
+        builder: (context, snapshot) {
+          final userId = [];
+
+          if (snapshot.connectionState == ConnectionState.waiting ||
+              snapshot.connectionState == ConnectionState.none) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+ 
+          if (snapshot.hasData) {
+            log(snapshot.data!.docs.map((e) => e.id).toList().toString());
+            userId.add(snapshot.data!.docs.map((e) => e.id).toList());
 
             return StreamBuilder(
               stream: APIS.getAllUser(
@@ -130,7 +136,13 @@ class _ChatScreenState extends State<ChatScreen> {
                 }
               },
             );
-          }),
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 

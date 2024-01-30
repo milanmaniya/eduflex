@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/chat_screen/widget/chat_user_card.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -67,6 +68,8 @@ class _ChatSearchScreenState extends State<ChatSearchScreen> {
                             value.toLowerCase(),
                           ),
                     )
+                    .where((element) =>
+                        element['id'] != FirebaseAuth.instance.currentUser!.uid)
                     .toList();
 
                 if (value.isEmpty) {

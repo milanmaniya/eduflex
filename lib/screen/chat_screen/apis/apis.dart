@@ -74,6 +74,17 @@ class APIS {
         .snapshots();
   }
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser(
+      List<String> userIds) {
+    Logger().i('My User Id: $userIds');
+
+    return _firebaseFirestore
+        .collection(localStorage.read('Screen'))
+        .where('id', isNotEqualTo: _auth.currentUser!.uid)
+        // .where('id', whereIn: userIds)
+        .snapshots();
+  }
+
   static Future<void> sendFirstMessage({
     required String id,
     required String msg,
@@ -90,14 +101,6 @@ class APIS {
       sendMessage(
           id: id, msg: msg, type: type, title: title, pushToken: pushToken);
     });
-  }
-
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser(
-      List<String> userIds) {
-    return _firebaseFirestore
-        .collection(localStorage.read('Screen'))
-        .where('id', whereIn: userIds)
-        .snapshots();
   }
 
   static Future<void> updateProfilePicture(File file) async {
