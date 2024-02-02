@@ -37,9 +37,7 @@ class _TeacherAccountScreenState extends State<TeacherAccountScreen> {
           top: 10,
         ),
         child: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection(localStorage.read('Screen'))
-              .snapshots(),
+          stream: FirebaseFirestore.instance.collection('Teacher').snapshots(),
           builder: (context, snapshot) {
             Map<String, dynamic> data = {};
 
@@ -76,7 +74,6 @@ class _TeacherAccountScreenState extends State<TeacherAccountScreen> {
                     ),
                   ),
                 ),
-
                 const SizedBox(
                   height: 10,
                 ),
@@ -96,11 +93,13 @@ class _TeacherAccountScreenState extends State<TeacherAccountScreen> {
                 SizedBox(
                   width: 300,
                   child: ElevatedButton(
-                    onPressed: () => Get.to(
-                      () => TeacherUpdateProfileScreen(
-                        data: data,
-                      ),
-                    ),
+                    onPressed: () {
+                      Get.to(
+                        () => TeacherUpdateProfileScreen(
+                          data: data,
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       side: BorderSide.none,
                       shape: const StadiumBorder(),

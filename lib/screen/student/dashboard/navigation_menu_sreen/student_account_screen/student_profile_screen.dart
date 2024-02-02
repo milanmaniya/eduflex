@@ -37,9 +37,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
           top: 10,
         ),
         child: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection(localStorage.read('Screen'))
-              .snapshots(),
+          stream: FirebaseFirestore.instance.collection('Student').snapshots(),
           builder: (context, snapshot) {
             Map<String, dynamic> data = {};
 
@@ -66,7 +64,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                   borderRadius: BorderRadius.circular(100),
                   child: CachedNetworkImage(
                     height: 120,
-                    width: 120, 
+                    width: 120,
                     fit: BoxFit.cover,
                     imageUrl: data['image'],
                     placeholder: (context, url) =>
