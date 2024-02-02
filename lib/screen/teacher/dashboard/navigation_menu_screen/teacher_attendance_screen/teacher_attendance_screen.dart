@@ -1,6 +1,7 @@
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/widget/classes_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/widget/notes_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/widget/reminder_screen.dart';
+import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';
 
 class TeacherAttendanceScreen extends StatefulWidget {
@@ -25,7 +26,11 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        padding: const EdgeInsets.only(
+          top: TSize.appBarHeight,
+          left: 10,
+          right: 10,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -56,10 +61,13 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen>
                 ),
                 tabs: const [
                   Tab(
-                    text: 'Tuition',
+                    text: 'Class',
                   ),
                   Tab(
-                    text: 'Online Courses',
+                    text: 'Notes',
+                  ),
+                  Tab(
+                    text: 'Remainder',
                   ),
                 ],
               ),
