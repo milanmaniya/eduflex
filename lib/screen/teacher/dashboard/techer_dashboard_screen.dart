@@ -1,7 +1,7 @@
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_screen/teacher_home_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/teacher_account_screen.dart';
 import 'package:eduflex/screen/chat_screen/chat_screen.dart';
-import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen.dart'eacher_notice_screen.dart';
+import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/teacher_attendance_screen.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -58,7 +58,7 @@ class NavigationMenuController extends GetxController {
   final screenList = [
     const TeacherHomeScreen(),
     const ChatScreen(),
-    const TeacherNoticeScreen(),
+    const TeacherAttendanceScreen(),
     const TeacherAccountScreen(),
   ];
 }

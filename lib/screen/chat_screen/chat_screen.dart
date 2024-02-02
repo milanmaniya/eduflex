@@ -147,7 +147,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _showAddChatUserDialog() {
-    String _email = '';
+    String email = '';
 
     showDialog(
       context: context,
@@ -174,7 +174,7 @@ class _ChatScreenState extends State<ChatScreen> {
         content: TextFormField(
           onChanged: (value) {
             setState(() {
-              _email = value;
+              email = value;
             });
           },
           maxLines: null,
@@ -197,8 +197,8 @@ class _ChatScreenState extends State<ChatScreen> {
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
-              if (_email.isNotEmpty) {
-                await APIS.addChatUser(_email.toString()).then((value) {
+              if (email.isNotEmpty) {
+                await APIS.addChatUser(email.toString()).then((value) {
                   if (!value) {
                     TLoader.errorSnackBar(
                         title: 'Oh Snap! ', message: 'User Does Not Exists!');
