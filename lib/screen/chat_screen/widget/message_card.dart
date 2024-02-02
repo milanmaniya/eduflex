@@ -205,7 +205,7 @@ class _MessageCardState extends State<MessageCard> {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                Text( 
                   THelperFunction.timeFormat(
                     context: context,
                     time: widget.message.sent,
