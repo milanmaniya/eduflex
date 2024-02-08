@@ -103,7 +103,7 @@ class APIS {
     });
   }
 
-  static Future<void> updateProfilePicture(File file) async {
+  static Future<void> updateProfilePicture(File file, String id) async {
     final extension = file.path.split('.').last;
     Logger().i(extension.toString());
     final ref = _firebaseStorage
@@ -117,7 +117,7 @@ class APIS {
 
     _firebaseFirestore
         .collection(localStorage.read('Screen'))
-        .doc(_auth.currentUser!.uid)
+        .doc(id)
         .update({
       'image': downloadUrl,
     });

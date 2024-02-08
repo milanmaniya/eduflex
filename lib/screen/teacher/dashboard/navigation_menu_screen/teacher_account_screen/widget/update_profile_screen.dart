@@ -382,7 +382,10 @@ class _TeacherUpdateProfileScreenState
                         _image = image.path;
                       });
 
-                      APIS.updateProfilePicture(File(_image!)).then((value) {
+                      APIS
+                          .updateProfilePicture(
+                              File(_image!), widget.data['id'])
+                          .then((value) {
                         TLoader.successSnackBar(
                           title: 'Congratulation',
                           message: 'Your Profile Picture is updated',
@@ -408,7 +411,10 @@ class _TeacherUpdateProfileScreenState
                         _image = image.path;
                       });
 
-                      APIS.updateProfilePicture(File(_image!)).then((value) {
+                      APIS
+                          .updateProfilePicture(
+                              File(_image!), widget.data['id'])
+                          .then((value) {
                         TLoader.successSnackBar(
                           title: 'Congratulation',
                           message: 'Your Profile Picture is updated',

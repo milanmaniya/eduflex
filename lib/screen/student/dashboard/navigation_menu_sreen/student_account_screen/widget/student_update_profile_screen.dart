@@ -32,11 +32,13 @@ class StudentUpdateProfile extends StatefulWidget {
 
 class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
   String? _image;
+
   @override
   Widget build(BuildContext context) {
     final instance = Get.put(StudentAccountController());
 
     instance.fieldValue.value = widget.data['fieldValue'];
+    String id = widget.data['id'];
     instance.txtAbout.text = widget.data['about'];
     instance.yearValue.value = widget.data['yearValue'];
     instance.divValue.value = widget.data['div'];
@@ -45,7 +47,6 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
     instance.txtUserName.text = widget.data['userName'];
     instance.txtEmail.text = widget.data['email'];
     instance.txtPassword.text = widget.data['password'];
-    String id = widget.data['id'];
 
     log(id.toString());
 
@@ -396,7 +397,9 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
                       _image = image.path;
                     });
 
-                    APIS.updateProfilePicture(File(_image!)).then((value) {
+                    APIS
+                        .updateProfilePicture(File(_image!), widget.data['id'])
+                        .then((value) {
                       TLoader.successSnackBar(
                         title: 'Congratulation',
                         message: 'Your Profile Picture is updated',
@@ -429,7 +432,9 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
                       _image = image.path;
                     });
 
-                    APIS.updateProfilePicture(File(_image!)).then((value) {
+                    APIS
+                        .updateProfilePicture(File(_image!), widget.data['id'])
+                        .then((value) {
                       TLoader.successSnackBar(
                         title: 'Congratulation',
                         message: 'Your Profile Picture is updated',

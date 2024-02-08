@@ -33,9 +33,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
         centerTitle: true,
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection(localStorage.read('Screen'))
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('Student').snapshots(),
         builder: (context, snapshot) {
           final data = [];
 
