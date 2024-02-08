@@ -207,7 +207,7 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
                     isExpanded: true,
                     hint: Text(
                       instance.fieldValue.isEmpty
-                          ? 'Select Item'
+                          ? 'Select Field'
                           : instance.fieldValue.value,
                     ),
                     items: const [
@@ -242,7 +242,7 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
                     isExpanded: true,
                     hint: Text(
                       instance.yearValue.isEmpty
-                          ? 'Select Item'
+                          ? 'Select Year'
                           : instance.yearValue.value,
                     ),
                     items: instance.fieldValue.value == 'BBA'
@@ -284,7 +284,7 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
                     isExpanded: true,
                     hint: Text(
                       instance.divValue.isEmpty
-                          ? 'Select Item'
+                          ? 'Select Divison'
                           : instance.divValue.value,
                     ),
                     items: instance.div
