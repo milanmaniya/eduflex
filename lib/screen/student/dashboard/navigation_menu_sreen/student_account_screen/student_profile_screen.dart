@@ -1,11 +1,11 @@
 import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/authentication_repository/authentication_repository.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/widget/student_information_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/widget/student_update_profile_screen.dart';
 import 'package:eduflex/utils/constant/colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -32,124 +32,120 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.only(
-          top: 10,
-        ),
-        child: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('Student').snapshots(),
-          builder: (context, snapshot) {
-            Map<String, dynamic> data = {};
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection(localStorage.read('Screen'))
+            .snapshots(),
+        builder: (context, snapshot) {
+          final data = [];
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            if (snapshot.hasData) {
-              for (var element in snapshot.data!.docs) {
-                if (element.id == FirebaseAuth.instance.currentUser!.uid) {
-                  data.addAll(element.data());
-                  log(data.toString());
-                }
-              }
-            }
-
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: CachedNetworkImage(
-                    height: 120,
-                    width: 120,
-                    fit: BoxFit.cover,
-                    imageUrl: data['image'],
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => const CircleAvatar(
-                      child: Icon(Iconsax.people),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  data['userName'],
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                Text(
-                  data['email'],
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 300,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Get.to(
-                        () => StudentUpdateProfile(
-                          data: data,
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      side: BorderSide.none,
-                      shape: const StadiumBorder(),
-                    ),
-                    child: const Text('Edit Profile'),
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                const Divider(),
-                const SizedBox(
-                  height: 10,
-                ),
-
-                // Menu
-                ProfileMenuWidget(
-                  icon: LineAwesomeIcons.cog,
-                  menuName: 'Setting',
-                  onTap: () {},
-                ),
-                ProfileMenuWidget(
-                  icon: LineAwesomeIcons.user_check,
-                  menuName: 'Blocked Student',
-                  onTap: () {},
-                ),
-                const Divider(),
-                const SizedBox(
-                  height: 10,
-                ),
-                ProfileMenuWidget(
-                  icon: LineAwesomeIcons.info,
-                  menuName: 'Information',
-                  onTap: () => Get.to(
-                    () => StudentInformationScreen(data: data),
-                  ),
-                ),
-                ProfileMenuWidget(
-                  icon: LineAwesomeIcons.alternate_sign_out,
-                  menuName: 'Logout',
-                  endIcon: false,
-                  textColor: Colors.red,
-                  onTap: () {
-                    AuthenticationReposotiry.instance.logout();
-                  },
-                ),
-              ],
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          },
-        ),
+          }
+
+          for (var element in snapshot.data!.docs) {
+            log(element.id.toString());
+
+            data.add(element.data());
+
+            log(data.toString());
+          }
+
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: CachedNetworkImage(
+                  height: 120,
+                  width: 120,
+                  fit: BoxFit.cover,
+                  imageUrl: data[0]['image'],
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const CircleAvatar(
+                    child: Icon(Iconsax.people),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                data[0]['userName'],
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              Text(
+                data[0]['email'],
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: 300,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Get.to(
+                      () => StudentUpdateProfile(
+                        data: data[0],
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    side: BorderSide.none,
+                    shape: const StadiumBorder(),
+                  ),
+                  child: const Text('Edit Profile'),
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              const Divider(),
+              const SizedBox(
+                height: 10,
+              ),
+
+              // Menu
+              ProfileMenuWidget(
+                icon: LineAwesomeIcons.cog,
+                menuName: 'Setting',
+                onTap: () {},
+              ),
+              ProfileMenuWidget(
+                icon: LineAwesomeIcons.user_check,
+                menuName: 'Blocked Student',
+                onTap: () {},
+              ),
+              const Divider(),
+              const SizedBox(
+                height: 10,
+              ),
+              ProfileMenuWidget(
+                icon: LineAwesomeIcons.info,
+                menuName: 'Information',
+                onTap: () => Get.to(
+                  () => StudentInformationScreen(data: data[0]),
+                ),
+              ),
+              ProfileMenuWidget(
+                icon: LineAwesomeIcons.alternate_sign_out,
+                menuName: 'Logout',
+                endIcon: false,
+                textColor: Colors.red,
+                onTap: () {
+                  AuthenticationReposotiry.instance.logout();
+                },
+              ),
+            ],
+          );
+        },
       ),
     );
   }
