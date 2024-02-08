@@ -104,15 +104,15 @@ class AuthenticationReposotiry extends GetxController {
     try {
       APIS.updateActiveStatus(false);
 
-      await FirebaseAuth.instance.signOut();
-      await GoogleSignIn().signOut();
-
-      TLoader.successSnackBar(
-          title: 'User Logout', message: 'User Logout Successfully');
-
-      Get.offAll(() => const WelcomeScreen());
+      await GoogleSignIn().signOut().then((value) {
+        FirebaseAuth.instance.signOut().then((value) {
+          Get.offAll(() => const WelcomeScreen());
+          TLoader.successSnackBar(
+              title: 'User Logout', message: 'User Logout Successfully');
+        });
+      });
     } catch (e) {
-      TLoader.warningSnackBar(title: '', message: e.toString());
+      TLoader.warningSnackBar(title: 'Oh Snap! ', message: e.toString());
     }
   }
 

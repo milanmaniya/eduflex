@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 
 class StudentSignUpForm extends StatefulWidget {
@@ -136,7 +137,7 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
                 isExpanded: true,
                 hint: Text(
                   instance.fieldValue.isEmpty
-                      ? 'Select Item'
+                      ? 'Select Field'
                       : instance.fieldValue.value,
                 ),
                 items: const [
@@ -171,7 +172,7 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
                 isExpanded: true,
                 hint: Text(
                   instance.yearValue.isEmpty
-                      ? 'Select Item'
+                      ? 'Select Year'
                       : instance.yearValue.value,
                 ),
                 items: instance.fieldValue.value == 'BBA'
@@ -213,7 +214,7 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
                 isExpanded: true,
                 hint: Text(
                   instance.divValue.isEmpty
-                      ? 'Select Item'
+                      ? 'Select Divison'
                       : instance.divValue.value,
                 ),
                 items: instance.div
