@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/utils/popups/loader.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -51,11 +50,8 @@ class StudentAccountController extends GetxController {
     'DIV-4',
   ];
 
-  Future<void> updateData(BuildContext context) async {
-    await FirebaseFirestore.instance
-        .collection(localStorage.read('Screen'))
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .update({
+  Future<void> updateData(BuildContext context, String id) async {
+    await FirebaseFirestore.instance.collection('Student').doc(id).update({
       'lastName': txtLatName.text.trim(),
       'firstName': txtFirstName.text.trim(),
       'email': txtEmail.text.trim(),

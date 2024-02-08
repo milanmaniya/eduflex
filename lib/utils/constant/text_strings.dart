@@ -49,6 +49,7 @@ class TTexts {
   // authentication Form text
 
   static const String firstName = 'First Name';
+  static const String updateAccount = 'Update Account';
   static const String done = 'Done';
   static const String and = 'And';
   static const String lastName = 'Last Name';

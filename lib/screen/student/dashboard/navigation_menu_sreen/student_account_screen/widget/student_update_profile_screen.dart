@@ -45,6 +45,9 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
     instance.txtUserName.text = widget.data['userName'];
     instance.txtEmail.text = widget.data['email'];
     instance.txtPassword.text = widget.data['password'];
+    String id = widget.data['id'];
+
+    log(id.toString());
 
     return Scaffold(
       appBar: AppBar(
@@ -331,10 +334,10 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (instance.key.currentState!.validate()) {
-                      instance.updateData(context);
+                      instance.updateData(context, id);
                     }
                   },
-                  child: const Text(TTexts.createAccount),
+                  child: const Text(TTexts.updateAccount),
                 ),
               ),
             ],
