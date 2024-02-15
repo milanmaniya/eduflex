@@ -40,6 +40,10 @@ class AuthenticationReposotiry extends GetxController {
       );
       return user;
     } catch (e) {
+      TLoader.errorSnackBar(
+          title: '',
+          message:
+              'This Email Address is already used, please try another email address');
       throw 'Sometimes went wrong. Please try again';
     }
   }
