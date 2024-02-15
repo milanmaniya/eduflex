@@ -26,7 +26,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
 
-    Logger().i(FirebaseAuth.instance.currentUser!.uid.toString());
+    Logger().i(FirebaseAuth.instance.currentUser!.uid.toUpperCase());
 
     APIS.getFirebaseMessagingToken();
 

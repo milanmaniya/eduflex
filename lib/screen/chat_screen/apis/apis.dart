@@ -66,13 +66,13 @@ class APIS {
     });
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUserId() {
-    return _firebaseFirestore
-        .collection(localStorage.read('Screen'))
-        .doc(_auth.currentUser!.uid)
-        .collection('my_users')
-        .snapshots();
-  }
+  // static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUserId() {
+  //   return _firebaseFirestore
+  //       .collection(localStorage.read('Screen'))
+  //       .doc(_auth.currentUser!.uid)
+  //       .collection('my_users')
+  //       .snapshots();
+  // }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser() {
     return _firebaseFirestore
