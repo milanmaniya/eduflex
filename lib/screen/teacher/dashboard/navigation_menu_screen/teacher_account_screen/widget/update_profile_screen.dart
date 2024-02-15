@@ -346,13 +346,14 @@ class _TeacherUpdateProfileScreenState
         ),
       ),
       builder: (context) => Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 10,
+        padding: const EdgeInsets.only(
+          bottom: 30,
+          left: 15,
+          right: 15,
+          top: 10,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
@@ -366,68 +367,72 @@ class _TeacherUpdateProfileScreenState
             const SizedBox(
               height: TSize.spaceBtwItems,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton.icon(
-                  icon: const Icon(Iconsax.camera),
-                  onPressed: () async {
-                    final ImagePicker picker = ImagePicker();
-                    final XFile? image = await picker.pickImage(
-                      source: ImageSource.camera,
-                    );
-                    if (image != null) {
-                      log(image.path.toString());
+            SizedBox(
+              width: double.infinity,
+              height: 60,
+              child: ElevatedButton.icon(
+                icon: const Icon(Iconsax.camera),
+                onPressed: () async {
+                  final ImagePicker picker = ImagePicker();
+                  final XFile? image = await picker.pickImage(
+                    source: ImageSource.camera,
+                  );
+                  if (image != null) {
+                    log(image.path.toString());
 
-                      setState(() {
-                        _image = image.path;
-                      });
+                    setState(() {
+                      _image = image.path;
+                    });
 
-                      APIS
-                          .updateProfilePicture(
-                              File(_image!), widget.data['id'])
-                          .then((value) {
-                        TLoader.successSnackBar(
-                          title: 'Congratulation',
-                          message: 'Your Profile Picture is updated',
-                        );
-                      });
+                    APIS
+                        .updateProfilePicture(File(_image!), widget.data['id'])
+                        .then((value) {
+                      TLoader.successSnackBar(
+                        title: 'Congratulation',
+                        message: 'Your Profile Picture is updated',
+                      );
+                    });
 
-                      Navigator.pop(context);
-                    }
-                  },
-                  label: const Text('Camera'),
-                ),
-                ElevatedButton.icon(
-                  icon: const Icon(Iconsax.gallery),
-                  onPressed: () async {
-                    final ImagePicker picker = ImagePicker();
-                    final XFile? image = await picker.pickImage(
-                      source: ImageSource.gallery,
-                    );
-                    if (image != null) {
-                      log(image.path.toString());
+                    Navigator.pop(context);
+                  }
+                },
+                label: const Text('Camera'),
+              ),
+            ),
+            const SizedBox(
+              height: TSize.spaceBtwItems,
+            ),
+            SizedBox(
+              width: double.infinity,
+              height: 60,
+              child: ElevatedButton.icon(
+                icon: const Icon(Iconsax.gallery),
+                onPressed: () async {
+                  final ImagePicker picker = ImagePicker();
+                  final XFile? image = await picker.pickImage(
+                    source: ImageSource.gallery,
+                  );
+                  if (image != null) {
+                    log(image.path.toString());
 
-                      setState(() {
-                        _image = image.path;
-                      });
+                    setState(() {
+                      _image = image.path;
+                    });
 
-                      APIS
-                          .updateProfilePicture(
-                              File(_image!), widget.data['id'])
-                          .then((value) {
-                        TLoader.successSnackBar(
-                          title: 'Congratulation',
-                          message: 'Your Profile Picture is updated',
-                        );
-                      });
+                    APIS
+                        .updateProfilePicture(File(_image!), widget.data['id'])
+                        .then((value) {
+                      TLoader.successSnackBar(
+                        title: 'Congratulation',
+                        message: 'Your Profile Picture is updated',
+                      );
+                    });
 
-                      Navigator.pop(context);
-                    }
-                  },
-                  label: const Text('Gallery'),
-                ),
-              ],
+                    Navigator.pop(context);
+                  }
+                },
+                label: const Text('Gallery'),
+              ),
             ),
           ],
         ),

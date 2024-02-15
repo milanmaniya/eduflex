@@ -92,32 +92,27 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
               startActionPane: ActionPane(
                 motion: const StretchMotion(),
                 children: [
-                  localStorage.read('Screen') == 'Student'
-                      ? SlidableAction(
-                          onPressed: (context) {
-                            downloadPdf(
-                                pdfData![index]['downloadUrl'].toString());
-                          },
-                          autoClose: true,
-                          backgroundColor: const Color(0xFF21B7CA),
-                          foregroundColor: Colors.white,
-                          icon: Icons.download,
-                          label: 'Download',
-                        )
-                      : const SizedBox(),
-                  localStorage.read('Screen') == ' Teacher'
-                      ? SlidableAction(
-                          autoClose: true,
-                          backgroundColor: const Color(0xFFFE4A49),
-                          onPressed: (context) => deletePdf(
-                            pdfData![index]['downloadUrl'].toString(),
-                            pdfData[index]['Name'].toString(),
-                          ),
-                          foregroundColor: Colors.white,
-                          icon: Icons.delete,
-                          label: 'Delete',
-                        )
-                      : const SizedBox(),
+                  SlidableAction(
+                    onPressed: (context) {
+                      downloadPdf(pdfData![index]['downloadUrl'].toString());
+                    },
+                    autoClose: true,
+                    backgroundColor: const Color(0xFF21B7CA),
+                    foregroundColor: Colors.white,
+                    icon: Icons.download,
+                    label: 'Download',
+                  ),
+                  SlidableAction(
+                    autoClose: true,
+                    backgroundColor: const Color(0xFFFE4A49),
+                    onPressed: (context) => deletePdf(
+                      pdfData![index]['downloadUrl'].toString(),
+                      pdfData[index]['Name'].toString(),
+                    ),
+                    foregroundColor: Colors.white,
+                    icon: Icons.delete,
+                    label: 'Delete',
+                  )
                 ],
               ),
               child: InkWell(
@@ -130,6 +125,9 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
                 },
                 child: Card(
                   child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                    ),
                     alignment: Alignment.center,
                     height: 100,
                     decoration: BoxDecoration(
