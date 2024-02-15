@@ -92,16 +92,29 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
               startActionPane: ActionPane(
                 motion: const StretchMotion(),
                 children: [
-                  SlidableAction(
-                    onPressed: (context) {
-                      downloadPdf(pdfData![index]['downloadUrl'].toString());
-                    },
-                    autoClose: true,
-                    backgroundColor: const Color(0xFF21B7CA),
-                    foregroundColor: Colors.white,
-                    icon: Icons.download,
-                    label: 'Download',
-                  ),
+                  localStorage.read('Screen') == 'Student'
+                      ? SlidableAction(
+                          onPressed: (context) {
+                            downloadPdf(
+                                pdfData![index]['downloadUrl'].toString());
+                          },
+                          autoClose: true,
+                          backgroundColor: const Color(0xFF21B7CA),
+                          foregroundColor: Colors.white,
+                          icon: Icons.download,
+                          label: 'Download',
+                        )
+                      : SlidableAction(
+                          onPressed: (context) {
+                            downloadPdf(
+                                pdfData![index]['downloadUrl'].toString());
+                          },
+                          autoClose: true,
+                          backgroundColor: const Color(0xFF21B7CA),
+                          foregroundColor: Colors.white,
+                          icon: Icons.download,
+                          label: 'Download',
+                        ),
                   SlidableAction(
                     autoClose: true,
                     backgroundColor: const Color(0xFFFE4A49),
