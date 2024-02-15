@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/authentication_repository/authentication_repository.dart';
-import 'package:eduflex/screen/splash%20_screen/splash_service.dart';
+
+import 'package:eduflex/common/widget/phone_number_verification_screen/phone_number_screen.dart';
 import 'package:eduflex/screen/teacher/model/teacher_model.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
@@ -67,11 +68,11 @@ class TeacherSignUpController extends GetxController {
         .doc(userCredential.user!.uid)
         .set(newTeacher.toJson())
         .then((value) {
-      SplashService().navigate();
+      Get.to(() => const PhoneNumberScreen());
 
       TLoader.successSnackBar(
         title: 'Congratulation',
-        message: 'Your account has been created! Verify email to continue',
+        message: 'Your account has been created! Verify your phone number to continue',
       );
     }).onError(
       (error, stackTrace) =>
