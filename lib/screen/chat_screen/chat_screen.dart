@@ -3,7 +3,6 @@ import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/chat_screen/widget/chat_search_screen.dart';
 import 'package:eduflex/screen/chat_screen/widget/chat_user_card.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
-import 'package:eduflex/utils/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -83,9 +82,9 @@ class _ChatScreenState extends State<ChatScreen> {
         },
       ),
       body: StreamBuilder(
-        stream: APIS.getMyUserId(),
+        stream: APIS.getAllUser(),
         builder: (context, snapshot) {
-          final userId = [];
+          final List<Map<String, dynamic>> data = [];
 
           if (snapshot.connectionState == ConnectionState.waiting ||
               snapshot.connectionState == ConnectionState.none) {
@@ -93,55 +92,31 @@ class _ChatScreenState extends State<ChatScreen> {
               child: CircularProgressIndicator(),
             );
           }
-
           if (snapshot.hasData) {
-            log(snapshot.data!.docs.map((e) => e.id).toList().toString());
-            userId.add(snapshot.data!.docs.map((e) => e.id).toList());
+            for (var element in snapshot.data!.docs) {
+              data.add(element.data());
+              log(data.toString());
+            }
+          }
 
-            return StreamBuilder(
-              stream: APIS.getAllUser(
-                  snapshot.data?.docs.map((e) => e.id).toList() ?? []),
-              builder: (context, snapshot) {
-                final List<Map<String, dynamic>> data = [];
-
-                if (snapshot.connectionState == ConnectionState.waiting ||
-                    snapshot.connectionState == ConnectionState.none) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (snapshot.hasData) {
-                  for (var element in snapshot.data!.docs) {
-                    data.add(element.data());
-                    log(data.toString());
-                  }
-                }
-
-                if (data.isNotEmpty) {
-                  return ListView.separated(
-                    physics: const BouncingScrollPhysics(),
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 5,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 10,
-                    ),
-                    itemCount: data.length,
-                    itemBuilder: (context, index) => ChatUserCard(
-                      data: data[index],
-                    ),
-                  );
-                } else {
-                  return const Center(
-                    child: Text('No Connection Found!'),
-                  );
-                }
-              },
+          if (data.isNotEmpty) {
+            return ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 5,
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 10,
+              ),
+              itemCount: data.length,
+              itemBuilder: (context, index) => ChatUserCard(
+                data: data[index],
+              ),
             );
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: Text('No Connection Found!'),
             );
           }
         },
@@ -150,8 +125,6 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _showAddChatUserDialog() {
-    String email = '';
-
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -176,9 +149,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         content: TextFormField(
           onChanged: (value) {
-            setState(() {
-              email = value;
-            });
+            setState(() {});
           },
           maxLines: null,
           validator: MultiValidator([
@@ -200,14 +171,6 @@ class _ChatScreenState extends State<ChatScreen> {
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
-              if (email.isNotEmpty) {
-                await APIS.addChatUser(email.toString()).then((value) {
-                  if (!value) {
-                    TLoader.errorSnackBar(
-                        title: 'Oh Snap! ', message: 'User Does Not Exists!');
-                  }
-                });
-              }
             },
             child: const Text('Add'),
           ),

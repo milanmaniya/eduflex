@@ -74,14 +74,10 @@ class APIS {
         .snapshots();
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser(
-      List<String> userIds) {
-    Logger().i('My User Id: $userIds');
-
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser() {
     return _firebaseFirestore
         .collection(localStorage.read('Screen'))
         .where('id', isNotEqualTo: _auth.currentUser!.uid)
-        // .where('id', whereIn: userIds)
         .snapshots();
   }
 
@@ -115,10 +111,7 @@ class APIS {
 
     final downloadUrl = await ref.getDownloadURL();
 
-    _firebaseFirestore
-        .collection(localStorage.read('Screen'))
-        .doc(id)
-        .update({
+    _firebaseFirestore.collection(localStorage.read('Screen')).doc(id).update({
       'image': downloadUrl,
     });
   }
@@ -223,25 +216,25 @@ class APIS {
     );
   }
 
-  static Future<bool> addChatUser(String email) async {
-    final data = await _firebaseFirestore
-        .collection(localStorage.read('Screen'))
-        .where('email', isEqualTo: email)
-        .get();
+  // static Future<bool> addChatUser(String email) async {
+  //   final data = await _firebaseFirestore
+  //       .collection(localStorage.read('Screen'))
+  //       .where('email', isEqualTo: email)
+  //       .get();
 
-    if (data.docs.isNotEmpty && data.docs.first.id != _auth.currentUser!.uid) {
-      _firebaseFirestore
-          .collection(localStorage.read('Screen'))
-          .doc(_auth.currentUser!.uid)
-          .collection('my_users')
-          .doc(data.docs.first.id)
-          .set({});
+  //   if (data.docs.isNotEmpty && data.docs.first.id != _auth.currentUser!.uid) {
+  //     _firebaseFirestore
+  //         .collection(localStorage.read('Screen'))
+  //         .doc(_auth.currentUser!.uid)
+  //         .collection('my_users')
+  //         .doc(data.docs.first.id)
+  //         .set({});
 
-      return true;
-    } else {
-      return false;
-    }
-  }
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(
       {required String chatUserID}) {
