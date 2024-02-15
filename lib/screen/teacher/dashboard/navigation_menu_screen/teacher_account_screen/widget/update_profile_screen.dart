@@ -57,6 +57,7 @@ class _TeacherUpdateProfileScreenState
         centerTitle: true,
       ),
       body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         padding: const EdgeInsets.only(
           top: 10,
           left: 15,

@@ -15,6 +15,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Padding(
           padding: const EdgeInsets.only(
             top: 70,

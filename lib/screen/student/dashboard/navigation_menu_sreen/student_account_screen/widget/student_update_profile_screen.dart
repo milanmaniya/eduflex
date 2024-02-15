@@ -59,6 +59,7 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         padding: const EdgeInsets.only(
           top: 10,
           left: 15,

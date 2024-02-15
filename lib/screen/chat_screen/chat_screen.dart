@@ -11,6 +11,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:logger/logger.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -25,6 +26,8 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
+
+    Logger().i(FirebaseAuth.instance.currentUser!.uid.toString());
 
     APIS.getFirebaseMessagingToken();
 
@@ -90,7 +93,7 @@ class _ChatScreenState extends State<ChatScreen> {
               child: CircularProgressIndicator(),
             );
           }
- 
+
           if (snapshot.hasData) {
             log(snapshot.data!.docs.map((e) => e.id).toList().toString());
             userId.add(snapshot.data!.docs.map((e) => e.id).toList());
