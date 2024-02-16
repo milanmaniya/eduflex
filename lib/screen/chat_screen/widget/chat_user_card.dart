@@ -1,5 +1,3 @@
-// ignore: unused_import
-import 'dart:ffi';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
@@ -61,8 +59,9 @@ class _ChatUserCardState extends State<ChatUserCard> {
                     width: 50,
                     imageUrl: widget.data['image'],
                     fit: BoxFit.cover,
-                    errorWidget: (context, url, error) =>
-                        const CircleAvatar(child: Icon(Iconsax.people)),
+                    errorWidget: (context, url, error) => const CircleAvatar(
+                      child: Icon(Iconsax.people),
+                    ),
                   ),
                 ),
                 title: Text(widget.data['userName']),

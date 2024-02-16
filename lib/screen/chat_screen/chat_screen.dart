@@ -116,7 +116,7 @@ class _ChatScreenState extends State<ChatScreen> {
             );
           } else {
             return const Center(
-              child: Text('No Connection Found!'),
+              child: Text('No User Found!'),
             );
           }
         },
