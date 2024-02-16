@@ -51,6 +51,8 @@ class StudentSignUpController extends GetxController {
     'DIV-4',
   ];
 
+  
+
   void iaAuthentication() async {
     // final userCredential =
     //     await AuthenticationReposotiry().registerWithEmailAndPassword(

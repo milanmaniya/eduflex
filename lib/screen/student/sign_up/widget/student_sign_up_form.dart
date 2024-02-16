@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:eduflex/common/widget/login_signup/terms_and_condition.dart';
+import 'package:eduflex/common/widget/phone_number_verification_screen/phone_number_screen.dart';
 import 'package:eduflex/screen/student/sign_up/controller/student_sign_up_controller.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
@@ -260,7 +261,7 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
             child: ElevatedButton(
               onPressed: () {
                 if (instance.key.currentState!.validate()) {
-                  instance.iaAuthentication();
+                  Get.offAll(() => const PhoneNumberScreen());
                 }
               },
               child: const Text(TTexts.createAccount),
