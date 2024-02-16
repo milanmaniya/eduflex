@@ -40,7 +40,6 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
               // logo, title, sub-title create
               const LoginHeader(
                 title: TTexts.teacherLoginTitle,
-                subTitle: TTexts.teacherLoginSubTitle,
               ),
 
               // form  create
