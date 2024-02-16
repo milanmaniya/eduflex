@@ -1,7 +1,5 @@
 import 'dart:developer';
-
-import 'package:eduflex/screen/student/login/student_login_screen.dart';
-import 'package:eduflex/screen/teacher/login/teacher_login_screen.dart';
+import 'package:eduflex/common/widget/phone_number_verification_screen/phone_number_screen.dart';
 import 'package:eduflex/utils/constant/colors.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +49,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 onPressed: () {
                   storage.write('Screen', 'Teacher');
 
-                  Get.to(() => const TeacherLoginScreen());
+                  Get.to(() => const PhoneNumberScreen());
 
                   setState(() {});
                 },
@@ -75,7 +73,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   storage.write('Screen', 'Student');
                   log(storage.read('Screen'));
 
-                  Get.to(() => const StudentLoginScreen());
+                  Get.to(() => const PhoneNumberScreen());
                   setState(() {});
                 },
                 child: const Text(

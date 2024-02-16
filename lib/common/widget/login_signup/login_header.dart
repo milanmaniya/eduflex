@@ -1,13 +1,13 @@
-import 'package:eduflex/utils/constant/sizes.dart';
+import 'package:eduflex/utils/constant/colors.dart';
 import 'package:flutter/material.dart';
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader({
-    super.key, required this.title, required this.subTitle,
+    super.key,
+    required this.title,
   });
 
   final String title;
-  final String subTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -15,21 +15,18 @@ class LoginHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Image(
-          height: 150,
+          height: 130,
           image: AssetImage(
             'assets/logo/EduFlex.png',
           ),
         ),
         Text(
           title,
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
-        const SizedBox(
-          height: TSize.sm,
-        ),
-        Text(
-          subTitle,
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: const TextStyle(
+            color: TColor.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );

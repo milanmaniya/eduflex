@@ -1,8 +1,12 @@
 import 'dart:developer';
 import 'package:eduflex/authentication_repository/authentication_repository.dart';
 import 'package:eduflex/common/widget/phone_number_verification_screen/widget/phone_text_field.dart';
+import 'package:eduflex/screen/student/sign_up/student_sign_up_screen.dart';
+import 'package:eduflex/screen/teacher/sign_up/teacher_sign_up_screen.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class PhoneNumberScreen extends StatefulWidget {
   const PhoneNumberScreen({super.key});
@@ -81,7 +85,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Don't have an account?",
+                    "Don't have an account ?",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
@@ -89,7 +93,15 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      final storage = GetStorage();
+
+                      Get.to(
+                        () => storage.read('Screen') == 'Teacher'
+                            ? const TeacherSignUpScreen()
+                            : const StudentSignUpScreen(),
+                      );
+                    },
                     child: const Text(
                       'Register',
                       style: TextStyle(
