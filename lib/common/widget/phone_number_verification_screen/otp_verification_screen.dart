@@ -13,7 +13,8 @@ import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
-  const OtpVerificationScreen({super.key, required this.verificationId, required this.phoneNumber});
+  const OtpVerificationScreen(
+      {super.key, required this.verificationId, required this.phoneNumber});
 
   final String verificationId;
   final String phoneNumber;
@@ -134,9 +135,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   ),
                 ),
                 onPressed: () {
-
-                 
-
                   AuthCredential credential = PhoneAuthProvider.credential(
                     verificationId: widget.verificationId,
                     smsCode: TTexts.otpPinValue,
@@ -149,16 +147,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       message: 'Phone Number Verified Successfully!',
                     );
 
-                  final data= localStorage.read('Student');
+                    final data = localStorage.read('Student');
 
-                  log(data.toString());
+                    log(data.toString());
 
-                    final time =
-                        DateTime.now().microsecondsSinceEpoch.toString();
                     FirebaseFirestore.instance
                         .collection(localStorage.read('Screen'))
                         .doc(FirebaseAuth.instance.currentUser!.uid)
-                        .set( .toJson())
+                        .set(data.toJson())
                         .then((value) {
                       SplashService().navigate();
 

@@ -87,7 +87,10 @@ class AuthenticationReposotiry extends GetxController {
       codeAutoRetrievalTimeout: (verificationId) {},
       codeSent: (verificationId, forceResendingToken) {
         Get.to(
-          () => OtpVerificationScreen(verificationId: verificationId),
+          () => OtpVerificationScreen(
+            verificationId: verificationId,
+            phoneNumber: phoneNumber,
+          ),
         );
       },
       verificationFailed: (error) {
