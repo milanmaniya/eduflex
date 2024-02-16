@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eduflex/authentication_repository/authentication_repository.dart';
-import 'package:eduflex/common/widget/phone_number_verification_screen/phone_number_screen.dart';
+import 'package:eduflex/screen/splash%20_screen/splash_service.dart';
 import 'package:eduflex/screen/student/model/student_model.dart';
 import 'package:eduflex/utils/popups/loader.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -52,11 +52,11 @@ class StudentSignUpController extends GetxController {
   ];
 
   void iaAuthentication() async {
-    final userCredential =
-        await AuthenticationReposotiry().registerWithEmailAndPassword(
-      email: txtEmail.text.trim(),
-      password: txtPassword.text.trim(),
-    );
+    // final userCredential =
+    //     await AuthenticationReposotiry().registerWithEmailAndPassword(
+    //   email: txtEmail.text.trim(),
+    //   password: txtPassword.text.trim(),
+    // );
 
     final time = DateTime.now().microsecondsSinceEpoch.toString();
 
@@ -73,7 +73,7 @@ class StudentSignUpController extends GetxController {
       createAt: time,
       image: '',
       pushToken: '',
-      id: userCredential.user!.uid,
+      id: '',
       about: txtAbout.text.trim(),
       div: divValue.value,
       lastActive: time,
@@ -83,14 +83,15 @@ class StudentSignUpController extends GetxController {
 
     FirebaseFirestore.instance
         .collection(localStorage.read('Screen'))
-        .doc(userCredential.user!.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .set(newStudent.toJson())
         .then((value) {
-      Get.to(() => const PhoneNumberScreen());
+      SplashService().navigate();
 
       TLoader.successSnackBar(
         title: 'Congratulation',
-        message: 'Your account has been created! Verify your phone number to continue',
+        message:
+            'Your account has been created! Verify your phone number to continue',
       );
     }).onError(
       (error, stackTrace) =>
