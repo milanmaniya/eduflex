@@ -160,8 +160,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
                       TLoader.successSnackBar(
                         title: 'Congratulation',
-                        message:
-                            'Your account has been created! Verify your phone number to continue',
+                        message: 'Your account has been created succesfully',
                       );
                     }).onError(
                       (error, stackTrace) => TLoader.errorSnackBar(
