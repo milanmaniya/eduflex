@@ -1,5 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:eduflex/common/widget/login_signup/terms_and_condition.dart';
+import 'package:eduflex/common/widget/phone_number_verification_screen/phone_number_screen.dart';
+import 'package:eduflex/screen/teacher/model/teacher_model.dart';
 import 'package:eduflex/screen/teacher/sign_up/controller/teacher_sign_up_controller.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 
 class TeacherSignUpForm extends StatefulWidget {
@@ -259,7 +262,35 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             child: ElevatedButton(
               onPressed: () {
                 if (instance.key.currentState!.validate()) {
-                  instance.iaAuthentication();
+                  final time = DateTime.now().millisecondsSinceEpoch.toString();
+
+                  final newTeacher = Teacher(
+                    firstName: instance.txtFirstName.text.trim(),
+                    lastName: instance.txtLatName.text.trim(),
+                    userName: instance.txtUserName.text.trim(),
+                    email: instance.txtEmail.text.trim(),
+                    phoneNumber: '',
+                    password: instance.txtPassword.text.trim(),
+                    fieldValue: instance.fieldValue.value,
+                    yearValue: instance.yearValue.value,
+                    isOnline: false,
+                    createAt: time,
+                    image: '',
+                    pushToken: '',
+                    id: '',
+                    about: instance.txtAbout.text.trim(),
+                    degree: instance.txtDegree.text.trim(),
+                    experince: instance.txtExperience.text.trim(),
+                    lastActive: time,
+                  );
+
+                  final storage = GetStorage();
+
+                  storage.write('Teacher', newTeacher);
+
+                  setState(() {});
+
+                  Get.offAll(() => const PhoneNumberScreen());
                 }
               },
               child: const Text(TTexts.createAccount),
