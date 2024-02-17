@@ -37,7 +37,10 @@ class _TeacherAccountScreenState extends State<TeacherAccountScreen> {
           top: 10,
         ),
         child: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('Teacher').snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('Teacher')
+              .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+              .snapshots(),
           builder: (context, snapshot) {
             Map<String, dynamic> data = {};
 
@@ -49,10 +52,8 @@ class _TeacherAccountScreenState extends State<TeacherAccountScreen> {
 
             if (snapshot.hasData) {
               for (var element in snapshot.data!.docs) {
-                if (element.id == FirebaseAuth.instance.currentUser!.uid) {
-                  data.addAll(element.data());
-                  log(data.toString());
-                }
+                data.addAll(element.data());
+                log(data.toString());
               }
             }
 

@@ -1,11 +1,11 @@
 import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/authentication_repository/authentication_repository.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/widget/student_information_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/widget/student_update_profile_screen.dart';
 import 'package:eduflex/utils/constant/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -33,9 +33,12 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
         centerTitle: true,
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('Student').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('Student')
+            .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .snapshots(),
         builder: (context, snapshot) {
-          final data = [];
+          Map<String, dynamic> data = {};
 
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -46,7 +49,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
           for (var element in snapshot.data!.docs) {
             log(element.id.toString());
 
-            data.add(element.data());
+            data.addAll(element.data());
 
             log(data.toString());
           }
@@ -61,7 +64,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                   height: 120,
                   width: 120,
                   fit: BoxFit.cover,
-                  imageUrl: data[0]['image'],
+                  imageUrl: data['image'],
                   placeholder: (context, url) =>
                       const CircularProgressIndicator(),
                   errorWidget: (context, url, error) => const CircleAvatar(
@@ -73,12 +76,12 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                 height: 10,
               ),
               Text(
-                data[0]['userName'],
+                data['userName'],
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               Text(
-                data[0]['email'],
+                data['email'],
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
@@ -91,7 +94,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                   onPressed: () {
                     Get.to(
                       () => StudentUpdateProfile(
-                        data: data[0],
+                        data: data,
                       ),
                     );
                   },
@@ -129,7 +132,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                 icon: LineAwesomeIcons.info,
                 menuName: 'Information',
                 onTap: () => Get.to(
-                  () => StudentInformationScreen(data: data[0]),
+                  () => StudentInformationScreen(data: data),
                 ),
               ),
               ProfileMenuWidget(
