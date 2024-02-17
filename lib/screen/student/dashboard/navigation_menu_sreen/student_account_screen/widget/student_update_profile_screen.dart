@@ -48,8 +48,6 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
     instance.txtEmail.text = widget.data['email'];
     instance.txtPassword.text = widget.data['password'];
 
-    log(id.toString());
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
