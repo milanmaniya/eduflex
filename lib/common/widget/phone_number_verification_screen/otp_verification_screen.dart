@@ -156,6 +156,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         .doc(FirebaseAuth.instance.currentUser!.uid)
                         .set(data.toJson())
                         .then((value) {
+                      FirebaseFirestore.instance
+                          .collection(localStorage.read('Screen'))
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .update({
+                        'phoneNumber': widget.phoneNumber,
+                        'id': FirebaseAuth.instance.currentUser!.uid,
+                      });
+
                       SplashService().navigate();
 
                       TLoader.successSnackBar(
