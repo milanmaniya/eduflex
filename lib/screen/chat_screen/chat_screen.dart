@@ -84,35 +84,28 @@ class _ChatScreenState extends State<ChatScreen> {
       body: StreamBuilder(
         stream: APIS.getAllUser(),
         builder: (context, snapshot) {
-          final List<Map<String, dynamic>> data = [];
-
           if (snapshot.connectionState == ConnectionState.waiting ||
               snapshot.connectionState == ConnectionState.none) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
+
+          final data = [];
+
           if (snapshot.hasData) {
             for (var element in snapshot.data!.docs) {
               data.add(element.data());
-              log(data.toString());
             }
           }
 
           if (data.isNotEmpty) {
             return ListView.separated(
-              physics: const BouncingScrollPhysics(),
+              itemBuilder: (context, index) => ChatUserCard(data: data[index]),
               separatorBuilder: (context, index) => const SizedBox(
                 height: 5,
               ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 10,
-              ),
               itemCount: data.length,
-              itemBuilder: (context, index) => ChatUserCard(
-                data: data[index],
-              ),
             );
           } else {
             return const Center(
