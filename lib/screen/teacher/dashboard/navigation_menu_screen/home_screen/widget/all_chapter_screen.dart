@@ -91,9 +91,33 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
             itemBuilder: (context, index) => Slidable(
               startActionPane: ActionPane(
                 motion: const StretchMotion(),
-                children: [
-                  localStorage.read('Screen') == 'Student'
-                      ? SlidableAction(
+                children: localStorage.read('Screen') == 'Teacher'
+                    ? [
+                        SlidableAction(
+                          onPressed: (context) {
+                            downloadPdf(
+                                pdfData![index]['downloadUrl'].toString());
+                          },
+                          autoClose: true,
+                          backgroundColor: const Color(0xFF21B7CA),
+                          foregroundColor: Colors.white,
+                          icon: Icons.download,
+                          label: 'Download',
+                        ),
+                        SlidableAction(
+                          autoClose: true,
+                          backgroundColor: const Color(0xFFFE4A49),
+                          onPressed: (context) => deletePdf(
+                            pdfData![index]['downloadUrl'].toString(),
+                            pdfData[index]['Name'].toString(),
+                          ),
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          label: 'Delete',
+                        )
+                      ]
+                    : [
+                        SlidableAction(
                           onPressed: (context) {
                             downloadPdf(
                                 pdfData![index]['downloadUrl'].toString());
@@ -104,32 +128,7 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
                           icon: Icons.download,
                           label: 'Download',
                         )
-                      : const SizedBox(),
-                  localStorage.read('Screen') == 'Teacher'
-                      ? SlidableAction(
-                          onPressed: (context) {
-                            downloadPdf(
-                                pdfData![index]['downloadUrl'].toString());
-                          },
-                          autoClose: true,
-                          backgroundColor: const Color(0xFF21B7CA),
-                          foregroundColor: Colors.white,
-                          icon: Icons.download,
-                          label: 'Download',
-                        )
-                      : const SizedBox(),
-                  SlidableAction(
-                    autoClose: true,
-                    backgroundColor: const Color(0xFFFE4A49),
-                    onPressed: (context) => deletePdf(
-                      pdfData![index]['downloadUrl'].toString(),
-                      pdfData[index]['Name'].toString(),
-                    ),
-                    foregroundColor: Colors.white,
-                    icon: Icons.delete,
-                    label: 'Delete',
-                  )
-                ],
+                      ],
               ),
               child: InkWell(
                 onTap: () {
