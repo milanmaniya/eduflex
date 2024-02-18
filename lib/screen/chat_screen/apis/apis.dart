@@ -74,7 +74,7 @@ class APIS {
     required String msg,
     required Type type,
     required String title,
-    required String pushToken,
+   
   }) async {
     await _firebaseFirestore
         .collection(localStorage.read('Screen'))

@@ -270,29 +270,27 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
               shape: const CircleBorder(),
               onPressed: () {
                 if (_textController.text.isNotEmpty) {
-                  APIS.sendMessage(
-                    id: widget.data['id'],
-                    msg: _textController.text.trim(),
-                    type: Type.text,
-                    title: widget.data['userName'],
-                  );
-                  // if (_list.isEmpty) {
-                  //   APIS.sendFirstMessage(
-                  //     id: widget.data['id'],
-                  //     msg: _textController.text.trim(),
-                  //     type: Type.text,
-                  //     pushToken: widget.data['pushToken'],
-                  //     title: widget.data['userName'],
-                  //   );
-                  // } else {
-                  //   APIS.sendMessage(
-                  //     id: widget.data['id'],
-                  //     msg: _textController.text.trim(),
-                  //     type: Type.text,
-                  //     pushToken: widget.data['pushToken'],
-                  //     title: widget.data['userName'],
-                  //   );
-                  // }
+                  // APIS.sendMessage(
+                  //   id: widget.data['id'],
+                  //   msg: _textController.text.trim(),
+                  //   type: Type.text,
+                  //   title: widget.data['userName'],
+                  // );
+                  if (_list.isEmpty) {
+                    APIS.sendFirstMessage(
+                      id: widget.data['id'],
+                      msg: _textController.text.trim(),
+                      type: Type.text,
+                      title: widget.data['userName'],
+                    );
+                  } else {
+                    APIS.sendMessage(
+                      id: widget.data['id'],
+                      msg: _textController.text.trim(),
+                      type: Type.text,
+                      title: widget.data['userName'],
+                    );
+                  }
                   _textController.clear();
                 }
               },
