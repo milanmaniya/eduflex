@@ -1,15 +1,11 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
-import 'package:eduflex/utils/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logger/logger.dart';
-import 'package:http/http.dart' as http;
 
 class APIS {
   static final FirebaseFirestore _firebaseFirestore =
@@ -23,32 +19,32 @@ class APIS {
 
   static FirebaseMessaging fMessaging = FirebaseMessaging.instance;
 
-  static Future<void> sendPushNotification(
-      String pushToken, String message, String title) async {
-    try {
-      final body = {
-        "to": pushToken,
-        "notification": {
-          "title": title,
-          "body": message,
-          "android_channel_id": "eduFlex",
-        }
-      };
+  // static Future<void> sendPushNotification(
+  //     String pushToken, String message, String title) async {
+  //   try {
+  //     final body = {
+  //       "to": pushToken,
+  //       "notification": {
+  //         "title": title,
+  //         "body": message,
+  //         "android_channel_id": "eduFlex",
+  //       }
+  //     };
 
-      var response = await http.post(
-        Uri.parse('https://fcm.googleapis.com/fcm/send'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'key=AAAAamlAXiE:APA91bERFLoxL4OMm4AvxAikpUJ-Ht29n1yrpkaOskCI3gRa8gQ-8BSGDzeByQ38fsI4R9Lci3bHnWxLcyUlFZCgxDsjtrUNxmbpJ9R1GjI565xWcZUdtz7HhdziawdePeCZuh8EtUVA'
-        },
-        body: jsonEncode(body),
-      );
-      log(response.statusCode.toString());
-    } catch (e) {
-      TLoader.errorSnackBar(title: 'Oh Snap!', message: e);
-    }
-  }
+  //     var response = await http.post(
+  //       Uri.parse('https://fcm.googleapis.com/fcm/send'),
+  //       headers: {
+  //         HttpHeaders.contentTypeHeader: 'application/json',
+  //         HttpHeaders.authorizationHeader:
+  //             'key=AAAAamlAXiE:APA91bERFLoxL4OMm4AvxAikpUJ-Ht29n1yrpkaOskCI3gRa8gQ-8BSGDzeByQ38fsI4R9Lci3bHnWxLcyUlFZCgxDsjtrUNxmbpJ9R1GjI565xWcZUdtz7HhdziawdePeCZuh8EtUVA'
+  //       },
+  //       body: jsonEncode(body),
+  //     );
+  //     log(response.statusCode.toString());
+  //   } catch (e) {
+  //     TLoader.errorSnackBar(title: 'Oh Snap!', message: e);
+  //   }
+  // }
 
   static Future<void> getFirebaseMessagingToken() async {
     await fMessaging.requestPermission();
@@ -65,14 +61,6 @@ class APIS {
       }
     });
   }
-
-  // static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUserId() {
-  //   return _firebaseFirestore
-  //       .collection(localStorage.read('Screen'))
-  //       .doc(_auth.currentUser!.uid)
-  //       .collection('my_users')
-  //       .snapshots();
-  // }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser() {
     return FirebaseFirestore.instance
@@ -94,8 +82,7 @@ class APIS {
         .collection('my_users')
         .doc(_auth.currentUser!.uid)
         .set({}).then((value) {
-      sendMessage(
-          id: id, msg: msg, type: type, title: title, pushToken: pushToken);
+      sendMessage(id: id, msg: msg, type: type, title: title);
     });
   }
 
@@ -136,7 +123,6 @@ class APIS {
     required String msg,
     required Type type,
     required String title,
-    required String pushToken,
   }) async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -152,8 +138,10 @@ class APIS {
     final ref = _firebaseFirestore
         .collection('chats/${getConversationId(id)}/messages');
 
+    await ref.doc(time).set(message.toJson());
+
     await ref.doc(time).set(message.toJson()).then((value) {
-      sendPushNotification(pushToken, type == Type.text ? msg : 'image', title);
+      // sendPushNotification(type == Type.text ? msg : 'image', title, id);
     });
   }
 
@@ -193,7 +181,7 @@ class APIS {
   }
 
   static Future<void> sendChatImage(
-      String id, File file, Type type, String title, String pushToken) async {
+      String id, File file, Type type, String title) async {
     final extension = file.path.split('.').last;
     Logger().i(extension.toString());
     final ref = _firebaseStorage.ref().child(
@@ -212,29 +200,8 @@ class APIS {
       msg: downloadUrl,
       type: type,
       title: title,
-      pushToken: pushToken,
     );
   }
-
-  // static Future<bool> addChatUser(String email) async {
-  //   final data = await _firebaseFirestore
-  //       .collection(localStorage.read('Screen'))
-  //       .where('email', isEqualTo: email)
-  //       .get();
-
-  //   if (data.docs.isNotEmpty && data.docs.first.id != _auth.currentUser!.uid) {
-  //     _firebaseFirestore
-  //         .collection(localStorage.read('Screen'))
-  //         .doc(_auth.currentUser!.uid)
-  //         .collection('my_users')
-  //         .doc(data.docs.first.id)
-  //         .set({});
-
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(
       {required String chatUserID}) {

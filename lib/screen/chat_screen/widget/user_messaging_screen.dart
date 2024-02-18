@@ -225,7 +225,6 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                           File(element.path),
                           Type.image,
                           widget.data['userName'],
-                          widget.data['pushToken'],
                         );
                         setState(() {
                           _isUploading = false;
@@ -249,11 +248,11 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                         });
 
                         await APIS.sendChatImage(
-                            widget.data['id'],
-                            File(image.path),
-                            Type.image,
-                            widget.data['userName'],
-                            widget.data['pushToken']);
+                          widget.data['id'],
+                          File(image.path),
+                          Type.image,
+                          widget.data['userName'],
+                        );
                         setState(() {
                           _isUploading = false;
                         });
@@ -275,7 +274,6 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                     id: widget.data['id'],
                     msg: _textController.text.trim(),
                     type: Type.text,
-                    pushToken: widget.data['pushToken'],
                     title: widget.data['userName'],
                   );
                   // if (_list.isEmpty) {
