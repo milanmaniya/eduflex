@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 
 class TeacherAttendanceScreen extends StatefulWidget {
@@ -11,8 +10,6 @@ class TeacherAttendanceScreen extends StatefulWidget {
 }
 
 class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
-  final localStorage = GetStorage();
-
   bool isBca = false;
 
   String semValue = '';
