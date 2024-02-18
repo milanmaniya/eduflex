@@ -15,18 +15,6 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
 
   bool isBca = false;
 
-  @override
-  void initState() {
-    final data = localStorage.read('Teacher');
-
-    if (data['fieldValue'] == 'BCA') {
-      isBca = !isBca;
-    } else {
-      isBca = !isBca;
-    }
-    super.initState();
-  }
-
   String semValue = '';
 
   List<String> semList = [
@@ -76,6 +64,7 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                 //         .toList(),
                 //   ),
                 // ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
