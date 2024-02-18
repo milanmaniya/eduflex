@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 
 class TeacherAttendanceScreen extends StatefulWidget {
@@ -10,6 +13,17 @@ class TeacherAttendanceScreen extends StatefulWidget {
 }
 
 class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
+  final storage = GetStorage();
+
+  @override
+  void initState() {
+    final data = storage.read('TeacherFieldValue');
+
+    log(data.toString());
+
+    super.initState();
+  }
+
   bool isBca = false;
 
   String semValue = '';
