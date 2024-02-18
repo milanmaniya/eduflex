@@ -1,8 +1,6 @@
-import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/widget/classes_screen.dart';
-import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/widget/notes_screen.dart';
-import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/widget/reminder_screen.dart';
-import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:iconsax/iconsax.dart';
 
 class TeacherAttendanceScreen extends StatefulWidget {
   const TeacherAttendanceScreen({super.key});
@@ -12,81 +10,89 @@ class TeacherAttendanceScreen extends StatefulWidget {
       _TeacherAttendanceScreenState();
 }
 
-class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen>
-    with TickerProviderStateMixin {
-  late TabController tabController;
+class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
+  final localStorage = GetStorage();
+
+  bool isBca = false;
 
   @override
   void initState() {
-    tabController = TabController(length: 3, vsync: this);
+    final data = localStorage.read('Teacher');
+
+    if (data['fieldValue'] == 'BCA') {
+      isBca = !isBca;
+    } else {
+      isBca = !isBca;
+    }
     super.initState();
   }
+
+  String semValue = '';
+
+  List<String> semList = [
+    'SEM1',
+    'SEM2',
+    'SEM3',
+    'SEM4',
+    'SEM5',
+    'SEM6',
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(
-          top: TSize.appBarHeight,
-          left: 10,
-          right: 10,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(20),
-              ),
-              height: 50,
-              child: TabBar(
-                indicatorSize: TabBarIndicatorSize.tab,
-                labelColor: Colors.white,
-                labelStyle: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                ),
-                unselectedLabelColor: Colors.black,
-                unselectedLabelStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-                controller: tabController,
-                indicator: const BoxDecoration(
-                  color: Colors.blueAccent,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                ),
-                tabs: const [
-                  Tab(
-                    text: 'Class',
-                  ),
-                  Tab(
-                    text: 'Notes',
-                  ),
-                  Tab(
-                    text: 'Remainder',
-                  ),
-                ],
-              ),
+      body: const Center(
+        child: Text('Add Class'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Iconsax.add),
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Add Class'),
+              actions: [
+                // SizedBox(
+                //   width: double.infinity,
+                //   child: DropdownButtonFormField2(
+                //     decoration: InputDecoration(
+                //       contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                //       border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(15),
+                //       ),
+                //     ),
+                //     onChanged: (value) => semValue = value!,
+                //     isExpanded: true,
+                //     hint: Text(
+                //       semValue.isEmpty ? 'Select Your Year' : semValue,
+                //     ),
+                //     items: semList
+                //         .map(
+                //           (e) => DropdownMenuItem(
+                //             value: e,
+                //             child: Text(e),
+                //           ),
+                //         )
+                //         .toList(),
+                //   ),
+                // ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text('Add'),
+                    ),
+                  ],
+                )
+              ],
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: tabController,
-                children: const [
-                  ClassesScreen(),
-                  NotesScreen(),
-                  RemainderScreen()
-                ],
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
