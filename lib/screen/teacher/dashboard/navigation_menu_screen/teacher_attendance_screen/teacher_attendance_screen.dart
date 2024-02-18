@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:get_storage/get_storage.dart';
@@ -138,12 +137,12 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                     TextButton(
                       onPressed: () {
                         FirebaseFirestore.instance
-                            .collection('Teacher')
-                            .doc(FirebaseAuth.instance.currentUser!.uid)
-                            .collection('Attendance')
-                            .doc(semValue)
-                            .collection(divisonValue)
-                            .doc(txtSubjectValue.text)
+                            .collection('data')
+                            .doc('Attendance')
+                            .collection(semValue)
+                            .doc(divisonValue)
+                            .collection(txtSubjectValue.text)
+                            .doc('Student')
                             .set({}).then((value) {
                           semValue = '';
                           txtSubjectValue.clear();
