@@ -90,7 +90,7 @@ class _ChatScreenState extends State<ChatScreen> {
               child: CircularProgressIndicator(),
             );
           }
- 
+
           final data = [];
 
           if (snapshot.hasData) {
@@ -101,6 +101,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
           if (data.isNotEmpty) {
             return ListView.separated(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 5,
+              ),
               itemBuilder: (context, index) => ChatUserCard(data: data[index]),
               separatorBuilder: (context, index) => const SizedBox(
                 height: 5,
