@@ -64,7 +64,7 @@ class APIS {
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser() {
     return FirebaseFirestore.instance
-        .collection('Student')
+        .collection(localStorage.read('Screen'))
         .where('id', isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .snapshots();
   }
@@ -74,7 +74,6 @@ class APIS {
     required String msg,
     required Type type,
     required String title,
-   
   }) async {
     await _firebaseFirestore
         .collection(localStorage.read('Screen'))
