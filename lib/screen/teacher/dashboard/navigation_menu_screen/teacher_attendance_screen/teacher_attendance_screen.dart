@@ -1,9 +1,10 @@
-import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/widget/add_student_screen.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -45,6 +46,22 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text(
+          'Class',
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Iconsax.search_normal,
+              size: 20,
+            ),
+            onPressed: () {},
+          ),
+        ],
+      ),
       body: StreamBuilder(
         stream: getAllClasses(),
         builder: (context, snapshot) {
@@ -57,20 +74,66 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
 
           if (snapshot.hasData) {
             for (var element in snapshot.data!.docs) {
-              log(element.id.toString());
+              data.add(element.data());
             }
           }
 
           if (data.isNotEmpty) {
             return ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 5,
+              ),
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(data[index]['ClassName']),
-                  subtitle: Row(
-                    children: [
-                      Text(data[index]['sem']),
-                      Text("DIV- $data[index]['Divison']")
-                    ],
+                return Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      Get.to(() => AddStudentScreen(
+                            data: data[index],
+                          ));
+                    },
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 10,
+                      ),
+                      title: Text(
+                        data[index]['ClassName'],
+                        style: const TextStyle(
+                          height: 2,
+                          fontSize: 15,
+                        ),
+                      ),
+                      subtitle: Row(
+                        children: [
+                          Text(
+                            data[index]['Sem'],
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            data[index]['Divison'],
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                      trailing: const Text(
+                        'Add Student',
+                        style: TextStyle(
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
                   ),
                 );
               },
@@ -175,14 +238,15 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
               ),
               TextButton(
                 onPressed: () {
+                  final time = DateTime.now().millisecondsSinceEpoch.toString();
+
                   FirebaseFirestore.instance
-                      .collection(storage.read('TeacherFieldValue'))
-                      .doc(semValue)
-                      .collection(divisonValue)
-                      .doc(txtSubjectValue.text)
+                      .collection('Attendance')
+                      .doc(time)
                       .set({
+                    'ClassId': time,
                     'ClassName': txtSubjectValue.text,
-                    'Dividon': divisonValue,
+                    'Divison': divisonValue,
                     'Sem': semValue
                   }).then((value) {
                     TLoader.successSnackBar(
