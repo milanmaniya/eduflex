@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:get_storage/get_storage.dart';
@@ -16,15 +17,6 @@ class TeacherAttendanceScreen extends StatefulWidget {
 
 class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
   final storage = GetStorage();
-
-  @override
-  void initState() {
-    final data = storage.read('TeacherFieldValue');
-
-    log(data.toString());
-
-    super.initState();
-  }
 
   String semValue = '';
   String divisonValue = '';
@@ -73,11 +65,11 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
             return ListView.separated(
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(data[index]['className']),
+                  title: Text(data[index]['ClassName']),
                   subtitle: Row(
                     children: [
                       Text(data[index]['sem']),
-                      Text("DIV- $data[index]['divison']")
+                      Text("DIV- $data[index]['Divison']")
                     ],
                   ),
                 );
@@ -184,18 +176,23 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
               TextButton(
                 onPressed: () {
                   FirebaseFirestore.instance
-                      .collection('data')
+                      .collection(storage.read('TeacherFieldValue'))
                       .doc(semValue)
+                      .collection(divisonValue)
+                      .doc(txtSubjectValue.text)
                       .set({
-                    'className': txtSubjectValue.text,
-                    'divison': divisonValue,
-                    'sem': semValue
+                    'ClassName': txtSubjectValue.text,
+                    'Dividon': divisonValue,
+                    'Sem': semValue
                   }).then((value) {
-                    txtSubjectValue.clear();
-                    semValue = '';
+                    TLoader.successSnackBar(
+                      title: 'Success',
+                      message: 'Class Created Successfully',
+                    );
                   });
 
                   Navigator.pop(context);
+                  setState(() {});
                 },
                 child: const Text('Add'),
               ),
