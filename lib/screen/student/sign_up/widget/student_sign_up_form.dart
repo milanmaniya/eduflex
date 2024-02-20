@@ -233,6 +233,21 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
           const SizedBox(
             height: TSize.spaceBtwItems,
           ),
+          TextFormField(
+            controller: instance.txtRollNo,
+            validator: MultiValidator(
+              [
+                RequiredValidator(errorText: 'Roll No is required'),
+              ],
+            ),
+            decoration: const InputDecoration(
+              labelText: 'Roll No',
+              prefixIcon: Icon(Iconsax.information),
+            ),
+          ),
+          const SizedBox(
+            height: TSize.spaceBtwItems,
+          ),
 
           TextFormField(
             controller: instance.txtAbout,
@@ -282,6 +297,7 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
                     about: instance.txtAbout.text.trim(),
                     div: instance.divValue.value,
                     lastActive: time,
+                    rollNo: instance.txtRollNo.text,
                   );
 
                   final storage = GetStorage();

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -73,12 +74,20 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
   }
 
   Future<dynamic> showAddStudentDialog(BuildContext context) {
+    final txtStudentId = TextEditingController();
+
     return showDialog(
       barrierDismissible: true,
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Add Class'),
+        title: const Text('Add Student'),
         actions: [
+          TextFormField(
+            controller: txtStudentId,
+            decoration: const InputDecoration(
+              labelText: 'Student Id',
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -90,6 +99,9 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
               ),
               TextButton(
                 onPressed: () {
+
+                  // FirebaseFirestore.instance.collection('Student').where('')
+
                   Navigator.pop(context);
                 },
                 child: const Text('Add'),

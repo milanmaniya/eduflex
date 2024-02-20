@@ -16,6 +16,7 @@ class StudentSignUpController extends GetxController {
   TextEditingController txtUserName = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
   TextEditingController txtAbout = TextEditingController();
+  TextEditingController txtRollNo = TextEditingController();
 
   RxString fieldValue = ''.obs;
   RxString yearValue = ''.obs;
@@ -44,6 +45,4 @@ class StudentSignUpController extends GetxController {
     'DIV-3',
     'DIV-4',
   ];
-
- 
 }
