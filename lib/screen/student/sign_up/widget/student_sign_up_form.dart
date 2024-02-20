@@ -305,7 +305,7 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
 
                   storage.write('Student', newStudent);
 
-                    storage.write('StudentFieldValue', instance.fieldValue.value);
+                  storage.write('StudentFieldValue', instance.fieldValue.value);
 
                   setState(() {});
 
