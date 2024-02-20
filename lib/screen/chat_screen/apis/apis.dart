@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
@@ -19,33 +20,6 @@ class APIS {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   static FirebaseMessaging fMessaging = FirebaseMessaging.instance;
-
-  // static Future<void> sendPushNotification(
-  //     String pushToken, String message, String title) async {
-  //   try {
-  //     final body = {
-  //       "to": pushToken,
-  //       "notification": {
-  //         "title": title,
-  //         "body": message,
-  //         "android_channel_id": "eduFlex",
-  //       }
-  //     };
-
-  //     var response = await http.post(
-  //       Uri.parse('https://fcm.googleapis.com/fcm/send'),
-  //       headers: {
-  //         HttpHeaders.contentTypeHeader: 'application/json',
-  //         HttpHeaders.authorizationHeader:
-  //             'key=AAAAamlAXiE:APA91bERFLoxL4OMm4AvxAikpUJ-Ht29n1yrpkaOskCI3gRa8gQ-8BSGDzeByQ38fsI4R9Lci3bHnWxLcyUlFZCgxDsjtrUNxmbpJ9R1GjI565xWcZUdtz7HhdziawdePeCZuh8EtUVA'
-  //       },
-  //       body: jsonEncode(body),
-  //     );
-  //     log(response.statusCode.toString());
-  //   } catch (e) {
-  //     TLoader.errorSnackBar(title: 'Oh Snap!', message: e);
-  //   }
-  // }
 
   static Future<void> getFirebaseMessagingToken() async {
     await fMessaging.requestPermission();
@@ -203,28 +177,49 @@ class APIS {
     );
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(
-      {required String chatUserID}) {
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo({
+    required String chatUserID,
+  }) {
     return _firebaseFirestore
         .collection(localStorage.read('Screen'))
         .where('id', isEqualTo: chatUserID)
         .snapshots();
   }
 
-  static Future<bool> studentExist(String rollNo) async {
+  static Future<void> studentExist(
+    String rollNo,
+    String classId,
+    String className,
+  ) async {
     final data = await FirebaseFirestore.instance
         .collection('Student')
         .where('rollNo', isEqualTo: rollNo)
-        .get()
-        .onError((error, stackTrace) {
-      return TLoader.errorSnackBar(
-          title: 'Oh Snap! ', message: 'Student Not Found');
-    });
+        .get();
 
-    if (data != null) {
-      return true;
+    if (data.docs.isNotEmpty) {
+      String studentId = '';
+
+      String studentRollNo = '';
+
+      String studentUserName = '';
+
+      for (var element in data.docs) {
+        log(element.data().toString());
+
+        studentId = element['id'];
+        studentRollNo = element['rollNo'];
+        studentUserName = "${element['firstName']} ${element['lastName']}";
+      }
+
+      FirebaseFirestore.instance
+          .collection('Attendance')
+          .doc(classId)
+          .collection(studentId)
+          .doc(className);
+
+      TLoader.successSnackBar(title: 'Success', message: 'Student is Exits');
     } else {
-      return false;
+      TLoader.errorSnackBar(title: 'Failed !', message: 'Student is not Exits');
     }
   }
 

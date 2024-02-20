@@ -67,7 +67,7 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none ||
               snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }
 
           final data = [];

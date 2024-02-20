@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -12,9 +12,6 @@ class AddStudentScreen extends StatefulWidget {
 }
 
 class _AddStudentScreenState extends State<AddStudentScreen> {
-
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,6 +81,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
         title: const Text('Add Student'),
         actions: [
           TextFormField(
+            keyboardType: TextInputType.number,
             controller: txtStudentId,
             decoration: const InputDecoration(
               labelText: 'Student Id',
@@ -100,8 +98,8 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
               ),
               TextButton(
                 onPressed: () {
-
-                 
+                  APIS.studentExist(txtStudentId.text, widget.data['ClassId'],
+                      widget.data['ClassName']);
 
                   Navigator.pop(context);
                 },
