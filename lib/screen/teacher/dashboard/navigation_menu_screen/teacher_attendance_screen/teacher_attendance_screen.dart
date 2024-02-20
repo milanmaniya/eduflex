@@ -92,9 +92,11 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                   ),
                   child: InkWell(
                     onTap: () {
-                      Get.to(() => AddStudentScreen(
-                            data: data[index],
-                          ));
+                      Get.to(
+                        () => AddStudentScreen(
+                          data: data[index],
+                        ),
+                      );
                     },
                     child: ListTile(
                       contentPadding: const EdgeInsets.symmetric(
@@ -156,6 +158,7 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Future<dynamic> ShowDialog(BuildContext context) {
     return showDialog(
       barrierDismissible: true,

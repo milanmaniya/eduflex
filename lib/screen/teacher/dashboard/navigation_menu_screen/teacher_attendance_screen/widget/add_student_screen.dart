@@ -63,6 +63,41 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Iconsax.add),
+        onPressed: () {
+          showAddStudentDialog(context);
+        },
+      ),
+    );
+  }
+
+  Future<dynamic> showAddStudentDialog(BuildContext context) {
+    return showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Add Class'),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Add'),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
