@@ -1,4 +1,9 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
+import 'package:eduflex/utils/constant/colors.dart';
+import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -14,6 +19,15 @@ class AddStudentScreen extends StatefulWidget {
 class _AddStudentScreenState extends State<AddStudentScreen> {
   @override
   Widget build(BuildContext context) {
+    Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudent() {
+      return FirebaseFirestore.instance
+          .collection('Attendance')
+          .doc(widget.data['ClassId'])
+          .collection('Student')
+          .orderBy('StudentRollNo')
+          .snapshots();
+    }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -67,6 +81,114 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
         onPressed: () {
           showAddStudentDialog(context);
         },
+      ),
+      body: StreamBuilder(
+        stream: getAllClassStudent(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none ||
+              snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final data = [];
+
+          if (snapshot.hasData) {
+            for (var element in snapshot.data!.docs) {
+              log(element.id.toString());
+              log(element.data().toString());
+
+              data.add(element.data());
+            }
+          }
+
+          if (data.isNotEmpty) {
+            return ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 5,
+              ),
+              itemBuilder: (context, index) {
+                return studentAttendanceCard(
+                    studentName: data[index]['StudentName'],
+                    studentRollNo: data[index]['StudentRollNo']);
+              },
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 10,
+              ),
+              itemCount: data.length,
+            );
+          } else {
+            return const Center(child: Text('Student Not Found'));
+          }
+        },
+      ),
+    );
+  }
+
+  Card studentAttendanceCard({
+    required String studentName,
+    required String studentRollNo,
+    Color cardColor = Colors.green,
+    Color textColor = Colors.black,
+  }) {
+    return Card(
+      color: cardColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: InkWell(
+        onTap: () {},
+        child: Container(
+          alignment: Alignment.center,
+          height: 70,
+          padding: const EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 10,
+          ),
+          child: Row(
+            children: [
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                studentRollNo,
+                style: const TextStyle(
+                  height: 2,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(width: TSize.spaceBtwItems),
+              Text(
+                studentName,
+                style: const TextStyle(
+                  height: 2,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Spacer(),
+              Container(
+                alignment: Alignment.center,
+                height: 30,
+                width: 30,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.green.shade100,
+                ),
+                child: const Text(
+                  'P',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: TColor.black,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

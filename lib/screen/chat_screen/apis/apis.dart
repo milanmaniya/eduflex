@@ -214,10 +214,18 @@ class APIS {
       FirebaseFirestore.instance
           .collection('Attendance')
           .doc(classId)
-          .collection(studentId)
-          .doc(className);
-
-      TLoader.successSnackBar(title: 'Success', message: 'Student is Exits');
+          .collection('Student')
+          .doc(studentId)
+          .set({
+        'StudentName': studentUserName,
+        'StudentRollNo': studentRollNo,
+        'StudentId': studentId,
+      }).then((value) {
+        TLoader.successSnackBar(
+          title: 'Success',
+          message: 'Student Add Successfully',
+        );
+      });
     } else {
       TLoader.errorSnackBar(title: 'Failed !', message: 'Student is not Exits');
     }
