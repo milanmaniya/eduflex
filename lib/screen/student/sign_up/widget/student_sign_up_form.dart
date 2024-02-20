@@ -245,6 +245,7 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
               prefixIcon: Icon(Iconsax.information),
             ),
           ),
+
           const SizedBox(
             height: TSize.spaceBtwItems,
           ),

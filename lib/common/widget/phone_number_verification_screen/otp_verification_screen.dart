@@ -151,7 +151,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
                     if (localStorage.read('Screen') == 'Student') {
                       FirebaseFirestore.instance
-                          .collection(localStorage.read('Screen'))
+                          .collection('Student')
                           .doc(FirebaseAuth.instance.currentUser!.uid)
                           .set(studentData.toJson())
                           .then((value) {
@@ -175,7 +175,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       );
                     } else {
                       FirebaseFirestore.instance
-                          .collection(localStorage.read('Screen'))
+                          .collection('Teacher')
                           .doc(FirebaseAuth.instance.currentUser!.uid)
                           .set(teacherData.toJson())
                           .then((value) {
