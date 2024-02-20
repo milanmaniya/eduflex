@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
-import 'package:eduflex/utils/constant/colors.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -17,6 +15,8 @@ class AddStudentScreen extends StatefulWidget {
 }
 
 class _AddStudentScreenState extends State<AddStudentScreen> {
+  bool IsPresent = true;
+
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudent() {
@@ -110,8 +110,18 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
               ),
               itemBuilder: (context, index) {
                 return studentAttendanceCard(
-                    studentName: data[index]['StudentName'],
-                    studentRollNo: data[index]['StudentRollNo']);
+                  studentName: data[index]['StudentName'],
+                  studentRollNo: data[index]['StudentRollNo'],
+                  isPresent: IsPresent,
+                  onTap: () {
+                    if (IsPresent) {
+                      IsPresent = !IsPresent;
+                    } else {
+                      IsPresent = !IsPresent;
+                    }
+                    setState(() {});
+                  },
+                );
               },
               separatorBuilder: (context, index) => const SizedBox(
                 height: 10,
@@ -129,19 +139,19 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
   Card studentAttendanceCard({
     required String studentName,
     required String studentRollNo,
-    Color cardColor = Colors.green,
-    Color textColor = Colors.black,
+    required VoidCallback onTap,
+    bool isPresent = true,
   }) {
     return Card(
-      color: cardColor,
+      color: isPresent ? Colors.green : Colors.red,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: onTap,
         child: Container(
           alignment: Alignment.center,
-          height: 70,
+          height: 75,
           padding: const EdgeInsets.symmetric(
             vertical: 10,
             horizontal: 10,
@@ -153,18 +163,20 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
               ),
               Text(
                 studentRollNo,
-                style: const TextStyle(
+                style: TextStyle(
                   height: 2,
-                  fontSize: 15,
+                  fontSize: 16,
+                  color: isPresent ? Colors.black : Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(width: TSize.spaceBtwItems),
               Text(
                 studentName,
-                style: const TextStyle(
+                style: TextStyle(
                   height: 2,
-                  fontSize: 15,
+                  fontSize: 16,
+                  color: isPresent ? Colors.black : Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -175,14 +187,14 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 width: 30,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.green.shade100,
+                  color: isPresent ? Colors.green.shade100 : Colors.red[200],
                 ),
-                child: const Text(
-                  'P',
+                child: Text(
+                  isPresent ? 'P' : 'A',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: TColor.black,
+                    color: isPresent ? Colors.black : Colors.white,
                   ),
                 ),
               ),
