@@ -12,7 +12,8 @@ class AddStudentScreen extends StatefulWidget {
 }
 
 class _AddStudentScreenState extends State<AddStudentScreen> {
-  get child => null;
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +101,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
               TextButton(
                 onPressed: () {
 
-                  // FirebaseFirestore.instance.collection('Student').where('')
+                 
 
                   Navigator.pop(context);
                 },

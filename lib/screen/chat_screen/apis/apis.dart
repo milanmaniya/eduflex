@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/chat_screen/model/chat_user_model.dart';
+import 'package:eduflex/utils/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -208,6 +209,23 @@ class APIS {
         .collection(localStorage.read('Screen'))
         .where('id', isEqualTo: chatUserID)
         .snapshots();
+  }
+
+  static Future<bool> studentExist(String rollNo) async {
+    final data = await FirebaseFirestore.instance
+        .collection('Student')
+        .where('rollNo', isEqualTo: rollNo)
+        .get()
+        .onError((error, stackTrace) {
+      return TLoader.errorSnackBar(
+          title: 'Oh Snap! ', message: 'Student Not Found');
+    });
+
+    if (data != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   static Future<void> updateActiveStatus(bool isOnline) async {
