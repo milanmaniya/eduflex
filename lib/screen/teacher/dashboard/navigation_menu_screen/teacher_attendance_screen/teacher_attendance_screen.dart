@@ -429,7 +429,7 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                   }).then((value) {
                     TLoader.successSnackBar(
                       title: 'Success',
-                      message: 'Student data updated',
+                      message: 'Class updated',
                     );
                   });
 
