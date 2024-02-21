@@ -93,13 +93,33 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
               log(dateTime.toString());
             },
           ),
-          IconButton(
-            icon: const Icon(
-              Iconsax.menu,
-              size: 20,
-            ),
-            onPressed: () {},
-          ),
+          PopupMenuButton(
+            elevation: 10,
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  height: 45,
+                  onTap: () {},
+                  child: const Text(
+                    'Save Changes',
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                PopupMenuItem(
+                  height: 45,
+                  onTap: () {},
+                  child: const Text(
+                    'Print',
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ];
+            },
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
