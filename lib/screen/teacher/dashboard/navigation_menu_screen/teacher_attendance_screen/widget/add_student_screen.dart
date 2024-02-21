@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
+import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:form_validator/form_validator.dart';
@@ -117,55 +118,17 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                     children: [
                       SlidableAction(
                         onPressed: (context) {
-                          final txtStudentId = TextEditingController();
+                          final txtStudentRollNo = TextEditingController();
                           final txtStudentName = TextEditingController();
 
-                          showDialog(
-                            barrierDismissible: true,
+                          txtStudentName.text = data[index]['StudentName'];
+                          txtStudentRollNo.text = data[index]['StudentRollNo'];
+
+                          showUpdateStudentDialog(
                             context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('Add Class'),
-                              actions: [
-                                TextFormField(
-                                  controller: txtStudentId,
-                                  validator:
-                                      ValidationBuilder().required().build(),
-                                  decoration: const InputDecoration(
-                                    labelText: 'Subject ',
-                                    prefixIcon: Icon(Iconsax.info_circle),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 14,
-                                ),
-                                TextFormField(
-                                  controller: txtStudentName,
-                                  validator:
-                                      ValidationBuilder().required().build(),
-                                  decoration: const InputDecoration(
-                                    labelText: 'Subject ',
-                                    prefixIcon: Icon(Iconsax.info_circle),
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('Add'),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                            txtStudentRollNo: txtStudentRollNo,
+                            txtStudentName: txtStudentName,
+                            studentId: data[index]['StudentId'],
                           );
                         },
                         borderRadius: BorderRadius.circular(16),
@@ -182,7 +145,9 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                         borderRadius: BorderRadius.circular(16),
                         autoClose: true,
                         backgroundColor: const Color(0xFFFE4A49),
-                        onPressed: (context) {},
+                        onPressed: (context) {
+                          deleteStudent(studentId: data[index]['StudentId']);
+                        },
                         foregroundColor: Colors.white,
                         icon: Icons.delete,
                         label: 'Delete',
@@ -213,6 +178,88 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
             return const Center(child: Text('Student Not Found'));
           }
         },
+      ),
+    );
+  }
+
+  Future<void> deleteStudent({required String studentId}) async {
+    await FirebaseFirestore.instance
+        .collection('Attendance')
+        .doc(widget.data['ClassId'])
+        .collection('Student')
+        .doc(studentId)
+        .delete()
+        .then((value) {
+      TLoader.successSnackBar(
+          title: 'Success', message: 'Student Deleted Successfully');
+    });
+  }
+
+  Future<void> showUpdateStudentDialog({
+    required BuildContext context,
+    required TextEditingController txtStudentRollNo,
+    required TextEditingController txtStudentName,
+    required String studentId,
+  }) {
+    return showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Update Student'),
+        actions: [
+          TextFormField(
+            keyboardType: TextInputType.number,
+            controller: txtStudentRollNo,
+            validator: ValidationBuilder().required().build(),
+            decoration: const InputDecoration(
+              labelText: 'Student RollNo ',
+              prefixIcon: Icon(Iconsax.info_circle),
+            ),
+          ),
+          const SizedBox(
+            height: 14,
+          ),
+          TextFormField(
+            controller: txtStudentName,
+            validator: ValidationBuilder().required().build(),
+            decoration: const InputDecoration(
+              labelText: 'Student Name ',
+              prefixIcon: Icon(Iconsax.user),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  FirebaseFirestore.instance
+                      .collection('Attendance')
+                      .doc(widget.data['ClassId'])
+                      .collection('Student')
+                      .doc(studentId)
+                      .update({
+                    'StudentName': txtStudentName.text,
+                    'StudentRollNo': txtStudentRollNo.text,
+                  }).then((value) {
+                    TLoader.successSnackBar(
+                      title: 'Success',
+                      message: 'Student data updated',
+                    );
+                  });
+
+                  Navigator.pop(context);
+                },
+                child: const Text('Update'),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
