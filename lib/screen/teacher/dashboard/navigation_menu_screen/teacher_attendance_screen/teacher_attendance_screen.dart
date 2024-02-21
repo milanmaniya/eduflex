@@ -202,14 +202,14 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Iconsax.add),
         onPressed: () {
-          ShowDialog(context);
+          showAddClassDialog(context);
         },
       ),
     );
   }
 
   // ignore: non_constant_identifier_names
-  Future<dynamic> ShowDialog(BuildContext context) {
+  Future<dynamic> showAddClassDialog(BuildContext context) {
     return showDialog(
       barrierDismissible: true,
       context: context,
