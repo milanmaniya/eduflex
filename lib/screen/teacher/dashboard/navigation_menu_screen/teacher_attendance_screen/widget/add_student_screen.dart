@@ -21,7 +21,7 @@ class AddStudentScreen extends StatefulWidget {
 class _AddStudentScreenState extends State<AddStudentScreen> {
   bool IsPresent = true;
 
-  final dateTime = DateTime.now();
+  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +34,13 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
           .snapshots();
     }
 
+    log('selected Date: $selectedDate');
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          '${widget.data['ClassName']} | Today',
+          '${widget.data['ClassName']} | ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} ',
         ),
         bottom: PreferredSize(
           preferredSize: const Size(double.infinity, 20),
@@ -76,13 +78,17 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 barrierDismissible: true,
                 context: context,
                 value: [
-                  DateTime.now(),
+                  selectedDate,
                 ],
                 config: CalendarDatePicker2WithActionButtonsConfig(
-                  calendarType: CalendarDatePicker2Type.multi,
+                  calendarType: CalendarDatePicker2Type.single,
                 ),
                 dialogSize: const Size(350, 350),
               );
+
+              setState(() {
+                selectedDate = dateTime!.first!;
+              });
 
               log(dateTime.toString());
             },
