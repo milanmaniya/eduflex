@@ -92,7 +92,21 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                     motion: const StretchMotion(),
                     children: [
                       SlidableAction(
-                        onPressed: (context) {},
+                        onPressed: (context) {
+                          final txtClassName = TextEditingController();
+
+                          txtClassName.text = data[index]['ClassName'];
+
+                          showUpdateClassDialog(
+                            context: context,
+                            txtClassName: txtClassName,
+                            semList: semList,
+                            divisonList: divisonList,
+                            classId: data[index]['ClassId'],
+                            semValue: data[index]['Sem'],
+                            divisonValue: data[index]['Divison'],
+                          );
+                        },
                         borderRadius: BorderRadius.circular(16),
                         autoClose: true,
                         backgroundColor: const Color(0xFF21B7CA),
@@ -107,7 +121,11 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                         borderRadius: BorderRadius.circular(16),
                         autoClose: true,
                         backgroundColor: const Color(0xFFFE4A49),
-                        onPressed: (context) {},
+                        onPressed: (context) {
+                          deleteClass(
+                            classId: data[index]['ClassId'],
+                          );
+                        },
                         foregroundColor: Colors.white,
                         icon: Icons.delete,
                         label: 'Delete',
@@ -294,6 +312,130 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                   setState(() {});
                 },
                 child: const Text('Add'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> deleteClass({required String classId}) async {
+    await FirebaseFirestore.instance
+        .collection('Attendance')
+        .doc(classId)
+        .delete()
+        .then((value) {
+      TLoader.successSnackBar(
+          title: 'Success', message: 'Class Deleted Successfully');
+    });
+  }
+
+  Future<void> showUpdateClassDialog({
+    required BuildContext context,
+    required TextEditingController txtClassName,
+    required List<String> semList,
+    required List<String> divisonList,
+    required String semValue,
+    required String divisonValue,
+    required String classId,
+  }) {
+    return showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Update Class'),
+        actions: [
+          SizedBox(
+            width: double.infinity,
+            child: DropdownButtonFormField2(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              onChanged: (value) => semValue = value!,
+              isExpanded: true,
+              hint: Text(
+                semValue,
+              ),
+              items: semList
+                  .map(
+                    (e) => DropdownMenuItem(
+                      value: e,
+                      child: Text(e),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+          const SizedBox(
+            height: 14,
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: DropdownButtonFormField2(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              onChanged: (value) => divisonValue = value!,
+              isExpanded: true,
+              hint: Text(
+                divisonValue,
+              ),
+              items: divisonList
+                  .map(
+                    (e) => DropdownMenuItem(
+                      value: e,
+                      child: Text(e),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+          const SizedBox(
+            height: 14,
+          ),
+          TextFormField(
+            controller: txtClassName,
+            validator: ValidationBuilder().required().build(),
+            decoration: const InputDecoration(
+              labelText: 'Subject',
+              prefixIcon: Icon(Iconsax.info_circle),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  FirebaseFirestore.instance
+                      .collection('Attendance')
+                      .doc(classId)
+                      .update({
+                    'ClassName': txtClassName.text,
+                    'Sem': semValue,
+                    'Divison': divisonValue
+                  }).then((value) {
+                    TLoader.successSnackBar(
+                      title: 'Success',
+                      message: 'Student data updated',
+                    );
+                  });
+
+                  Navigator.pop(context);
+                },
+                child: const Text('Update'),
               ),
             ],
           ),
