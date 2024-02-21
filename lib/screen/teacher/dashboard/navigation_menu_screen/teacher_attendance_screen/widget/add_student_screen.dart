@@ -4,6 +4,7 @@ import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:form_validator/form_validator.dart';
 import 'package:iconsax/iconsax.dart';
 
 class AddStudentScreen extends StatefulWidget {
@@ -116,11 +117,55 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                     children: [
                       SlidableAction(
                         onPressed: (context) {
+                          final txtStudentId = TextEditingController();
+                          final txtStudentName = TextEditingController();
+
                           showDialog(
+                            barrierDismissible: true,
                             context: context,
-                            builder: (context) {
-                              return const Center();
-                            },
+                            builder: (context) => AlertDialog(
+                              title: const Text('Add Class'),
+                              actions: [
+                                TextFormField(
+                                  controller: txtStudentId,
+                                  validator:
+                                      ValidationBuilder().required().build(),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Subject ',
+                                    prefixIcon: Icon(Iconsax.info_circle),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 14,
+                                ),
+                                TextFormField(
+                                  controller: txtStudentName,
+                                  validator:
+                                      ValidationBuilder().required().build(),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Subject ',
+                                    prefixIcon: Icon(Iconsax.info_circle),
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Add'),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           );
                         },
                         borderRadius: BorderRadius.circular(16),
