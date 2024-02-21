@@ -3,6 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/widget/add_student_screen.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -86,53 +87,84 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                 vertical: 5,
               ),
               itemBuilder: (context, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                return Slidable(
+                  startActionPane: ActionPane(
+                    motion: const StretchMotion(),
+                    children: [
+                      SlidableAction(
+                        onPressed: (context) {},
+                        borderRadius: BorderRadius.circular(16),
+                        autoClose: true,
+                        backgroundColor: const Color(0xFF21B7CA),
+                        foregroundColor: Colors.white,
+                        icon: Icons.update_rounded,
+                        label: 'Update',
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      SlidableAction(
+                        borderRadius: BorderRadius.circular(16),
+                        autoClose: true,
+                        backgroundColor: const Color(0xFFFE4A49),
+                        onPressed: (context) {},
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete,
+                        label: 'Delete',
+                      ),
+                      const SizedBox(
+                        width: 3,
+                      ),
+                    ],
                   ),
-                  child: InkWell(
-                    onTap: () {
-                      Get.to(
-                        () => AddStudentScreen(
-                          data: data[index],
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        Get.to(
+                          () => AddStudentScreen(
+                            data: data[index],
+                          ),
+                        );
+                      },
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 10,
                         ),
-                      );
-                    },
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 10,
-                      ),
-                      title: Text(
-                        data[index]['ClassName'],
-                        style: const TextStyle(
-                          height: 2,
-                          fontSize: 15,
+                        title: Text(
+                          data[index]['ClassName'],
+                          style: const TextStyle(
+                            height: 2,
+                            fontSize: 15,
+                          ),
                         ),
-                      ),
-                      subtitle: Row(
-                        children: [
-                          Text(
-                            data[index]['Sem'],
-                            style: const TextStyle(
-                              fontSize: 12,
+                        subtitle: Row(
+                          children: [
+                            Text(
+                              data[index]['Sem'],
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            data[index]['Divison'],
-                            style: const TextStyle(
-                              fontSize: 12,
+                            const SizedBox(
+                              width: 8,
                             ),
+                            Text(
+                              data[index]['Divison'],
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                        trailing: const Text(
+                          'Add Student',
+                          style: TextStyle(
+                            fontSize: 13,
                           ),
-                        ],
-                      ),
-                      trailing: const Text(
-                        'Add Student',
-                        style: TextStyle(
-                          fontSize: 13,
                         ),
                       ),
                     ),
@@ -269,4 +301,4 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
       ),
     );
   }
-   }
+}

@@ -158,7 +158,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                         autoClose: true,
                         backgroundColor: const Color(0xFF21B7CA),
                         foregroundColor: Colors.white,
-                        icon: Icons.download,
+                        icon: Icons.update_rounded,
                         label: 'Update',
                       ),
                       const SizedBox(
