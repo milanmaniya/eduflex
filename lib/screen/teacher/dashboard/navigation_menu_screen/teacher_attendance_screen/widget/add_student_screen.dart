@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
@@ -19,6 +20,8 @@ class AddStudentScreen extends StatefulWidget {
 
 class _AddStudentScreenState extends State<AddStudentScreen> {
   bool IsPresent = true;
+
+  final dateTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +68,24 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
         actions: [
           IconButton(
             icon: const Icon(
-              Iconsax.search_normal,
+              Iconsax.calendar,
               size: 20,
             ),
-            onPressed: () {},
+            onPressed: () async {
+              final dateTime = await showCalendarDatePicker2Dialog(
+                barrierDismissible: true,
+                context: context,
+                value: [
+                  DateTime.now(),
+                ],
+                config: CalendarDatePicker2WithActionButtonsConfig(
+                  calendarType: CalendarDatePicker2Type.multi,
+                ),
+                dialogSize: const Size(350, 350),
+              );
+
+              log(dateTime.toString());
+            },
           ),
           IconButton(
             icon: const Icon(
