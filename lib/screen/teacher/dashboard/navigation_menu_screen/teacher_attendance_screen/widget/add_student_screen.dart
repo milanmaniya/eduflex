@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:iconsax/iconsax.dart';
 
 class AddStudentScreen extends StatefulWidget {
@@ -109,18 +110,53 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 vertical: 5,
               ),
               itemBuilder: (context, index) {
-                return studentAttendanceCard(
-                  studentName: data[index]['StudentName'],
-                  studentRollNo: data[index]['StudentRollNo'],
-                  isPresent: IsPresent,
-                  onTap: () {
-                    if (IsPresent) {
-                      IsPresent = !IsPresent;
-                    } else {
-                      IsPresent = !IsPresent;
-                    }
-                    setState(() {});
-                  },
+                return Slidable(
+                  startActionPane: ActionPane(
+                    motion: const StretchMotion(),
+                    children: [
+                      SlidableAction(
+                        onPressed: (context) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const Center();
+                            },
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(16),
+                        autoClose: true,
+                        backgroundColor: const Color(0xFF21B7CA),
+                        foregroundColor: Colors.white,
+                        icon: Icons.download,
+                        label: 'Update',
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      SlidableAction(
+                        borderRadius: BorderRadius.circular(16),
+                        autoClose: true,
+                        backgroundColor: const Color(0xFFFE4A49),
+                        onPressed: (context) {},
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete,
+                        label: 'Delete',
+                      )
+                    ],
+                  ),
+                  child: studentAttendanceCard(
+                    studentName: data[index]['StudentName'],
+                    studentRollNo: data[index]['StudentRollNo'],
+                    isPresent: IsPresent,
+                    onTap: () {
+                      if (IsPresent) {
+                        IsPresent = !IsPresent;
+                      } else {
+                        IsPresent = !IsPresent;
+                      }
+                      setState(() {});
+                    },
+                  ),
                 );
               },
               separatorBuilder: (context, index) => const SizedBox(
