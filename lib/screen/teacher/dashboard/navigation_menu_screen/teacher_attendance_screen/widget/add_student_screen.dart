@@ -25,9 +25,10 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
 
   DateTime selectedDate = DateTime.now();
 
+  List<bool> isPresentAbsent = List.generate(2, (index) => true);
   @override
   Widget build(BuildContext context) {
-    log(studentLength.toString());
+    log('isPresent: $isPresentAbsent');
 
     Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudent() {
       return FirebaseFirestore.instance
@@ -163,6 +164,8 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
 
           studentLength = data.length;
 
+          log(studentLength.toString());
+
           if (data.isNotEmpty) {
             return ListView.separated(
               physics: const BouncingScrollPhysics(),
@@ -216,9 +219,14 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                   child: studentAttendanceCard(
                     studentName: data[index]['StudentName'],
                     studentRollNo: data[index]['StudentRollNo'],
-                    isPresent: true,
+                    isPresent: isPresentAbsent[index],
                     onTap: () {
-                      ///jgfbrfherjhbfhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+                      if (isPresentAbsent[index] == true) {
+                        isPresentAbsent[index] = false;
+                      } else {
+                        isPresentAbsent[index] = true;
+                      }
+                      setState(() {});
                     },
                   ),
                 );
