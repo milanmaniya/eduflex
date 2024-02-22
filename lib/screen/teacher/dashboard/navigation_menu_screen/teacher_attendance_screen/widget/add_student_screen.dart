@@ -26,34 +26,28 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
 
   List<bool> isPresentAbsent = List.generate(2, (index) => true);
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> getallStudentAttendance() {
+    return FirebaseFirestore.instance
+        .collection('Attendance')
+        .doc(widget.data['ClassId'])
+        .collection('Student')
+        .doc()
+        .collection(widget.data['ClassName'])
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudent() {
+    return FirebaseFirestore.instance
+        .collection('Attendance')
+        .doc(widget.data['ClassId'])
+        .collection('Student')
+        .orderBy('StudentRollNo')
+        .snapshots();
+  }
+
   @override
   Widget build(BuildContext context) {
     log('isPresent: $isPresentAbsent');
-
-    Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudent() {
-      return FirebaseFirestore.instance
-          .collection('Attendance')
-          .doc(widget.data['ClassId'])
-          .collection('Student')
-          .orderBy('StudentRollNo')
-          .snapshots();
-    }
-
-    Stream<QuerySnapshot<Map<String, dynamic>>> getallStudentAttendance(
-        List<dynamic> studentId) {
-      Stream<QuerySnapshot<Map<String, dynamic>>>? result;
-      for (var i = 0; i < studentId.length;) {
-        result = FirebaseFirestore.instance
-            .collection('Attendance')
-            .doc(widget.data['ClassId'])
-            .collection('Student')
-            .doc(studentId[i])
-            .collection(widget.data['ClassName'])
-            .snapshots();
-      }
-
-      return result!;
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -189,6 +183,12 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 if (snapshot.connectionState == ConnectionState.none ||
                     snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
+                }
+
+                if (snapshot.hasData) {
+                  for (var element in snapshot.data!.docs) {
+                    log(element.id.toString());
+                  }
                 }
 
                 return const Center(
