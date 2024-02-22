@@ -15,7 +15,6 @@ class TeacherDashBoardScreen extends StatefulWidget {
 }
 
 class _TeacherDashBoardScreenState extends State<TeacherDashBoardScreen> {
- 
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunction.isDarkMode(context);
@@ -38,7 +37,7 @@ class _TeacherDashBoardScreenState extends State<TeacherDashBoardScreen> {
             NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
             NavigationDestination(icon: Icon(Iconsax.message), label: 'Chat'),
             NavigationDestination(
-                icon: Icon(Iconsax.notification), label: 'Notice'),
+                icon: Icon(Iconsax.tag_right), label: 'Attendance'),
             NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
           ],
         ),
