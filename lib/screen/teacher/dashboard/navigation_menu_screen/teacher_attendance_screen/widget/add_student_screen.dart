@@ -19,12 +19,16 @@ class AddStudentScreen extends StatefulWidget {
 }
 
 class _AddStudentScreenState extends State<AddStudentScreen> {
-  bool IsPresent = true;
+  final studentId = [];
+
+  int studentLength = 0;
 
   DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
+    log(studentLength.toString());
+
     Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudent() {
       return FirebaseFirestore.instance
           .collection('Attendance')
@@ -33,8 +37,6 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
           .orderBy('StudentRollNo')
           .snapshots();
     }
-
-    log('selected Date: $selectedDate');
 
     return Scaffold(
       appBar: AppBar(
@@ -99,7 +101,20 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
               return [
                 PopupMenuItem(
                   height: 45,
-                  onTap: () {},
+                  onTap: () {
+                    for (var i = 1; i <= studentId.length; i++) {
+                      FirebaseFirestore.instance
+                          .collection('Attendance')
+                          .doc(widget.data['ClassId'])
+                          .collection('Student')
+                          .doc(studentId[i])
+                          .collection(widget.data['ClassName'])
+                          .doc(selectedDate.toString())
+                          .set({
+                        'Value': '',
+                      });
+                    }
+                  },
                   child: const Text(
                     'Save Changes',
                     style: TextStyle(
@@ -135,17 +150,18 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
               snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-
           final data = [];
-
           if (snapshot.hasData) {
             for (var element in snapshot.data!.docs) {
-              log(element.id.toString());
               log(element.data().toString());
+
+              studentId.add(element.id);
 
               data.add(element.data());
             }
           }
+
+          studentLength = data.length;
 
           if (data.isNotEmpty) {
             return ListView.separated(
@@ -200,14 +216,9 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                   child: studentAttendanceCard(
                     studentName: data[index]['StudentName'],
                     studentRollNo: data[index]['StudentRollNo'],
-                    isPresent: IsPresent,
+                    isPresent: true,
                     onTap: () {
-                      if (IsPresent) {
-                        IsPresent = !IsPresent;
-                      } else {
-                        IsPresent = !IsPresent;
-                      }
-                      setState(() {});
+                      ///jgfbrfherjhbfhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
                     },
                   ),
                 );
