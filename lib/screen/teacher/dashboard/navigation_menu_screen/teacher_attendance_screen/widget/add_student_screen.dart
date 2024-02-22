@@ -5,7 +5,6 @@ import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -26,6 +25,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
   DateTime selectedDate = DateTime.now();
 
   List<bool> isPresentAbsent = List.generate(2, (index) => true);
+
   @override
   Widget build(BuildContext context) {
     log('isPresent: $isPresentAbsent');
@@ -37,6 +37,22 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
           .collection('Student')
           .orderBy('StudentRollNo')
           .snapshots();
+    }
+
+    Stream<QuerySnapshot<Map<String, dynamic>>> getallStudentAttendance(
+        List<dynamic> studentId) {
+      Stream<QuerySnapshot<Map<String, dynamic>>>? result;
+      for (var i = 0; i < studentId.length;) {
+        result = FirebaseFirestore.instance
+            .collection('Attendance')
+            .doc(widget.data['ClassId'])
+            .collection('Student')
+            .doc(studentId[i])
+            .collection(widget.data['ClassName'])
+            .snapshots();
+      }
+
+      return result!;
     }
 
     return Scaffold(
@@ -103,18 +119,22 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 PopupMenuItem(
                   height: 45,
                   onTap: () {
-                    for (var i = 1; i <= studentId.length; i++) {
+                    for (var i = 0; i < studentId.length; i++) {
                       FirebaseFirestore.instance
                           .collection('Attendance')
                           .doc(widget.data['ClassId'])
                           .collection('Student')
                           .doc(studentId[i])
                           .collection(widget.data['ClassName'])
-                          .doc(selectedDate.toString())
+                          .doc(
+                              '${selectedDate.day}-${selectedDate.month}-${selectedDate.year}')
                           .set({
-                        'Value': '',
+                        'Value': isPresentAbsent[i],
                       });
                     }
+                    TLoader.successSnackBar(
+                        title: 'Success',
+                        message: 'Attendance Save Successfully');
                   },
                   child: const Text(
                     'Save Changes',
@@ -151,93 +171,35 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
               snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
+
           final data = [];
           if (snapshot.hasData) {
             for (var element in snapshot.data!.docs) {
-              log(element.data().toString());
+              // log(element.data().toString());
 
               studentId.add(element.id);
 
               data.add(element.data());
             }
           }
-
-          studentLength = data.length;
-
-          log(studentLength.toString());
-
           if (data.isNotEmpty) {
-            return ListView.separated(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 5,
-              ),
-              itemBuilder: (context, index) {
-                return Slidable(
-                  startActionPane: ActionPane(
-                    motion: const StretchMotion(),
-                    children: [
-                      SlidableAction(
-                        onPressed: (context) {
-                          final txtStudentRollNo = TextEditingController();
-                          final txtStudentName = TextEditingController();
+            return StreamBuilder(
+              stream: getAllClassStudent(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.none ||
+                    snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-                          txtStudentName.text = data[index]['StudentName'];
-                          txtStudentRollNo.text = data[index]['StudentRollNo'];
-
-                          showUpdateStudentDialog(
-                            context: context,
-                            txtStudentRollNo: txtStudentRollNo,
-                            txtStudentName: txtStudentName,
-                            studentId: data[index]['StudentId'],
-                          );
-                        },
-                        borderRadius: BorderRadius.circular(16),
-                        autoClose: true,
-                        backgroundColor: const Color(0xFF21B7CA),
-                        foregroundColor: Colors.white,
-                        icon: Icons.update_rounded,
-                        label: 'Update',
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      SlidableAction(
-                        borderRadius: BorderRadius.circular(16),
-                        autoClose: true,
-                        backgroundColor: const Color(0xFFFE4A49),
-                        onPressed: (context) {
-                          deleteStudent(studentId: data[index]['StudentId']);
-                        },
-                        foregroundColor: Colors.white,
-                        icon: Icons.delete,
-                        label: 'Delete',
-                      )
-                    ],
-                  ),
-                  child: studentAttendanceCard(
-                    studentName: data[index]['StudentName'],
-                    studentRollNo: data[index]['StudentRollNo'],
-                    isPresent: isPresentAbsent[index],
-                    onTap: () {
-                      if (isPresentAbsent[index] == true) {
-                        isPresentAbsent[index] = false;
-                      } else {
-                        isPresentAbsent[index] = true;
-                      }
-                      setState(() {});
-                    },
-                  ),
+                return const Center(
+                  child: Text('jdfbhf'),
                 );
               },
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 10,
-              ),
-              itemCount: data.length,
             );
           } else {
-            return const Center(child: Text('Student Not Found'));
+            return const Center(
+              child: Text('Student Not Found'),
+            );
           }
         },
       ),
