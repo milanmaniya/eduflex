@@ -1,6 +1,6 @@
 import 'package:eduflex/screen/chat_screen/chat_screen.dart';
+import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_attendance_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_home_screen.dart';
-import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_notice_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/student_profile_screen.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +16,6 @@ class StudentDashBoardScreen extends StatefulWidget {
 
 class _StudentDashBoardScreenState extends State<StudentDashBoardScreen> {
   @override
- 
-
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunction.isDarkMode(context);
@@ -40,7 +38,7 @@ class _StudentDashBoardScreenState extends State<StudentDashBoardScreen> {
             NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
             NavigationDestination(icon: Icon(Iconsax.message), label: 'Chat'),
             NavigationDestination(
-                icon: Icon(Iconsax.notification), label: 'Notice'),
+                icon: Icon(Iconsax.tag_right), label: 'Attendance'),
             NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
           ],
         ),
@@ -60,7 +58,7 @@ class NavigationMenuController extends GetxController {
   final screenList = [
     const StudentHomeScreen(),
     const ChatScreen(),
-    const StudentNoticeScreen(),
+    const StudentAttendanceScreen(),
     const StudentProfileScreen(),
   ];
 }
