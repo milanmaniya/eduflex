@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,12 +24,16 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
         .snapshots();
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getallSubjectAttendance(
-      String sem, String divison) {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getallSubjectAttendance({
+    required String classId,
+    required String className,
+  }) {
     return FirebaseFirestore.instance
         .collection('Attendance')
-        .where('Sem', isEqualTo: sem)
-        .where('Divison', isEqualTo: divison)
+        .doc(classId)
+        .collection('Student')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection(className)
         .snapshots();
   }
 
@@ -52,7 +55,6 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
         centerTitle: true,
       ),
       body: StreamBuilder(
-        // stream: getallSubjectAttendance('TYBCA-SEM6', 'Divison-3'),
         stream: getCurrentUserData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none ||
@@ -105,39 +107,36 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: InkWell(
-                          onTap: () {},
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 10,
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 10,
+                          ),
+                          title: Text(
+                            classData[index]['ClassName'],
+                            style: const TextStyle(
+                              height: 2,
+                              fontSize: 15,
                             ),
-                            title: Text(
-                              classData[index]['ClassName'],
-                              style: const TextStyle(
-                                height: 2,
-                                fontSize: 15,
+                          ),
+                          subtitle: Row(
+                            children: [
+                              Text(
+                                classData[index]['Sem'],
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                ),
                               ),
-                            ),
-                            subtitle: Row(
-                              children: [
-                                Text(
-                                  classData[index]['Sem'],
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                  ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                classData[index]['Divison'],
+                                style: const TextStyle(
+                                  fontSize: 12,
                                 ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  classData[index]['Divison'],
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

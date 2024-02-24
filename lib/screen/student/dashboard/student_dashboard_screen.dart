@@ -1,5 +1,5 @@
 import 'package:eduflex/screen/chat_screen/chat_screen.dart';
-import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_attendance_screen.dart';
+import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_attendance_screen/student_attendance_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_home_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/student_profile_screen.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
