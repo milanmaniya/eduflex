@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_attendance_screen/widget/student_absent_present_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class StudentAttendanceScreen extends StatefulWidget {
@@ -87,70 +85,74 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                   }
                 }
 
-                if (classData.isNotEmpty) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.separated(
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Get.to(
-                              () => StudentAbsentPresentScreen(
-                                className: classData[index]['ClassName'],
-                                classId: classData[index]['ClassId'],
-                              ),
-                            );
-                          },
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: ListTile(
-                              contentPadding: const EdgeInsets.symmetric(
-                                vertical: 10,
-                                horizontal: 10,
-                              ),
-                              title: Text(
-                                classData[index]['ClassName'],
-                                style: const TextStyle(
-                                  height: 2,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              subtitle: Row(
-                                children: [
-                                  Text(
-                                    classData[index]['Sem'],
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Text(
-                                    classData[index]['Divison'],
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(
-                        height: 2,
-                      ),
-                      itemCount: classData.length,
-                    ),
-                  );
-                } else {
-                  return const Center(
-                    child: Text('Class Not Found'),
-                  );
-                }
+                // if (classData.isNotEmpty) {
+                //   return Padding(
+                //     padding: const EdgeInsets.all(8.0),
+                //     child: ListView.separated(
+                //       itemBuilder: (context, index) {
+                //         return InkWell(
+                //           onTap: () {
+                //             Get.to(
+                //               () => StudentAbsentPresentScreen(
+                //                 className: classData[index]['ClassName'],
+                //                 classId: classData[index]['ClassId'],
+                //               ),
+                //             );
+                //           },
+                //           child: Card(
+                //             shape: RoundedRectangleBorder(
+                //               borderRadius: BorderRadius.circular(12),
+                //             ),
+                //             child: ListTile(
+                //               contentPadding: const EdgeInsets.symmetric(
+                //                 vertical: 10,
+                //                 horizontal: 10,
+                //               ),
+                //               title: Text(
+                //                 classData[index]['ClassName'],
+                //                 style: const TextStyle(
+                //                   height: 2,
+                //                   fontSize: 15,
+                //                 ),
+                //               ),
+                //               subtitle: Row(
+                //                 children: [
+                //                   Text(
+                //                     classData[index]['Sem'],
+                //                     style: const TextStyle(
+                //                       fontSize: 12,
+                //                     ),
+                //                   ),
+                //                   const SizedBox(
+                //                     width: 8,
+                //                   ),
+                //                   Text(
+                //                     classData[index]['Divison'],
+                //                     style: const TextStyle(
+                //                       fontSize: 12,
+                //                     ),
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //           ),
+                //         );
+                //       },
+                //       separatorBuilder: (context, index) => const SizedBox(
+                //         height: 2,
+                //       ),
+                //       itemCount: classData.length,
+                //     ),
+                //   );
+                // } else {
+                //   return const Center(
+                //     child: Text('Class Not Found'),
+                //   );
+                // }
+
+                return const Center(
+                  child: Text('Class Not Found'),
+                );
               },
             );
           } else {
