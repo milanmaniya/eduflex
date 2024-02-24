@@ -44,6 +44,13 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text(
+          'Attendance',
+        ),
+        centerTitle: true,
+      ),
       body: StreamBuilder(
         // stream: getallSubjectAttendance('TYBCA-SEM6', 'Divison-3'),
         stream: getCurrentUserData(),
@@ -90,9 +97,61 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                   }
                 }
 
-                return const Center(
-                  child: Text('Hello World'),
-                );
+                if (classData.isNotEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.separated(
+                      itemBuilder: (context, index) => Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: InkWell(
+                          onTap: () {},
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 10,
+                            ),
+                            title: Text(
+                              classData[index]['ClassName'],
+                              style: const TextStyle(
+                                height: 2,
+                                fontSize: 15,
+                              ),
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  classData[index]['Sem'],
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  classData[index]['Divison'],
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 2,
+                      ),
+                      itemCount: classData.length,
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    child: Text('Class Not Found'),
+                  );
+                }
               },
             );
           } else {
