@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -84,66 +85,98 @@ class _StudentAbsentPresentScreenState
           }
           log('Total number of present: $totalNumberOfPresent');
 
+          final attendance = totalNumberOfPresent / totalNumberOfLeacture * 100;
+
           if (attendanceValue.isNotEmpty) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ListView.separated(
-                itemBuilder: (context, index) => Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 10,
-                    ),
-                    title: Text(
-                      widget.className,
-                      style: const TextStyle(
-                        height: 2,
-                        fontSize: 15,
-                      ),
-                    ),
-                    subtitle: Text(
-                      date[index],
-                      style: const TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
-                    trailing: Container(
-                      height: 40,
-                      width: 60,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: attendanceValue[index]['Value'] == true
-                            ? Colors.green.shade400
-                            : Colors.red.shade400,
-                      ),
-                      child: attendanceValue[index]['Value'] == true
-                          ? const Text(
-                              'Present',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          : const Text(
-                              'Absent',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.separated(
+                      itemBuilder: (context, index) => Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 10,
+                          ),
+                          title: Text(
+                            widget.className,
+                            style: const TextStyle(
+                              height: 2,
+                              fontSize: 15,
                             ),
+                          ),
+                          subtitle: Text(
+                            date[index],
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          trailing: Container(
+                            height: 40,
+                            width: 60,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: attendanceValue[index]['Value'] == true
+                                  ? Colors.green.shade400
+                                  : Colors.red.shade400,
+                            ),
+                            child: attendanceValue[index]['Value'] == true
+                                ? const Text(
+                                    'Present',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                : const Text(
+                                    'Absent',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                          ),
+                        ),
+                      ),
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 2,
+                      ),
+                      itemCount: attendanceValue.length,
                     ),
                   ),
-                ),
-                separatorBuilder: (context, index) => const SizedBox(
-                  height: 2,
-                ),
-                itemCount: attendanceValue.length,
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.grey.shade300,
+                        width: 2,
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                            'Total Number of Leacture : $totalNumberOfLeacture'),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text('Total Number of Present : $totalNumberOfPresent'),
+                        Text('Attendance : $attendance')
+                      ],
+                    ),
+                  )
+                ],
               ),
             );
           } else {
