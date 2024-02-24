@@ -103,43 +103,45 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListView.separated(
-                      itemBuilder: (context, index) => Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 10,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          title: Text(
-                            classData[index]['ClassName'],
-                            style: const TextStyle(
-                              height: 2,
-                              fontSize: 15,
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 10,
+                            ),
+                            title: Text(
+                              classData[index]['ClassName'],
+                              style: const TextStyle(
+                                height: 2,
+                                fontSize: 15,
+                              ),
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  classData[index]['Sem'],
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  classData[index]['Divison'],
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          subtitle: Row(
-                            children: [
-                              Text(
-                                classData[index]['Sem'],
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                classData[index]['Divison'],
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                        );
+                      },
                       separatorBuilder: (context, index) => const SizedBox(
                         height: 2,
                       ),
