@@ -41,6 +41,12 @@ class _StudentAbsentPresentScreenState
           widget.className,
         ),
         centerTitle: true,
+        actions: [
+          Text('$totalNumberOfPresent / $totalNumberOfLeacture'),
+          const SizedBox(
+            width: 30,
+          ),
+        ],
       ),
       body: StreamBuilder(
         stream: getallSubjectAttendance(
@@ -77,8 +83,6 @@ class _StudentAbsentPresentScreenState
             }
           }
           log('Total number of present: $totalNumberOfPresent');
-
-          totalNumberOfPresent = 0;
 
           if (attendanceValue.isNotEmpty) {
             return Padding(
