@@ -164,10 +164,10 @@ class _StudentAbsentPresentScreenState
                           height: 5,
                         ),
                         Text('Total Number of Present : $totalNumberOfPresent'),
-                        Text('Attendance : $attendance')
+                        Text('Attendance : $attendance '),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             );
