@@ -32,6 +32,8 @@ class _StudentAbsentPresentScreenState
 
   @override
   Widget build(BuildContext context) {
+    int totalNumberOfLeacture = 0;
+    int totalNumberOfPresent = 0;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -64,6 +66,19 @@ class _StudentAbsentPresentScreenState
               attendanceValue.add(element.data());
             }
           }
+
+          totalNumberOfLeacture = date.length;
+
+          log('Total number of leacture: $totalNumberOfLeacture');
+
+          for (var i = 0; i < totalNumberOfLeacture; i++) {
+            if (attendanceValue[i]['Value'] == true) {
+              totalNumberOfPresent = totalNumberOfPresent + 1;
+            }
+          }
+          log('Total number of present: $totalNumberOfPresent');
+
+          totalNumberOfPresent = 0;
 
           if (attendanceValue.isNotEmpty) {
             return Padding(
