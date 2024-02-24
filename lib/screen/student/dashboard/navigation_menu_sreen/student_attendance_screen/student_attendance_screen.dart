@@ -14,6 +14,21 @@ class StudentAttendanceScreen extends StatefulWidget {
 class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   final localStorage = GetStorage();
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> getallSubjectAttendance({
+    required List<String> classId,
+    required List<String> className,
+  }) {
+    for (var i = 0; i < classId.length;) {
+       return FirebaseFirestore.instance
+          .collection('Attendance')
+          .doc(classId[i])
+          .collection('Student')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection(className[i])
+          .snapshots();
+    }
+  }
+
   Stream<QuerySnapshot<Map<String, dynamic>>> getallClass(
       String sem, String divison) {
     return FirebaseFirestore.instance
@@ -76,13 +91,38 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
 
                 final classData = [];
 
+                final classId = [];
+
+                final className = [];
+
                 if (snapshot.hasData) {
                   for (var element in snapshot.data!.docs) {
                     // log(element.id.toString());
                     // log(element.data().toString());
 
                     classData.add(element.data());
+
+                    classId.add(element.id);
                   }
+                }
+
+                if (classData.isNotEmpty) {
+                  return StreamBuilder(
+                    stream: getallSubjectAttendance(
+                        classId: classId, className: className),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.none ||
+                          snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  );
+                } else {
+                  return const Center(
+                    child: Text('Class Not Found'),
+                  );
                 }
 
                 // if (classData.isNotEmpty) {
@@ -149,10 +189,6 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                 //     child: Text('Class Not Found'),
                 //   );
                 // }
-
-                return const Center(
-                  child: Text('Class Not Found'),
-                );
               },
             );
           } else {
