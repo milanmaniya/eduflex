@@ -95,19 +95,29 @@ class _StudentAbsentPresentScreenState
                       height: 40,
                       width: 60,
                       alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: attendanceValue[index]['Value'] == true
+                            ? Colors.green.shade400
+                            : Colors.red.shade400,
                       ),
-                      child: Text(
-                        attendanceValue[index]['Value'] == true
-                            ? 'Present'
-                            : 'Absent',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child: attendanceValue[index]['Value'] == true
+                          ? const Text(
+                              'Present',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          : const Text(
+                              'Absent',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
                 ),
