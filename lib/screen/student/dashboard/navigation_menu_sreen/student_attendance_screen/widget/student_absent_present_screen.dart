@@ -42,12 +42,6 @@ class _StudentAbsentPresentScreenState
           widget.className,
         ),
         centerTitle: true,
-        actions: [
-          Text('$totalNumberOfPresent / $totalNumberOfLeacture'),
-          const SizedBox(
-            width: 30,
-          ),
-        ],
       ),
       body: StreamBuilder(
         stream: getallSubjectAttendance(
