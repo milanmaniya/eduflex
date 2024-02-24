@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_attendance_screen/widget/student_absent_present_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,19 +22,6 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
         .collection('Attendance')
         .where('Sem', isEqualTo: sem)
         .where('Divison', isEqualTo: divison)
-        .snapshots();
-  }
-
-  Stream<QuerySnapshot<Map<String, dynamic>>> getallSubjectAttendance({
-    required String classId,
-    required String className,
-  }) {
-    return FirebaseFirestore.instance
-        .collection('Attendance')
-        .doc(classId)
-        .collection('Student')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection(className)
         .snapshots();
   }
 
@@ -70,9 +56,9 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
 
           if (snapshot.hasData) {
             for (var element in snapshot.data!.docs) {
-              log(element.id.toString());
+              // log(element.id.toString());
 
-              log(element.data().toString());
+              // log(element.data().toString());
 
               currentUserData.add(element.data());
             }
@@ -94,8 +80,8 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
 
                 if (snapshot.hasData) {
                   for (var element in snapshot.data!.docs) {
-                    log(element.id.toString());
-                    log(element.data().toString());
+                    // log(element.id.toString());
+                    // log(element.data().toString());
 
                     classData.add(element.data());
                   }
@@ -108,9 +94,12 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-                            Get.to(() => StudentAbsentPresentScreen(
-                                  className: classData[index]['ClassName'],
-                                ));
+                            Get.to(
+                              () => StudentAbsentPresentScreen(
+                                className: classData[index]['ClassName'],
+                                classId: classData[index]['ClassId'],
+                              ),
+                            );
                           },
                           child: Card(
                             shape: RoundedRectangleBorder(

@@ -1,10 +1,15 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class StudentAbsentPresentScreen extends StatefulWidget {
-  const StudentAbsentPresentScreen({super.key, required this.className});
+  const StudentAbsentPresentScreen(
+      {super.key, required this.className, required this.classId});
 
   final String className;
-
+  final String classId;
   @override
   State<StudentAbsentPresentScreen> createState() =>
       _StudentAbsentPresentScreenState();
@@ -12,6 +17,19 @@ class StudentAbsentPresentScreen extends StatefulWidget {
 
 class _StudentAbsentPresentScreenState
     extends State<StudentAbsentPresentScreen> {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getallSubjectAttendance({
+    required String classId,
+    required String className,
+  }) {
+    return FirebaseFirestore.instance
+        .collection('Attendance')
+        .doc(classId)
+        .collection('Student')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection(className)
+        .snapshots();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,8 +40,89 @@ class _StudentAbsentPresentScreenState
         ),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Text('Student Absent Present Screen'),
+      body: StreamBuilder(
+        stream: getallSubjectAttendance(
+            classId: widget.classId, className: widget.className),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none ||
+              snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          final date = [];
+
+          final attendanceValue = [];
+
+          if (snapshot.hasData) {
+            for (var element in snapshot.data!.docs) {
+              log(element.id.toString());
+              log(element.data().toString());
+
+              date.add(element.id);
+              attendanceValue.add(element.data());
+            }
+          }
+
+          if (attendanceValue.isNotEmpty) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.separated(
+                itemBuilder: (context, index) => Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 10,
+                    ),
+                    title: Text(
+                      widget.className,
+                      style: const TextStyle(
+                        height: 2,
+                        fontSize: 15,
+                      ),
+                    ),
+                    subtitle: Text(
+                      date[index],
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                    trailing: Container(
+                      height: 40,
+                      width: 60,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                      ),
+                      child: Text(
+                        attendanceValue[index]['Value'] == true
+                            ? 'Present'
+                            : 'Absent',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 2,
+                ),
+                itemCount: attendanceValue.length,
+              ),
+            );
+          } else {
+            return const Center(
+              child: Text('Student Absent Present Screen'),
+            );
+          }
+        },
       ),
     );
   }
