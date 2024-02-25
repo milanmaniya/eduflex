@@ -1,5 +1,5 @@
 import 'package:eduflex/binding.dart';
-import 'package:eduflex/screen/splash%20_screen/splash_screen.dart';
+import 'package:eduflex/to_csv/basic.dart';
 import 'package:eduflex/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
       darkTheme: TAppTheme.darkTheme,
       theme: TAppTheme.lightTheme,
       themeMode: ThemeMode.system,
-      home: const SplashScreen(),
+      home: const BasicScreen(),
     );
   }
 }
