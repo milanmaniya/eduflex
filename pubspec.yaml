@@ -71,6 +71,8 @@ dependencies:
   otp_text_field: ^1.1.3
   calendar_date_picker2: ^0.5.3
   syncfusion_flutter_xlsio: ^24.2.7
+  path_provider: ^2.1.2
+  open_filex: ^4.4.0
 
 dev_dependencies:
   flutter_test:
