@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
@@ -23,8 +22,6 @@ class _BasicScreenState extends State<BasicScreen> {
 
     header.addAll(date);
 
-    final attendance = ['A', 'P',];
-    
     final Workbook workbook = Workbook();
 
     final Worksheet sheet = workbook.worksheets[0];
