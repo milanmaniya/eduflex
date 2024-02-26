@@ -33,6 +33,8 @@ class _BasicScreenState extends State<BasicScreen> {
       sheet.autoFitRow(1);
     }
 
+    
+
     sheet.autoFilters;
 
     final List<int> bytes = workbook.saveAsStream();
