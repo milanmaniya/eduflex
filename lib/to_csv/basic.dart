@@ -24,8 +24,7 @@ class _BasicScreenState extends State<BasicScreen> {
     header.addAll(date);
 
     final attendance = ['A', 'P',];
-    log(header.toString());
-
+    
     final Workbook workbook = Workbook();
 
     final Worksheet sheet = workbook.worksheets[0];
