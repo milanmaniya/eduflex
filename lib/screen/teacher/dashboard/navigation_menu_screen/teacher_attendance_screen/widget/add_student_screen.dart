@@ -25,12 +25,8 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
 
   DateTime selectedDate = DateTime.now();
 
-  List<bool> isPresentAbsent = List.generate(2, (index) => true);
-
   @override
   Widget build(BuildContext context) {
-    log('isPresent: $isPresentAbsent');
-
     Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudent() {
       return FirebaseFirestore.instance
           .collection('Attendance')
@@ -114,7 +110,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                           .doc(
                               '${selectedDate.day}-${selectedDate.month}-${selectedDate.year}')
                           .set({
-                        'Value': isPresentAbsent[i],
+                        'Value': true,
                       });
                     }
                     TLoader.successSnackBar(
@@ -215,15 +211,8 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                   child: studentAttendanceCard(
                     studentName: data[index]['StudentName'],
                     studentRollNo: data[index]['StudentRollNo'],
-                    isPresent: isPresentAbsent[index],
-                    onTap: () {
-                      if (isPresentAbsent[index] == true) {
-                        isPresentAbsent[index] = false;
-                      } else {
-                        isPresentAbsent[index] = true;
-                      }
-                      setState(() {});
-                    },
+                    isPresent: true,
+                    onTap: () {},
                   ),
                 ),
                 separatorBuilder: (context, index) => const SizedBox(
