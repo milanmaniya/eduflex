@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/widget/add_student_screen.dart';
 import 'package:eduflex/utils/popups/loader.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:form_validator/form_validator.dart';
@@ -41,7 +42,10 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
   ];
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllClasses() {
-    return FirebaseFirestore.instance.collection('Attendance').snapshots();
+    return FirebaseFirestore.instance
+        .collection('Attendance')
+        .where('TeacherId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .snapshots();
   }
 
   @override
@@ -300,7 +304,8 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                     'ClassId': time,
                     'ClassName': txtSubjectValue.text,
                     'Divison': divisonValue,
-                    'Sem': semValue
+                    'Sem': semValue,
+                    'TeacherId': FirebaseAuth.instance.currentUser!.uid
                   }).then((value) {
                     TLoader.successSnackBar(
                       title: 'Success',
