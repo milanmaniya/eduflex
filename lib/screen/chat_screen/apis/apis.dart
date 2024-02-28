@@ -240,4 +240,31 @@ class APIS {
       'lastActive': DateTime.now().millisecondsSinceEpoch.toString(),
     });
   }
+
+  static Future<bool> addChatUser(String email) async {
+    QuerySnapshot<Map<String, dynamic>> data = await FirebaseFirestore.instance
+        .collection('Teacher')
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (data.docs.isNotEmpty && data.docs.first.id != _auth.currentUser!.uid) {
+      log('User is exist');
+      TLoader.successSnackBar(title: 'Success', message: 'Chat user is exist');
+      return true;
+    }
+
+    data = await FirebaseFirestore.instance
+        .collection('Student')
+        .where('email', isEqualTo: email)
+        .get();
+    if (data.docs.isNotEmpty && data.docs.first.id != _auth.currentUser!.uid) {
+      log('User is exist');
+      TLoader.successSnackBar(title: 'Success', message: 'Chat user is exist');
+      return true;
+    } else {
+      log('User is not exist');
+      TLoader.errorSnackBar(title: 'Failed', message: 'Chat user is not exist');
+      return false;
+    }
+  }
 }

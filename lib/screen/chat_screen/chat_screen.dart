@@ -122,6 +122,8 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _showAddChatUserDialog() {
+    String email = '';
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -129,7 +131,6 @@ class _ChatScreenState extends State<ChatScreen> {
           left: 12,
           right: 12,
           top: 20,
-          bottom: 10,
         ),
         title: const Row(
           children: [
@@ -146,7 +147,9 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         content: TextFormField(
           onChanged: (value) {
-            setState(() {});
+            setState(() {
+              email = value;
+            });
           },
           maxLines: null,
           validator: MultiValidator([
@@ -167,6 +170,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           TextButton(
             onPressed: () async {
+              APIS.addChatUser(email);
               Navigator.pop(context);
             },
             child: const Text('Add'),
