@@ -212,7 +212,6 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
     );
   }
 
-  // ignore: non_constant_identifier_names
   Future<dynamic> showAddClassDialog(BuildContext context) {
     return showDialog(
       barrierDismissible: true,
@@ -326,6 +325,13 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
   }
 
   Future<void> deleteClass({required String classId}) async {
+    await FirebaseFirestore.instance
+        .collection('Attendance')
+        .doc(classId)
+        .collection('Student')
+        .doc()
+        .delete();
+
     await FirebaseFirestore.instance
         .collection('Attendance')
         .doc(classId)

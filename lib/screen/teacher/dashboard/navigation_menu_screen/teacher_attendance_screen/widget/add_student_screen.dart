@@ -5,6 +5,7 @@ import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -18,15 +19,35 @@ class AddStudentScreen extends StatefulWidget {
 }
 
 class _AddStudentScreenState extends State<AddStudentScreen> {
-  final studentId = [];
-
-  int studentLength = 0;
-
   DateTime selectedDate = DateTime.now();
-  List<Stream<QuerySnapshot<Map<String, dynamic>>>> finalStudent = [];
+
+  List<String> studentRollNo = [];
+
+  var studentAttendance = [];
+
+  int totalNumberofStudent = 0;
+
+  Future<void> checkData() async {
+    final data = await FirebaseFirestore.instance
+        .collection('Attendance')
+        .doc(widget.data['ClassId'])
+        .collection('Student')
+        .get();
+    setState(() {
+      totalNumberofStudent = data.docs.length;
+    });
+  }
+
+  @override
+  void initState() {
+    checkData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    studentAttendance = List.generate(totalNumberofStudent, (index) => true);
+
     Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudent() {
       return FirebaseFirestore.instance
           .collection('Attendance')
@@ -36,22 +57,12 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
           .snapshots();
     }
 
-    Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudentAttendance(
-        final id) {
-      Stream<QuerySnapshot<Map<String, dynamic>>>? result;
-      for (var i = 0; i < id.length; i++) {
-        result = FirebaseFirestore.instance
-            .collection('Attendance')
-            .doc(widget.data['ClassId'])
-            .collection('Student')
-            .doc(studentId[i])
-            .collection(widget.data['ClassName'])
-            .snapshots();
-
-        finalStudent.add(result);
-      }
-
-      return result!;
+    Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudentAttendance() {
+      return FirebaseFirestore.instance
+          .collection('Attendance')
+          .doc(widget.data['ClassId'])
+          .collection(widget.data['ClassName'])
+          .snapshots();
     }
 
     return Scaffold(
@@ -118,19 +129,22 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 PopupMenuItem(
                   height: 45,
                   onTap: () {
-                    for (var i = 0; i < studentId.length; i++) {
-                      FirebaseFirestore.instance
-                          .collection('Attendance')
-                          .doc(widget.data['ClassId'])
-                          .collection('Student')
-                          .doc(studentId[i])
-                          .collection(widget.data['ClassName'])
-                          .doc(
-                              '${selectedDate.day}-${selectedDate.month}-${selectedDate.year}')
-                          .set({
-                        'Value': true,
-                      });
+                    Map<String, dynamic> data = {};
+
+                    for (var i = 0; i < studentRollNo.length; i++) {
+                      data.addAll({studentRollNo[i]: studentAttendance[i]});
                     }
+
+                    log('Data: $data');
+
+                    FirebaseFirestore.instance
+                        .collection('Attendance')
+                        .doc(widget.data['ClassId'])
+                        .collection(widget.data['ClassName'])
+                        .doc(
+                            '${selectedDate.day}-${selectedDate.month}-${selectedDate.year}')
+                        .set(data);
+
                     TLoader.successSnackBar(
                         title: 'Success',
                         message: 'Attendance Save Successfully');
@@ -172,109 +186,123 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
           }
 
           final data = [];
+
+          List<String> studentRoll = [];
+
           if (snapshot.hasData) {
             for (var element in snapshot.data!.docs) {
-              // log('Student Id:  ${element.id.toString()}');
-              studentId.add(element.id);
-
-              // log('Student Data: ${element.data().toString()}');
-
+              log(element.data().toString());
               data.add(element.data());
+              studentRoll.add(element['StudentRollNo']);
             }
           }
 
+          studentRollNo = studentRoll;
+
+          log('StudentRollNo: $studentRollNo');
+
           if (data.isNotEmpty) {
             return StreamBuilder(
-              stream: getAllClassStudentAttendance(studentId),
+              stream: getAllClassStudentAttendance(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.none ||
                     snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
 
+                final result = [];
+
                 if (snapshot.hasData) {
                   for (var element in snapshot.data!.docs) {
                     log(element.id.toString());
-
                     log(element.data().toString());
+
+                    result.add(element.data());
                   }
                 }
 
-                return const Center(
-                  child: Text('Student Data Found'),
-                );
+                if (result.isNotEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.separated(
+                      itemBuilder: (context, index) => Slidable(
+                        startActionPane: ActionPane(
+                          motion: const StretchMotion(),
+                          children: [
+                            SlidableAction(
+                              onPressed: (context) {
+                                final txtStudentRollNo =
+                                    TextEditingController();
+                                final txtStudentName = TextEditingController();
+
+                                txtStudentRollNo.text =
+                                    data[index]['StudentRollNo'];
+                                txtStudentName.text =
+                                    data[index]['StudentName'];
+
+                                showUpdateStudentDialog(
+                                  context: context,
+                                  txtStudentRollNo: txtStudentRollNo,
+                                  txtStudentName: txtStudentName,
+                                  studentId: data[index]['StudentId'],
+                                );
+                              },
+                              borderRadius: BorderRadius.circular(16),
+                              autoClose: true,
+                              backgroundColor: const Color(0xFF21B7CA),
+                              foregroundColor: Colors.white,
+                              icon: Icons.update_rounded,
+                              label: 'Update',
+                            ),
+                            const SizedBox(
+                              width: 6,
+                            ),
+                            SlidableAction(
+                              borderRadius: BorderRadius.circular(16),
+                              autoClose: true,
+                              backgroundColor: const Color(0xFFFE4A49),
+                              onPressed: (context) {
+                                deleteStudent(
+                                    studentId: data[index]['StudentId']);
+                              },
+                              foregroundColor: Colors.white,
+                              icon: Icons.delete,
+                              label: 'Delete',
+                            ),
+                          ],
+                        ),
+                        child: studentAttendanceCard(
+                          studentName: data[index]['StudentName'],
+                          studentRollNo: data[index]['StudentRollNo'],
+                          isPresent: studentAttendance[index],
+                          onTap: () {
+                            if (studentAttendance[index] == true) {
+                              studentAttendance[index] = false;
+                            } else {
+                              studentAttendance[index] = true;
+                            }
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 5,
+                      ),
+                      itemCount: data.length,
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    child: Text('Student Not Found'),
+                  );
+                }
               },
             );
           } else {
             return const Center(
-              child: Text('Student Not Found'),
+              child: Text('Please add new student on your class room'),
             );
           }
-
-          // if (data.isNotEmpty) {
-          //   return Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     child: ListView.separated(
-          //       itemBuilder: (context, index) => Slidable(
-          //         startActionPane: ActionPane(
-          //           motion: const StretchMotion(),
-          //           children: [
-          //             SlidableAction(
-          //               onPressed: (context) {
-          //                 final txtStudentRollNo = TextEditingController();
-          //                 final txtStudentName = TextEditingController();
-
-          //                 txtStudentRollNo.text = data[index]['StudentRollNo'];
-          //                 txtStudentName.text = data[index]['StudentName'];
-
-          //                 showUpdateStudentDialog(
-          //                   context: context,
-          //                   txtStudentRollNo: txtStudentRollNo,
-          //                   txtStudentName: txtStudentName,
-          //                   studentId: data[index]['StudentId'],
-          //                 );
-          //               },
-          //               borderRadius: BorderRadius.circular(16),
-          //               autoClose: true,
-          //               backgroundColor: const Color(0xFF21B7CA),
-          //               foregroundColor: Colors.white,
-          //               icon: Icons.update_rounded,
-          //               label: 'Update',
-          //             ),
-          //             const SizedBox(
-          //               width: 6,
-          //             ),
-          //             SlidableAction(
-          //               borderRadius: BorderRadius.circular(16),
-          //               autoClose: true,
-          //               backgroundColor: const Color(0xFFFE4A49),
-          //               onPressed: (context) {
-          //                 deleteStudent(studentId: data[index]['StudentId']);
-          //               },
-          //               foregroundColor: Colors.white,
-          //               icon: Icons.delete,
-          //               label: 'Delete',
-          //             ),
-          //           ],
-          //         ),
-          //         child: studentAttendanceCard(
-          //           studentName: data[index]['StudentName'],
-          //           studentRollNo: data[index]['StudentRollNo'],
-          //           isPresent: true,
-          //           onTap: () {},
-          //         ),
-          //       ),
-          //       separatorBuilder: (context, index) => const SizedBox(
-          //         height: 5,
-          //       ),
-          //       itemCount: data.length,
-          //     ),
-          //   );
-          // } else {
-          //   return const Center(
-          //     child: Text('Student Not Found'),
-          //   );
-          // }
         },
       ),
     );
