@@ -82,7 +82,7 @@ class _ChatScreenState extends State<ChatScreen> {
         },
       ),
       body: StreamBuilder(
-        stream: APIS.getAllUser(),
+        stream: APIS.getMyUsersId(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting ||
               snapshot.connectionState == ConnectionState.none) {
@@ -91,29 +91,61 @@ class _ChatScreenState extends State<ChatScreen> {
             );
           }
 
-          final data = [];
+          final List<String> userId = [];
 
           if (snapshot.hasData) {
             for (var element in snapshot.data!.docs) {
-              data.add(element.data());
+              userId.add(element.id);
             }
           }
+          log(userId.toString());
 
-          if (data.isNotEmpty) {
-            return ListView.separated(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 5,
-              ),
-              itemBuilder: (context, index) => ChatUserCard(data: data[index]),
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 5,
-              ),
-              itemCount: data.length,
+          if (userId.isNotEmpty) {
+            return StreamBuilder(
+              stream: APIS.getAllUser(
+                  snapshot.data?.docs.map((e) => e.id).toList() ?? []),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting ||
+                    snapshot.connectionState == ConnectionState.none) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                final data = [];
+
+                if (snapshot.hasData) {
+                  for (var element in snapshot.data!.docs) {
+                    log(element.id.toString());
+                    log(element.data().toString());
+
+                    data.add(element.data());
+                  }
+                }
+
+                if (data.isNotEmpty) {
+                  return ListView.separated(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    itemBuilder: (context, index) =>
+                        ChatUserCard(data: data[index]),
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 5,
+                    ),
+                    itemCount: data.length,
+                  );
+                } else {
+                  return const Center(
+                    child: Text('No User Found!'),
+                  );
+                }
+              },
             );
           } else {
             return const Center(
-              child: Text('No User Found!'),
+              child: Text('Please add user on your account'),
             );
           }
         },

@@ -37,13 +37,6 @@ class APIS {
     });
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser() {
-    return FirebaseFirestore.instance
-        .collection(localStorage.read('Screen'))
-        .where('id', isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .snapshots();
-  }
-
   static Future<void> sendFirstMessage({
     required String id,
     required String msg,
@@ -290,5 +283,21 @@ class APIS {
       TLoader.errorSnackBar(title: 'Failed', message: 'Chat user is not exist');
       return false;
     }
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser(
+      List<String> userId) {
+    return FirebaseFirestore.instance
+        .collection(localStorage.read('Screen'))
+        .where('id', whereIn: userId)
+        .snapshots();
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUsersId() {
+    return FirebaseFirestore.instance
+        .collection(localStorage.read('Screen'))
+        .doc(_auth.currentUser!.uid)
+        .collection('my_users')
+        .snapshots();
   }
 }
