@@ -34,7 +34,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
   //   });
   // }
 
-  List<bool> studentAttendance = [];
+  List<bool> studentAttendance = List.generate(2, (index) => true);
 
   @override
   void initState() {
@@ -210,8 +210,8 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
 
                 if (snapshot.hasData) {
                   for (var element in snapshot.data!.docs) {
-                    log(element.id.toString());
-                    log(element.data().toString());
+                    // log(element.id.toString());
+                    // log(element.data().toString());
 
                     result.add(element.data());
                   }
@@ -270,8 +270,15 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                         child: studentAttendanceCard(
                           studentName: data[index]['StudentName'],
                           studentRollNo: data[index]['StudentRollNo'],
-                          isPresent: false,
+                          isPresent: studentAttendance[index],
                           onTap: () {
+                            if (studentAttendance[index]) {
+                              studentAttendance[index] =
+                                  !studentAttendance[index];
+                            } else {
+                              studentAttendance[index] =
+                                  !studentAttendance[index];
+                            }
                             setState(() {});
                           },
                         ),

@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class StudentAbsentPresentScreen extends StatefulWidget {
@@ -23,8 +22,6 @@ class _StudentAbsentPresentScreenState
     return FirebaseFirestore.instance
         .collection('Attendance')
         .doc(classId)
-        .collection('Student')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection(className)
         .snapshots();
   }
