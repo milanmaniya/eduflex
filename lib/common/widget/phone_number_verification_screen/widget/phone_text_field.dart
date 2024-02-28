@@ -18,7 +18,7 @@ Widget commonPhoneField({
           top: 5,
           right: 5,
         ),
-        height: THelperFunction.screenHeight() * 0.22,
+        height: THelperFunction.screenHeight() * 0.26,
         width: THelperFunction.screenWidth() * 0.9,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(9),

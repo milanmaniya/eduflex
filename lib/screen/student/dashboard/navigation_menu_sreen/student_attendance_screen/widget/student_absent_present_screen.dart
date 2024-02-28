@@ -3,10 +3,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class StudentAbsentPresentScreen extends StatefulWidget {
-  const StudentAbsentPresentScreen(
-      {super.key, required this.className, required this.classId});
+  const StudentAbsentPresentScreen({
+    super.key,
+    required this.className,
+    required this.classId,
+    required this.studentRollNo,
+  });
 
   final String className;
+  final String studentRollNo;
   final String classId;
   @override
   State<StudentAbsentPresentScreen> createState() =>
@@ -15,6 +20,9 @@ class StudentAbsentPresentScreen extends StatefulWidget {
 
 class _StudentAbsentPresentScreenState
     extends State<StudentAbsentPresentScreen> {
+  int totalNumberOfLeacture = 0;
+  int totalNumberOfPresent = 0;
+
   Stream<QuerySnapshot<Map<String, dynamic>>> getallSubjectAttendance({
     required String classId,
     required String className,
@@ -28,8 +36,6 @@ class _StudentAbsentPresentScreenState
 
   @override
   Widget build(BuildContext context) {
-    int totalNumberOfLeacture = 0;
-    int totalNumberOfPresent = 0;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -49,34 +55,29 @@ class _StudentAbsentPresentScreenState
             );
           }
 
-          final date = [];
+          final data = [];
 
-          final attendanceValue = [];
+          final dateList = [];
 
           if (snapshot.hasData) {
             for (var element in snapshot.data!.docs) {
               log(element.id.toString());
-              log(element.data().toString());
 
-              date.add(element.id);
-              attendanceValue.add(element.data());
+              dateList.add(element.id);
+
+              data.add(element.data());
             }
           }
 
-          totalNumberOfLeacture = date.length;
-
-          log('Total number of leacture: $totalNumberOfLeacture');
-
-          for (var i = 0; i < totalNumberOfLeacture; i++) {
-            if (attendanceValue[i]['Value'] == true) {
-              totalNumberOfPresent = totalNumberOfPresent + 1;
-            }
+          if (data[0][widget.studentRollNo] == true) {
+            totalNumberOfPresent = totalNumberOfPresent + 1;
           }
-          log('Total number of present: $totalNumberOfPresent');
+
+          totalNumberOfLeacture = data.length;
 
           final attendance = totalNumberOfPresent / totalNumberOfLeacture * 100;
 
-          if (attendanceValue.isNotEmpty) {
+          if (data.isNotEmpty) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -100,7 +101,7 @@ class _StudentAbsentPresentScreenState
                             ),
                           ),
                           subtitle: Text(
-                            date[index],
+                            dateList[index],
                             style: const TextStyle(
                               fontSize: 12,
                             ),
@@ -111,11 +112,11 @@ class _StudentAbsentPresentScreenState
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              color: attendanceValue[index]['Value'] == true
+                              color: data[0][widget.studentRollNo] == true
                                   ? Colors.green.shade400
                                   : Colors.red.shade400,
                             ),
-                            child: attendanceValue[index]['Value'] == true
+                            child: data[0][widget.studentRollNo] == true
                                 ? const Text(
                                     'Present',
                                     style: TextStyle(
@@ -138,7 +139,7 @@ class _StudentAbsentPresentScreenState
                       separatorBuilder: (context, index) => const SizedBox(
                         height: 2,
                       ),
-                      itemCount: attendanceValue.length,
+                      itemCount: data.length,
                     ),
                   ),
                   Container(

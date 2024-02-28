@@ -48,7 +48,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                 height: THelperFunction.screenHeight() * 0.02,
               ),
               const Text(
-                'OTP Verification',
+                'Phone Number Verification',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 21,

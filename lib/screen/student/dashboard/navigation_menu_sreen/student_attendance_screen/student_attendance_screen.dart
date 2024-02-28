@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_attendance_screen/widget/student_absent_present_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,13 +58,11 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
 
           if (snapshot.hasData) {
             for (var element in snapshot.data!.docs) {
-              // log(element.id.toString());
-
-              // log(element.data().toString());
-
               currentUserData.add(element.data());
             }
           }
+
+          // log(currentUserData.toString());
 
           if (currentUserData.isNotEmpty) {
             return StreamBuilder(
@@ -98,6 +98,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                               () => StudentAbsentPresentScreen(
                                 className: classData[index]['ClassName'],
                                 classId: classData[index]['ClassId'],
+                                studentRollNo: currentUserData[0]['rollNo'],
                               ),
                             );
                           },
