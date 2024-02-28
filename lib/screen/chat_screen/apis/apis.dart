@@ -235,62 +235,81 @@ class APIS {
   }
 
   static Future<bool> addChatUser(String email) async {
-    QuerySnapshot<Map<String, dynamic>> data = await FirebaseFirestore.instance
-        .collection('Teacher')
-        .where('email', isEqualTo: email)
-        .get();
+    if (localStorage.read('Screen') == 'Teacher') {
+      final data = await FirebaseFirestore.instance
+          .collection('Student')
+          .where('email', isEqualTo: email)
+          .get();
 
-    if (data.docs.isNotEmpty && data.docs.first.id != _auth.currentUser!.uid) {
-      log('User is exist');
+      if (data.docs.isNotEmpty &&
+          data.docs.first.id != _auth.currentUser!.uid) {
+        log('Student is exist');
 
-      log(data.docs.first.data().toString());
+        log(data.docs.first.data().toString());
 
-      FirebaseFirestore.instance
-          .collection(localStorage.read('Screen'))
-          .doc(_auth.currentUser!.uid)
-          .collection('my_users')
-          .doc(data.docs.first.id)
-          .set({}).then((value) {
-        TLoader.successSnackBar(
-            title: 'Success', message: 'Chat user is exist');
-      });
+        FirebaseFirestore.instance
+            .collection(localStorage.read('Screen'))
+            .doc(_auth.currentUser!.uid)
+            .collection('my_users')
+            .doc(data.docs.first.id)
+            .set({}).then((value) {
+          TLoader.successSnackBar(
+              title: 'Success', message: 'Student Add Suuccessfully');
+        });
 
-      return true;
-    }
-
-    data = await FirebaseFirestore.instance
-        .collection('Student')
-        .where('email', isEqualTo: email)
-        .get();
-    if (data.docs.isNotEmpty && data.docs.first.id != _auth.currentUser!.uid) {
-      log('User is exist');
-
-      log(data.docs.first.data().toString());
-
-      FirebaseFirestore.instance
-          .collection(localStorage.read('Screen'))
-          .doc(_auth.currentUser!.uid)
-          .collection('my_users')
-          .doc(data.docs.first.id)
-          .set({}).then((value) {
-        TLoader.successSnackBar(
-            title: 'Success', message: 'Chat user is exist');
-      });
-
-      return true;
+        return true;
+      } else {
+        log('Student does not exist');
+        TLoader.errorSnackBar(
+            title: 'Failed', message: 'Student does not exist');
+        return false;
+      }
     } else {
-      log('User is not exist');
-      TLoader.errorSnackBar(title: 'Failed', message: 'Chat user is not exist');
-      return false;
+      final data = await FirebaseFirestore.instance
+          .collection('Teacher')
+          .where('email', isEqualTo: email)
+          .get();
+      if (data.docs.isNotEmpty &&
+          data.docs.first.id != _auth.currentUser!.uid) {
+        log('Teacher is exist');
+
+        log(data.docs.first.data().toString());
+
+        FirebaseFirestore.instance
+            .collection(localStorage.read('Screen'))
+            .doc(_auth.currentUser!.uid)
+            .collection('my_users')
+            .doc(data.docs.first.id)
+            .set({}).then(
+          (value) {
+            TLoader.successSnackBar(
+                title: 'Success', message: 'Teacher add successfully');
+          },
+        );
+
+        return true;
+      } else {
+        log('Teacher is not exist');
+        TLoader.errorSnackBar(
+            title: 'Failed', message: 'Teacher does not exist');
+        return false;
+      }
     }
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser(
+  static Stream<QuerySnapshot<Map<String, dynamic>>>? getAllUser(
       List<String> userId) {
-    return FirebaseFirestore.instance
-        .collection(localStorage.read('Screen'))
-        .where('id', whereIn: userId)
-        .snapshots();
+    if (localStorage.read('Screen') == 'Teacher') {
+      return FirebaseFirestore.instance
+          .collection('Student')
+          .where('id', whereIn: userId)
+          .snapshots();
+    } else {
+      return FirebaseFirestore.instance
+          .collection('Teacher')
+          .where('id', whereIn: userId)
+          .snapshots();
+    }
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUsersId() {
