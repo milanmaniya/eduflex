@@ -87,8 +87,9 @@ class _AllSubjectScreenState extends State<AllSubjectScreen> {
                               ? ClipRRect(
                                   child: Image.network(
                                     allSubject[index]['Image'],
-                                    height: 110,
-                                    fit: BoxFit.contain,
+                                    height: 100,
+                                    width: 130,
+                                    fit: BoxFit.cover,
                                   ),
                                 )
                               : Shimmer.fromColors(

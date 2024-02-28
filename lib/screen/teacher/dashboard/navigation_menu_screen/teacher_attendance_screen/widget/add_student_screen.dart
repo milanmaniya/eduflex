@@ -23,31 +23,27 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
 
   List<String> studentRollNo = [];
 
-  var studentAttendance = [];
+  // Future<void> checkData() async {
+  //   final data = await FirebaseFirestore.instance
+  //       .collection('Attendance')
+  //       .doc(widget.data['ClassId'])
+  //       .collection('Student')
+  //       .get();
+  //   setState(() {
+  //     totalNumberofStudent = data.docs.length;
+  //   });
+  // }
 
-  int totalNumberofStudent = 0;
-
-  Future<void> checkData() async {
-    final data = await FirebaseFirestore.instance
-        .collection('Attendance')
-        .doc(widget.data['ClassId'])
-        .collection('Student')
-        .get();
-    setState(() {
-      totalNumberofStudent = data.docs.length;
-    });
-  }
+  List<bool> studentAttendance = [];
 
   @override
   void initState() {
-    checkData();
+    // checkData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    studentAttendance = List.generate(totalNumberofStudent, (index) => true);
-
     Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudent() {
       return FirebaseFirestore.instance
           .collection('Attendance')
@@ -274,13 +270,8 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                         child: studentAttendanceCard(
                           studentName: data[index]['StudentName'],
                           studentRollNo: data[index]['StudentRollNo'],
-                          isPresent: studentAttendance[index],
+                          isPresent: false,
                           onTap: () {
-                            if (studentAttendance[index] == true) {
-                              studentAttendance[index] = false;
-                            } else {
-                              studentAttendance[index] = true;
-                            }
                             setState(() {});
                           },
                         ),
