@@ -170,7 +170,9 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           TextButton(
             onPressed: () async {
-              APIS.addChatUser(email);
+              if (email.isNotEmpty) {
+                APIS.addChatUser(email);
+              }
               Navigator.pop(context);
             },
             child: const Text('Add'),

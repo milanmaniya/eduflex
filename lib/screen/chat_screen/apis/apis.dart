@@ -249,7 +249,19 @@ class APIS {
 
     if (data.docs.isNotEmpty && data.docs.first.id != _auth.currentUser!.uid) {
       log('User is exist');
-      TLoader.successSnackBar(title: 'Success', message: 'Chat user is exist');
+
+      log(data.docs.first.data().toString());
+
+      FirebaseFirestore.instance
+          .collection(localStorage.read('Screen'))
+          .doc(_auth.currentUser!.uid)
+          .collection('my_users')
+          .doc(data.docs.first.id)
+          .set({}).then((value) {
+        TLoader.successSnackBar(
+            title: 'Success', message: 'Chat user is exist');
+      });
+
       return true;
     }
 
@@ -259,7 +271,19 @@ class APIS {
         .get();
     if (data.docs.isNotEmpty && data.docs.first.id != _auth.currentUser!.uid) {
       log('User is exist');
-      TLoader.successSnackBar(title: 'Success', message: 'Chat user is exist');
+
+      log(data.docs.first.data().toString());
+
+      FirebaseFirestore.instance
+          .collection(localStorage.read('Screen'))
+          .doc(_auth.currentUser!.uid)
+          .collection('my_users')
+          .doc(data.docs.first.id)
+          .set({}).then((value) {
+        TLoader.successSnackBar(
+            title: 'Success', message: 'Chat user is exist');
+      });
+
       return true;
     } else {
       log('User is not exist');
