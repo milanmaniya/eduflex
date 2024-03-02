@@ -71,7 +71,7 @@ class _TeacherUpdateProfileScreenState
             children: [
               InkWell(
                 onTap: () {
-                  _showModalSheet();
+                   _showModalSheet();
                 },
                 child: _image != null
                     ? ClipRRect(
