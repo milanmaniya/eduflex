@@ -30,6 +30,15 @@ class _SideMenuScreenState extends State<SideMenuScreen> {
     'TechNews'
   ];
 
+  // final screenList = [
+  //   const StudentHomeScreen(),
+  //   const ChatScreen(),
+  //   const StudentAttendanceScreen(),
+  //   const StudentProfileScreen(),
+  //   const StudentHomeScreen(),
+  //   const ChatScreen(),
+  // ];
+
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -70,6 +79,7 @@ class _SideMenuScreenState extends State<SideMenuScreen> {
                 isActive: selectedIndex == index,
                 onPress: () {
                   selectedIndex = index;
+                  // Get.offAll(() => screenList[selectedIndex]);
                   setState(() {});
                 },
                 icon: iconDataList[index],

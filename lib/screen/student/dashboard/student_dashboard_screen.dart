@@ -16,8 +16,51 @@ class StudentDashBoardScreen extends StatefulWidget {
   State<StudentDashBoardScreen> createState() => _StudentDashBoardScreenState();
 }
 
-class _StudentDashBoardScreenState extends State<StudentDashBoardScreen> {
+class _StudentDashBoardScreenState extends State<StudentDashBoardScreen>
+    with SingleTickerProviderStateMixin {
   bool isSideMenuClosed = true;
+
+  late AnimationController _animationController;
+
+  late Animation<double> animation;
+  late Animation<double> scalAnimation;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300))
+      ..addListener(() {
+        setState(() {});
+      });
+
+    animation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(
+      CurvedAnimation(
+        curve: Curves.fastOutSlowIn,
+        parent: _animationController,
+      ),
+    );
+
+    scalAnimation = Tween<double>(
+      begin: 1,
+      end: 0.8,
+    ).animate(
+      CurvedAnimation(
+        curve: Curves.fastOutSlowIn,
+        parent: _animationController,
+      ),
+    );
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,34 +96,52 @@ class _StudentDashBoardScreenState extends State<StudentDashBoardScreen> {
             return Stack(
               children: [
                 AnimatedPositioned(
-                  duration: const Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 400),
                   curve: Curves.fastOutSlowIn,
                   width: 288,
                   left: isSideMenuClosed ? -288 : 0,
                   height: MediaQuery.of(context).size.height,
                   child: const SideMenuScreen(),
                 ),
-                Transform.translate(
-                  offset: Offset(
-                    isSideMenuClosed ? 0 : 288,
-                    0,
-                  ),
-                  child: Transform.scale(
-                    scale: isSideMenuClosed ? 1 : 0.8,
-                    child: ClipRRect(
-                      borderRadius: isSideMenuClosed
-                          ? BorderRadius.circular(0)
-                          : BorderRadius.circular(20),
-                      child: const StudentHomeScreen(),
+                Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.identity()
+                    ..setEntry(3, 2, 0.001)
+                    ..rotateY(
+                        animation.value - 30 * animation.value * 3.14 / 180),
+                  child: Transform.translate(
+                    offset: Offset(
+                      animation.value * 265,
+                      0,
+                    ),
+                    child: Transform.scale(
+                      scale: scalAnimation.value,
+                      child: ClipRRect(
+                        borderRadius: isSideMenuClosed
+                            ? BorderRadius.circular(0)
+                            : BorderRadius.circular(20),
+                        child: const StudentHomeScreen(),
+                      ),
                     ),
                   ),
                 ),
-                MenuButtonScreen(
-                  onPress: () {
-                    setState(() {
-                      isSideMenuClosed = !isSideMenuClosed;
-                    });
-                  },
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 400),
+                  curve: Curves.fastOutSlowIn,
+                  left: isSideMenuClosed ? 0 : 220,
+                  child: MenuButtonScreen(
+                    isMenu: isSideMenuClosed,
+                    onPress: () {
+                      if (isSideMenuClosed) {
+                        _animationController.forward();
+                      } else {
+                        _animationController.reverse();
+                      }
+                      setState(() {
+                        isSideMenuClosed = !isSideMenuClosed;
+                      });
+                    },
+                  ),
                 ),
               ],
             );

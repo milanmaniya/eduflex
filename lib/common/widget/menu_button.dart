@@ -4,9 +4,11 @@ class MenuButtonScreen extends StatelessWidget {
   const MenuButtonScreen({
     super.key,
     required this.onPress,
+    this.isMenu = false,
   });
 
   final VoidCallback onPress;
+  final bool isMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,9 @@ class MenuButtonScreen extends StatelessWidget {
             ),
           ],
         ),
-        child: const Icon(Icons.menu),
+        child: Icon(
+          isMenu ? Icons.menu : Icons.close,
+        ),
       ),
     );
   }
