@@ -16,7 +16,6 @@ class StudentDashBoardScreen extends StatefulWidget {
 
 class _StudentDashBoardScreenState extends State<StudentDashBoardScreen> {
   @override
-  @override
   Widget build(BuildContext context) {
     final dark = THelperFunction.isDarkMode(context);
 
@@ -44,9 +43,7 @@ class _StudentDashBoardScreenState extends State<StudentDashBoardScreen> {
         ),
       ),
       body: Obx(
-        () => Center(
-          child: controller.screenList[controller.selectedIndex.value],
-        ),
+        () => controller.screenList[controller.selectedIndex.value],
       ),
     );
   }
