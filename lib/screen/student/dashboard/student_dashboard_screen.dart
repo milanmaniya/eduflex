@@ -70,24 +70,27 @@ class _StudentDashBoardScreenState extends State<StudentDashBoardScreen>
 
     return Scaffold(
       backgroundColor: const Color(0xFF17203A),
-      bottomNavigationBar: Obx(
-        () => NavigationBar(
-          height: 75,
-          elevation: 0,
-          backgroundColor: dark ? Colors.black : Colors.white,
-          indicatorColor: dark
-              ? Colors.white.withOpacity(0.1)
-              : Colors.black.withOpacity(0.1),
-          onDestinationSelected: (value) =>
-              controller.selectedIndex.value = value,
-          selectedIndex: controller.selectedIndex.value,
-          destinations: const [
-            NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
-            NavigationDestination(icon: Icon(Iconsax.message), label: 'Chat'),
-            NavigationDestination(
-                icon: Icon(Iconsax.tag_right), label: 'Attendance'),
-            NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
-          ],
+      bottomNavigationBar: Transform.translate(
+        offset: Offset(0, 100 * animation.value),
+        child: Obx(
+          () => NavigationBar(
+            height: 75,
+            elevation: 0,
+            backgroundColor: dark ? Colors.black : Colors.white,
+            indicatorColor: dark
+                ? Colors.white.withOpacity(0.1)
+                : Colors.black.withOpacity(0.1),
+            onDestinationSelected: (value) =>
+                controller.selectedIndex.value = value,
+            selectedIndex: controller.selectedIndex.value,
+            destinations: const [
+              NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
+              NavigationDestination(icon: Icon(Iconsax.message), label: 'Chat'),
+              NavigationDestination(
+                  icon: Icon(Iconsax.tag_right), label: 'Attendance'),
+              NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
+            ],
+          ),
         ),
       ),
       body: Obx(
