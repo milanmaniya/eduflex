@@ -1,4 +1,5 @@
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_screen/widget/all_semester_screen.dart';
+import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -17,20 +18,25 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: const Text(
-          'All Course',
-        ),
-      ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: 10,
+        padding: const EdgeInsets.only(
+          top: TSize.appBarHeight,
+          left: 10,
+          right: 10,
         ),
         child: Column(
           children: [
+            const Text(
+              'All Course',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             CommonFieldCard(
               image: 'assets/images/bca.png',
               text: 'BCA',
