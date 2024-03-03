@@ -13,6 +13,10 @@ class MenuButtonScreen extends StatelessWidget {
     return GestureDetector(
       onTap: onPress,
       child: Container(
+        margin: const EdgeInsets.only(
+          top: 50,
+          left: 15,
+        ),
         height: 40,
         width: 40,
         decoration: const BoxDecoration(
