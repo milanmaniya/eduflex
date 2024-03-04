@@ -3,7 +3,6 @@ import 'package:eduflex/screen/student/tech_news_screens/api/technews_api.dart';
 import 'package:eduflex/screen/student/tech_news_screens/widget/modidied_text.dart';
 import 'package:eduflex/screen/student/tech_news_screens/widget/search_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TechNewsScreen extends StatefulWidget {
   const TechNewsScreen({super.key});
@@ -140,11 +139,11 @@ class _TechNewsScreenState extends State<TechNewsScreen> {
   }
 }
 
-Future<void> urlLauncher(String url) async {
-  if (await canLaunchUrl(Uri.parse(url))) {
-    await launchUrl(Uri.parse(url));
-  } else {}
-}
+// Future<void> urlLauncher(String url) async {
+//   if (await canLaunchUrl(Uri.parse(url))) {
+//     await launchUrl(Uri.parse(url));
+//   } else {}
+// }
 
 class MyBottomSheetLayout extends StatelessWidget {
   const MyBottomSheetLayout({
@@ -192,7 +191,7 @@ class MyBottomSheetLayout extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: TextButton(
               onPressed: () {
-                urlLauncher(url);
+                // urlLauncher(url);
               },
               child: const Text('Read Full Article'),
             ),
