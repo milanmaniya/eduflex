@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:eduflex/screen/student/dashboard/student_dashboard_screen.dart';
+import 'package:eduflex/screen/student/tech_news_screens/tech_news_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/techer_dashboard_screen.dart';
 import 'package:eduflex/screen/welcome_screen/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +14,7 @@ class SplashService {
       Timer(const Duration(seconds: 3), () {
         localStorage.read('Screen') == 'Teacher'
             ? Get.offAll(() => const TeacherDashBoardScreen())
-            : Get.offAll(() => const StudentDashBoardScreen());
+            : Get.offAll(() => const TechNewsScreen());
       });
     } else {
       Timer(const Duration(seconds: 3), () {
