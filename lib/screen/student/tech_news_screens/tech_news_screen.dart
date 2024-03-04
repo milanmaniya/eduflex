@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduflex/screen/student/tech_news_screens/api/technews_api.dart';
+import 'package:eduflex/screen/student/tech_news_screens/widget/modidied_text.dart';
 import 'package:eduflex/screen/student/tech_news_screens/widget/search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TechNewsScreen extends StatefulWidget {
   const TechNewsScreen({super.key});
@@ -67,7 +69,16 @@ class _TechNewsScreenState extends State<TechNewsScreen> {
                         ),
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) => ListTile(
-                          onTap: () {},
+                          onTap: () {
+                            showMyBottomSheet(
+                              context: context,
+                              titie: snapshot.data![index]['title'],
+                              description: snapshot.data![index]['description'],
+                              imageUrl: snapshot.data![index]['urlToImage'] ??
+                                  imageForError,
+                              url: snapshot.data![index]['url'],
+                            );
+                          },
                           leading: CachedNetworkImage(
                             imageUrl: snapshot.data![index]['urlToImage'] ??
                                 imageForError,
@@ -98,6 +109,153 @@ class _TechNewsScreenState extends State<TechNewsScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  PersistentBottomSheetController<dynamic> showMyBottomSheet({
+    required BuildContext context,
+    required titie,
+    required description,
+    required imageUrl,
+    required url,
+  }) {
+    return showBottomSheet(
+      backgroundColor: Colors.black,
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      elevation: 20,
+      builder: (context) => MyBottomSheetLayout(
+        title: titie,
+        description: description,
+        imageUrl: imageUrl,
+        url: url,
+      ),
+    );
+  }
+}
+
+Future<void> urlLauncher(String url) async {
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url));
+  } else {}
+}
+
+class MyBottomSheetLayout extends StatelessWidget {
+  const MyBottomSheetLayout({
+    super.key,
+    required this.title,
+    required this.description,
+    required this.imageUrl,
+    required this.url,
+  });
+
+  final String title;
+  final String description;
+  final String imageUrl;
+  final String url;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          BottomSheetImage(
+            imageUrl: imageUrl,
+            title: title,
+          ),
+
+          // decription
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: ModifiedText(
+              text: description,
+              size: 16,
+              color: Colors.white,
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: TextButton(
+              onPressed: () {
+                urlLauncher(url);
+              },
+              child: const Text('Read Full Article'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BottomSheetImage extends StatelessWidget {
+  const BottomSheetImage({
+    super.key,
+    required this.imageUrl,
+    required this.title,
+  });
+
+  final String imageUrl;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 300,
+      child: Stack(
+        children: [
+          Container(
+            foregroundDecoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.black,
+                  Colors.transparent,
+                ],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+              ),
+            ),
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(
+                  imageUrl,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            child: Container(
+              width: 300,
+              padding: const EdgeInsets.all(10),
+              child: ModifiedBoldText(
+                text: title,
+                size: 18,
+                color: Colors.white,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
