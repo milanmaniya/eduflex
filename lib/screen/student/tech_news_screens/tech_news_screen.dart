@@ -1,9 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduflex/screen/student/tech_news_screens/api/technews_api.dart';
 import 'package:eduflex/screen/student/tech_news_screens/widget/search_bar.dart';
-import 'package:eduflex/screen/student/tech_news_screens/widget/web_view.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TechNewsScreen extends StatefulWidget {
   const TechNewsScreen({super.key});
@@ -17,11 +16,11 @@ class _TechNewsScreenState extends State<TechNewsScreen> {
 
   late Future<List> news;
 
-  // Future<void> urlLauncher(String url) async {
-  //   if (await canLaunchUrl(Uri.parse(url))) {
-  //     await launchUrl(Uri.parse(url));
-  //   } else {}
-  // }
+  Future<void> urlLauncher(String url) async {
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {}
+  }
 
   final imageForError =
       'https://th.bing.com/th/id/OIG3.WYeItAo3B5DR2Hhcpxl8?w=1024&h=1024&rs=1&pid=ImgDetMain';
@@ -78,13 +77,14 @@ class _TechNewsScreenState extends State<TechNewsScreen> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) => ListTile(
                             onTap: () {
-                              Get.to(
-                                () => WebViewSecreen(
-                                  url: snapshot.data![index]['url'],
-                                ),
-                              );
+                              // Get.to(
+                              //   () => WebViewSecreen(
+                              //     url: snapshot.data![index]['url'],
+                              //   ),
+                              // );
 
-                              // urlLauncher(snapshot.data![index]['url']);
+                              urlLauncher(snapshot.data![index]['url']);
+
                               // showMyBottomSheet(
                               //   context: context,
                               //   titie: snapshot.data![index]['title'],
