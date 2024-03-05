@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:eduflex/screen/student/dashboard/student_dashboard_screen.dart';
-import 'package:eduflex/screen/student/tech_news_screens/tech_news_screen.dart';
+import 'package:eduflex/screen/student/library_screens/google_library.dart';
 import 'package:eduflex/screen/teacher/dashboard/techer_dashboard_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -18,7 +18,7 @@ class SplashService {
       });
     } else {
       Timer(const Duration(seconds: 3), () {
-        Get.offAll(() => const TechNewsScreen());
+        Get.offAll(() => const GoogleLibraryScreen());
       });
     }
   }

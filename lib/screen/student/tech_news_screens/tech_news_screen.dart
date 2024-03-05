@@ -16,15 +16,11 @@ class TechNewsScreen extends StatefulWidget {
 class _TechNewsScreenState extends State<TechNewsScreen> {
   TextEditingController txtSeach = TextEditingController();
 
-  late Future<List> news;
-
   final imageForError =
       'https://th.bing.com/th/id/OIG3.WYeItAo3B5DR2Hhcpxl8?w=1024&h=1024&rs=1&pid=ImgDetMain';
 
   @override
   void initState() {
-    news = fetchNews();
-
     super.initState();
   }
 
