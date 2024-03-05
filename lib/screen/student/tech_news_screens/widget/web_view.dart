@@ -13,8 +13,12 @@ class WebViewSecreen extends StatefulWidget {
 class _WebViewSecreenState extends State<WebViewSecreen> {
   @override
   Widget build(BuildContext context) {
-    return WebViewWidget(
-      controller: widget.controller,
+    return Scaffold(
+      body: SafeArea(
+        child: WebViewWidget(
+          controller: widget.controller,
+        ),
+      ),
     );
   }
 }

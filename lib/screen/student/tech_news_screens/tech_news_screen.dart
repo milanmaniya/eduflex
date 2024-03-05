@@ -21,8 +21,6 @@ class _TechNewsScreenState extends State<TechNewsScreen> {
   final imageForError =
       'https://th.bing.com/th/id/OIG3.WYeItAo3B5DR2Hhcpxl8?w=1024&h=1024&rs=1&pid=ImgDetMain';
 
-  late final WebViewController controller;
-
   @override
   void initState() {
     news = fetchNews();
@@ -76,6 +74,8 @@ class _TechNewsScreenState extends State<TechNewsScreen> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) => ListTile(
                             onTap: () {
+                              late final WebViewController controller;
+
                               controller = WebViewController()
                                 ..setJavaScriptMode(JavaScriptMode.unrestricted)
                                 ..setBackgroundColor(const Color(0x00000000))
@@ -83,32 +83,33 @@ class _TechNewsScreenState extends State<TechNewsScreen> {
                                   NavigationDelegate(
                                     onNavigationRequest:
                                         (NavigationRequest request) {
-                                      if (request.url.startsWith(
-                                          'https://www.youtube.com/')) {
-                                        return NavigationDecision.prevent;
-                                      }
-                                      return NavigationDecision.navigate;
+                                      return NavigationDecision.prevent;
                                     },
                                   ),
                                 )
                                 ..loadRequest(
                                   Uri.parse(
-                                      'https://pub.dev/packages/webview_flutter'),
+                                    snapshot.data![index]['url'],
+                                  ),
                                 ).then((value) {
                                   Get.to(
                                     () =>
                                         WebViewSecreen(controller: controller),
                                   );
                                 });
+                              setState(() {});
                             },
-                            leading: CachedNetworkImage(
-                              imageUrl: snapshot.data![index]['urlToImage'] ??
-                                  imageForError,
-                              height: 80,
-                              width: 80,
-                              errorWidget: (context, url, error) =>
-                                  const Center(
-                                child: CircularProgressIndicator(),
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: CachedNetworkImage(
+                                imageUrl: snapshot.data![index]['urlToImage'] ??
+                                    imageForError,
+                                fit: BoxFit.cover,
+                                width: 100,
+                                errorWidget: (context, url, error) =>
+                                    const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                               ),
                             ),
                             title: Text(snapshot.data![index]['title'],
