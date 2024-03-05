@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduflex/screen/student/tech_news_screens/api/technews_api.dart';
 import 'package:eduflex/screen/student/tech_news_screens/widget/search_bar.dart';
+import 'package:eduflex/screen/student/tech_news_screens/widget/web_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class TechNewsScreen extends StatefulWidget {
@@ -16,10 +18,10 @@ class _TechNewsScreenState extends State<TechNewsScreen> {
 
   late Future<List> news;
 
-  late final WebViewController controller;
-
   final imageForError =
       'https://th.bing.com/th/id/OIG3.WYeItAo3B5DR2Hhcpxl8?w=1024&h=1024&rs=1&pid=ImgDetMain';
+
+  late final WebViewController controller;
 
   @override
   void initState() {
@@ -75,14 +77,29 @@ class _TechNewsScreenState extends State<TechNewsScreen> {
                           itemBuilder: (context, index) => ListTile(
                             onTap: () {
                               controller = WebViewController()
-                                ..loadRequest(snapshot.data![index]['url']);
-                              WebViewWidget(controller: controller);
-
-                              // Get.to(
-                              //   () => WebViewSecreen(
-                              //     url: snapshot.data![index]['url'],
-                              //   ),
-                              // );
+                                ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                                ..setBackgroundColor(const Color(0x00000000))
+                                ..setNavigationDelegate(
+                                  NavigationDelegate(
+                                    onNavigationRequest:
+                                        (NavigationRequest request) {
+                                      if (request.url.startsWith(
+                                          'https://www.youtube.com/')) {
+                                        return NavigationDecision.prevent;
+                                      }
+                                      return NavigationDecision.navigate;
+                                    },
+                                  ),
+                                )
+                                ..loadRequest(
+                                  Uri.parse(
+                                      'https://pub.dev/packages/webview_flutter'),
+                                ).then((value) {
+                                  Get.to(
+                                    () =>
+                                        WebViewSecreen(controller: controller),
+                                  );
+                                });
                             },
                             leading: CachedNetworkImage(
                               imageUrl: snapshot.data![index]['urlToImage'] ??
