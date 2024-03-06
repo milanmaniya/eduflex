@@ -1,8 +1,15 @@
 import 'package:eduflex/common/widget/info_card.dart';
 import 'package:eduflex/common/widget/side_menu_card.dart';
+import 'package:eduflex/screen/chat_screen/chat_screen.dart';
+import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/student_profile_screen.dart';
+import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_attendance_screen/student_attendance_screen.dart';
+import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_home_screen.dart';
+import 'package:eduflex/screen/student/library_screens/google_library.dart';
+import 'package:eduflex/screen/student/tech_news_screens/tech_news_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SideMenuScreen extends StatefulWidget {
   const SideMenuScreen({super.key});
@@ -30,14 +37,14 @@ class _SideMenuScreenState extends State<SideMenuScreen> {
     'TechNews'
   ];
 
-  // final screenList = [
-  //   const StudentHomeScreen(),
-  //   const ChatScreen(),
-  //   const StudentAttendanceScreen(),
-  //   const StudentProfileScreen(),
-  //   const StudentHomeScreen(),
-  //   const ChatScreen(),
-  // ];
+  final screenList = [
+    const StudentHomeScreen(),
+    const ChatScreen(),
+    const StudentAttendanceScreen(),
+    const StudentProfileScreen(),
+    const GoogleLibraryScreen(),
+    const TechNewsScreen()
+  ];
 
   int selectedIndex = 0;
   @override
@@ -79,8 +86,16 @@ class _SideMenuScreenState extends State<SideMenuScreen> {
                 isActive: selectedIndex == index,
                 onPress: () {
                   selectedIndex = index;
-                  // Get.offAll(() => screenList[selectedIndex]);
                   setState(() {});
+
+                  Future.delayed(
+                    const Duration(milliseconds: 300),
+                    () => Get.to(
+                      () => screenList[index],
+                      duration: const Duration(milliseconds: 500),
+                      transition: Transition.zoom,
+                    ),
+                  );
                 },
                 icon: iconDataList[index],
               ),
