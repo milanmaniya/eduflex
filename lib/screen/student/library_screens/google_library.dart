@@ -169,12 +169,17 @@ class _GoogleLibraryScreenState extends State<GoogleLibraryScreen> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: CachedNetworkImage(
+                                      errorWidget: (context, url, error) =>
+                                          const Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
                                       height: 100,
                                       width: 100,
                                       fit: BoxFit.cover,
                                       imageUrl: snapshot.data![index]
-                                              ['volumeInfo']['imageLinks']
-                                          ['thumbnail'],
+                                                  ['volumeInfo']['imageLinks']
+                                              ['thumbnail'] ??
+                                          '',
                                     ),
                                   ),
                                   const SizedBox(
@@ -187,7 +192,8 @@ class _GoogleLibraryScreenState extends State<GoogleLibraryScreen> {
                                     children: [
                                       Text(
                                         snapshot.data![index]['volumeInfo']
-                                            ['title'],
+                                                ['title'] ??
+                                            '',
                                         style: const TextStyle(
                                           fontSize: 16,
                                           overflow: TextOverflow.ellipsis,
@@ -200,7 +206,8 @@ class _GoogleLibraryScreenState extends State<GoogleLibraryScreen> {
                                       ),
                                       Text(
                                         snapshot.data![index]['volumeInfo']
-                                            ['publisher'],
+                                                ['publisher'] ??
+                                            '',
                                         style: const TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
