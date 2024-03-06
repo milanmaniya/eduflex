@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduflex/screen/student/tech_news_screens/api/technews_api.dart';
 import 'package:eduflex/screen/student/tech_news_screens/widget/search_bar.dart';
-import 'package:eduflex/screen/student/tech_news_screens/widget/web_view.dart';
+import 'package:eduflex/screen/student/tech_news_screens/widget/technews_web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
