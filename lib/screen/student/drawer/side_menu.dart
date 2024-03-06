@@ -46,6 +46,11 @@ class _SideMenuScreenState extends State<SideMenuScreen> {
     const TechNewsScreen()
   ];
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SideMenuTile extends StatelessWidget {
+class SideMenuTile extends StatefulWidget {
   const SideMenuTile({
     super.key,
     required this.title,
@@ -14,6 +14,11 @@ class SideMenuTile extends StatelessWidget {
   final IconData icon;
   final bool isActive;
 
+  @override
+  State<SideMenuTile> createState() => _SideMenuTileState();
+}
+
+class _SideMenuTileState extends State<SideMenuTile> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,7 +36,7 @@ class SideMenuTile extends StatelessWidget {
               duration: const Duration(milliseconds: 400),
               curve: Curves.fastOutSlowIn,
               height: 56,
-              width: isActive ? 288 : 0,
+              width: widget.isActive ? 288 : 0,
               left: 0,
               child: Container(
                 decoration: BoxDecoration(
@@ -41,17 +46,17 @@ class SideMenuTile extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: onPress,
+              onTap: widget.onPress,
               leading: SizedBox(
                 height: 35,
                 width: 35,
                 child: Icon(
-                  icon,
+                  widget.icon,
                   color: Colors.white,
                 ),
               ),
               title: Text(
-                title,
+                widget.title,
                 style: const TextStyle(
                   color: Colors.white,
                 ),
