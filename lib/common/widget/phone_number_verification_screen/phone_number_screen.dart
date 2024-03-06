@@ -18,10 +18,17 @@ class PhoneNumberScreen extends StatefulWidget {
 class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
   final TextEditingController _txtPhoneNumber = TextEditingController();
 
+  final localStorage = GetStorage();
+
   @override
   void dispose() {
     _txtPhoneNumber.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -59,7 +66,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                 height: THelperFunction.screenHeight() * 0.02,
               ),
               const Text(
-                'We will send you an one time password \n on this given mobile number',
+                'We will send you an one time OTP \n on this given mobile number',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black,

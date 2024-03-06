@@ -6,6 +6,7 @@ import 'package:eduflex/screen/student/sign_up/controller/student_sign_up_contro
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:get/get.dart';
@@ -111,9 +112,9 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
                 labelText: TTexts.password,
                 prefixIcon: const Icon(Iconsax.password_check),
                 suffixIcon: IconButton(
-                  icon: Icon(instance.isObsecure.value
-                      ? Iconsax.eye_slash
-                      : Iconsax.eye),
+                  icon: Icon(
+                    instance.isObsecure.value ? Iconsax.eye_slash : Iconsax.eye,
+                  ),
                   onPressed: () =>
                       instance.isObsecure.value = !instance.isObsecure.value,
                 ),
@@ -121,6 +122,22 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
             ),
           ),
 
+          const SizedBox(
+            height: TSize.spaceBtwItems,
+          ),
+          TextFormField(
+            controller: instance.txtPhoneNumber,
+            keyboardType: TextInputType.phone,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(10)
+            ],
+            validator: ValidationBuilder().required().build(),
+            decoration: const InputDecoration(
+              labelText: TTexts.phoneNumber,
+              prefixIcon: Icon(Icons.phone),
+            ),
+          ),
           const SizedBox(
             height: TSize.spaceBtwItems,
           ),
@@ -286,7 +303,7 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
                     lastName: instance.txtLatName.text.trim(),
                     userName: instance.txtUserName.text.trim(),
                     email: instance.txtEmail.text.trim(),
-                    phoneNumber: '',
+                    phoneNumber: instance.txtPhoneNumber.text,
                     password: instance.txtPassword.text.trim(),
                     fieldValue: instance.fieldValue.value,
                     yearValue: instance.yearValue.value,

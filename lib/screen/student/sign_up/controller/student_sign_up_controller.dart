@@ -17,6 +17,7 @@ class StudentSignUpController extends GetxController {
   TextEditingController txtPassword = TextEditingController();
   TextEditingController txtAbout = TextEditingController();
   TextEditingController txtRollNo = TextEditingController();
+  TextEditingController txtPhoneNumber = TextEditingController();
 
   RxString fieldValue = ''.obs;
   RxString yearValue = ''.obs;
