@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,11 +18,11 @@ class TeacherSignUpController extends GetxController {
   TextEditingController txtDegree = TextEditingController();
   TextEditingController txtExperience = TextEditingController();
   TextEditingController txtAbout = TextEditingController();
+  TextEditingController txtPhoneNumber = TextEditingController();
 
   RxString fieldValue = ''.obs;
   RxString yearValue = ''.obs;
 
   final bcaYear = ['FY-BCA', 'SY-BCA', 'TY-BCA'];
   final bbaYear = ['FY-BBA', 'SY-BBA', 'TY-BBA'];
-
 }
