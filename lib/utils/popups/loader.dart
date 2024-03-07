@@ -86,7 +86,7 @@ class TLoader {
       isDismissible: true,
       shouldIconPulse: true,
       colorText: TColor.white,
-      duration: const Duration(seconds: 3),
+      duration: Duration(seconds: duration),
       backgroundColor: Colors.red.shade600,
       snackPosition: SnackPosition.BOTTOM,
       margin: const EdgeInsets.all(20),
