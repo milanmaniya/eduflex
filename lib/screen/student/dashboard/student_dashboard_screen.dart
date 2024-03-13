@@ -28,8 +28,11 @@ class _StudentDashBoardScreenState extends State<StudentDashBoardScreen>
   @override
   void initState() {
     _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 300))
-      ..addListener(() {
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 300,
+      ),
+    )..addListener(() {
         setState(() {});
       });
 

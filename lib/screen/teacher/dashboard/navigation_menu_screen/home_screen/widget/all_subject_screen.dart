@@ -81,10 +81,12 @@ class _AllSubjectScreenState extends State<AllSubjectScreen> {
                     ),
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
                       child: Row(
                         children: [
                           isLoading
                               ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
                                   child: Image.network(
                                     allSubject[index]['Image'],
                                     height: 100,
@@ -110,6 +112,7 @@ class _AllSubjectScreenState extends State<AllSubjectScreen> {
                           Text(
                             allSubject[index]['Name'],
                             textAlign: TextAlign.center,
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.bodyLarge!.apply(
                                   color: Colors.black,
