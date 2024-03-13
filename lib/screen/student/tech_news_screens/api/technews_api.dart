@@ -8,7 +8,7 @@ const apiKey = 'f103ba3f3d7240a09ccb4cd6fd10c8f4';
 Future<List> fetchNews() async {
   final response = await http.get(
     Uri.parse(
-      'https://newsapi.org/v2/top-headlines?country=us&category=technology&pageSize=100&apiKey=$apiKey&q=${SearchBarScreen.searchController.text}',
+      'https://newsapi.org/v2/top-headlines?country=us&category=technology&pageSize=100&apiKey=$apiKey&q=${SearchBarScreen.newsSearchController.text}',
     ),
   );
 

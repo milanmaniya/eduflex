@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SearchBarScreen extends StatefulWidget {
   const SearchBarScreen({super.key});
 
-  static TextEditingController searchController =
+  static TextEditingController newsSearchController =
       TextEditingController(text: '');
 
   @override
@@ -17,7 +17,7 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
       children: [
         Expanded(
           child: TextField(
-            controller: SearchBarScreen.searchController,
+            controller: SearchBarScreen.newsSearchController,
             decoration: const InputDecoration(
               labelText: 'Search News',
             ),

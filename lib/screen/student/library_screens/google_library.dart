@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:eduflex/screen/student/tech_news_screens/widget/search_bar.dart';
 import 'package:eduflex/screen/student/tech_news_screens/widget/technews_web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +10,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class GoogleLibraryScreen extends StatefulWidget {
   const GoogleLibraryScreen({super.key});
 
-  static TextEditingController booksController =
+  static TextEditingController booksSearchController =
       TextEditingController(text: '');
 
   @override
@@ -22,7 +21,7 @@ class _GoogleLibraryScreenState extends State<GoogleLibraryScreen> {
   Future<List> fetchBooks() async {
     final response = await http.get(
       Uri.parse(
-          'https://www.googleapis.com/books/v1/volumes?q=${GoogleLibraryScreen.booksController.text}'),
+          'https://www.googleapis.com/books/v1/volumes?q=${GoogleLibraryScreen.booksSearchController.text}'),
     );
 
     if (response.statusCode == 200) {
@@ -66,11 +65,11 @@ class _GoogleLibraryScreenState extends State<GoogleLibraryScreen> {
                   Expanded(
                     child: TextField(
                       onChanged: (value) {
-                        GoogleLibraryScreen.booksController.text = value;
+                        GoogleLibraryScreen.booksSearchController.text = value;
 
                         setState(() {});
                       },
-                      controller: SearchBarScreen.searchController,
+                      controller: GoogleLibraryScreen.booksSearchController,
                       decoration: const InputDecoration(
                         labelText: 'Search News',
                       ),
