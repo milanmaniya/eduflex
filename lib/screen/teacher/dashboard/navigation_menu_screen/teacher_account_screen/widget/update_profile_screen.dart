@@ -71,7 +71,7 @@ class _TeacherUpdateProfileScreenState
             children: [
               InkWell(
                 onTap: () {
-                   _showModalSheet();
+                  _showModalSheet();
                 },
                 child: _image != null
                     ? ClipRRect(
@@ -362,41 +362,6 @@ class _TeacherUpdateProfileScreenState
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
-              ),
-            ),
-            const SizedBox(
-              height: TSize.spaceBtwItems,
-            ),
-            SizedBox(
-              width: double.infinity,
-              height: 60,
-              child: ElevatedButton.icon(
-                icon: const Icon(Iconsax.camera),
-                onPressed: () async {
-                  final ImagePicker picker = ImagePicker();
-                  final XFile? image = await picker.pickImage(
-                    source: ImageSource.camera,
-                  );
-                  if (image != null) {
-                    log(image.path.toString());
-
-                    setState(() {
-                      _image = image.path;
-                    });
-
-                    APIS
-                        .updateProfilePicture(File(_image!), widget.data['id'])
-                        .then((value) {
-                      TLoader.successSnackBar(
-                        title: 'Congratulation',
-                        message: 'Your Profile Picture is updated',
-                      );
-                    });
-
-                    Navigator.pop(context);
-                  }
-                },
-                label: const Text('Camera'),
               ),
             ),
             const SizedBox(

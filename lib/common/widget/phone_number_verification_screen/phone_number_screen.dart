@@ -5,7 +5,6 @@ import 'package:eduflex/screen/student/sign_up/student_sign_up_screen.dart';
 import 'package:eduflex/screen/teacher/sign_up/teacher_sign_up_screen.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:eduflex/utils/popups/loader.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -28,16 +27,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
     super.dispose();
   }
 
-  @override
-  void initState() {
-    log(localStorage.read('phoneNumber'));
-
-    if (FirebaseAuth.instance.currentUser != null) {
-      log('true');
-    }
-
-    super.initState();
-  }
+  
 
   @override
   Widget build(BuildContext context) {
