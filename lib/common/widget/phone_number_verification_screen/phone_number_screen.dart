@@ -76,7 +76,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
               commonPhoneField(
                 controller: _txtPhoneNumber,
                 context: context,
-                onTap: () {
+                onTap: () async {
                   final data = localStorage.read('phoneNumber');
 
                   log(data.toString());
@@ -86,7 +86,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                       title: 'Error',
                       message:
                           'User entered mobile number is not registered, Please firstly register and after that verify the mobile number!',
-                      duration: 6,
+                      duration: 5,
                     );
                   } else {
                     if (data == _txtPhoneNumber.text) {

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/splash%20_screen/splash_service.dart';
 import 'package:eduflex/utils/constant/text_strings.dart';
@@ -25,6 +26,34 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final OtpFieldController _txtOtp = OtpFieldController();
 
   final localStorage = GetStorage();
+  bool isAvailable = false;
+
+  Future<bool> findData(String phoneNumber) async {
+    final result = await FirebaseFirestore.instance
+        .collection(localStorage.read('Screen'))
+        .where(
+          'phoneNumber',
+          isEqualTo: phoneNumber,
+        )
+        .get();
+
+    for (var element in result.docs) {
+      log(element.data().toString());
+      setState(() {
+        isAvailable = !isAvailable;
+      });
+    }
+
+    log(isAvailable.toString());
+
+    return isAvailable;
+  }
+
+  @override
+  void initState() {
+    findData(widget.phoneNumber);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,72 +162,86 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   ),
                 ),
                 onPressed: () {
-                  AuthCredential credential = PhoneAuthProvider.credential(
-                    verificationId: widget.verificationId,
-                    smsCode: TTexts.otpPinValue,
-                  );
-                  FirebaseAuth.instance
-                      .signInWithCredential(credential)
-                      .then((value) {
-                    TLoader.successSnackBar(
-                      title: 'Congratulation',
-                      message: 'Phone Number Verified Successfully!',
+                  if (isAvailable) {
+                    AuthCredential credential = PhoneAuthProvider.credential(
+                      verificationId: widget.verificationId,
+                      smsCode: TTexts.otpPinValue,
                     );
-
-                    final teacherData = localStorage.read('Teacher');
-
-                    final studentData = localStorage.read('Student');
-
-                    if (localStorage.read('Screen') == 'Student') {
-                      FirebaseFirestore.instance
-                          .collection('Student')
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .set(studentData.toJson())
-                          .then((value) {
-                        FirebaseFirestore.instance
-                            .collection(localStorage.read('Screen'))
-                            .doc(FirebaseAuth.instance.currentUser!.uid)
-                            .update({
-                          'phoneNumber': widget.phoneNumber,
-                          'id': FirebaseAuth.instance.currentUser!.uid,
-                        });
-
-                        SplashService().navigate();
-
-                        TLoader.successSnackBar(
-                          title: 'Congratulation',
-                          message: 'Your account has been created succesfully',
-                        );
-                      }).onError(
-                        (error, stackTrace) => TLoader.errorSnackBar(
-                            title: 'Oh Snap! ', message: error),
+                    FirebaseAuth.instance
+                        .signInWithCredential(credential)
+                        .then((value) {
+                      SplashService().navigate();
+                    });
+                  } else {
+                    AuthCredential credential = PhoneAuthProvider.credential(
+                      verificationId: widget.verificationId,
+                      smsCode: TTexts.otpPinValue,
+                    );
+                    FirebaseAuth.instance
+                        .signInWithCredential(credential)
+                        .then((value) {
+                      TLoader.successSnackBar(
+                        title: 'Congratulation',
+                        message: 'Phone Number Verified Successfully!',
                       );
-                    } else {
-                      FirebaseFirestore.instance
-                          .collection('Teacher')
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .set(teacherData.toJson())
-                          .then((value) {
+
+                      final teacherData = localStorage.read('Teacher');
+
+                      final studentData = localStorage.read('Student');
+
+                      if (localStorage.read('Screen') == 'Student') {
                         FirebaseFirestore.instance
-                            .collection(localStorage.read('Screen'))
+                            .collection('Student')
                             .doc(FirebaseAuth.instance.currentUser!.uid)
-                            .update({
-                          'phoneNumber': widget.phoneNumber,
-                          'id': FirebaseAuth.instance.currentUser!.uid,
-                        });
+                            .set(studentData.toJson())
+                            .then((value) {
+                          FirebaseFirestore.instance
+                              .collection(localStorage.read('Screen'))
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .update({
+                            'phoneNumber': widget.phoneNumber,
+                            'id': FirebaseAuth.instance.currentUser!.uid,
+                          });
 
-                        SplashService().navigate();
+                          SplashService().navigate();
 
-                        TLoader.successSnackBar(
-                          title: 'Congratulation',
-                          message: 'Your account has been created succesfully',
+                          TLoader.successSnackBar(
+                            title: 'Congratulation',
+                            message:
+                                'Your account has been created succesfully',
+                          );
+                        }).onError(
+                          (error, stackTrace) => TLoader.errorSnackBar(
+                              title: 'Oh Snap! ', message: error),
                         );
-                      }).onError(
-                        (error, stackTrace) => TLoader.errorSnackBar(
-                            title: 'Oh Snap! ', message: error),
-                      );
-                    }
-                  });
+                      } else {
+                        FirebaseFirestore.instance
+                            .collection('Teacher')
+                            .doc(FirebaseAuth.instance.currentUser!.uid)
+                            .set(teacherData.toJson())
+                            .then((value) {
+                          FirebaseFirestore.instance
+                              .collection(localStorage.read('Screen'))
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .update({
+                            'phoneNumber': widget.phoneNumber,
+                            'id': FirebaseAuth.instance.currentUser!.uid,
+                          });
+
+                          SplashService().navigate();
+
+                          TLoader.successSnackBar(
+                            title: 'Congratulation',
+                            message:
+                                'Your account has been created succesfully',
+                          );
+                        }).onError(
+                          (error, stackTrace) => TLoader.errorSnackBar(
+                              title: 'Oh Snap! ', message: error),
+                        );
+                      }
+                    });
+                  }
                 },
                 child: const Text(
                   "Verify",
