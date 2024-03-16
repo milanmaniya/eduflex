@@ -224,7 +224,10 @@ class APIS {
         );
       });
     } else {
-      TLoader.errorSnackBar(title: 'Failed !', message: 'Student is not Exits');
+      TLoader.errorSnackBar(
+        title: 'Failed !',
+        message: 'Student does not Exits',
+      );
     }
   }
 
