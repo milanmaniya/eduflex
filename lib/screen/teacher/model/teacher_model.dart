@@ -20,8 +20,7 @@ class Teacher {
   String pushToken;
   String id;
   String about;
-  String degree;
-  String experince;
+
   String lastActive;
 
   Teacher({
@@ -39,8 +38,6 @@ class Teacher {
     required this.pushToken,
     required this.id,
     required this.about,
-    required this.degree,
-    required this.experince,
     required this.lastActive,
   });
 
@@ -59,8 +56,6 @@ class Teacher {
         pushToken: json["pushToken"],
         id: json["id"],
         about: json["about"],
-        degree: json['degree'],
-        experince: json['experince'],
         lastActive: json['lastActive'],
       );
 
@@ -79,8 +74,6 @@ class Teacher {
         "pushToken": pushToken,
         "id": id,
         "about": about,
-        "degree": degree,
-        "experince": experince,
         "lastActive": lastActive
       };
 }

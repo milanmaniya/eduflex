@@ -224,34 +224,6 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             height: TSize.spaceBtwItems,
           ),
 
-          // degree
-          TextFormField(
-            controller: instance.txtDegree,
-            validator: ValidationBuilder().required().build(),
-            decoration: const InputDecoration(
-              labelText: TTexts.degree,
-              prefixIcon: Icon(Iconsax.information),
-            ),
-          ),
-
-          const SizedBox(
-            height: TSize.spaceBtwItems,
-          ),
-
-          // experince
-          TextFormField(
-            controller: instance.txtExperience,
-            validator: ValidationBuilder().required().build(),
-            decoration: const InputDecoration(
-              labelText: TTexts.experience,
-              prefixIcon: Icon(Iconsax.information),
-            ),
-          ),
-
-          const SizedBox(
-            height: TSize.spaceBtwItems,
-          ),
-
           // About
           TextFormField(
             controller: instance.txtAbout,
@@ -297,8 +269,6 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                     pushToken: '',
                     id: '',
                     about: instance.txtAbout.text.trim(),
-                    degree: instance.txtDegree.text.trim(),
-                    experince: instance.txtExperience.text.trim(),
                     lastActive: time,
                   );
 

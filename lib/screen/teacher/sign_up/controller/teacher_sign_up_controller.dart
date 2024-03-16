@@ -15,8 +15,6 @@ class TeacherSignUpController extends GetxController {
   TextEditingController txtLatName = TextEditingController();
   TextEditingController txtUserName = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
-  TextEditingController txtDegree = TextEditingController();
-  TextEditingController txtExperience = TextEditingController();
   TextEditingController txtAbout = TextEditingController();
   TextEditingController txtPhoneNumber = TextEditingController();
 

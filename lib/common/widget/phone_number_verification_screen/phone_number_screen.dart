@@ -27,8 +27,6 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
     super.dispose();
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +99,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                         title: 'Error',
                         message:
                             'User entered mobile number is not registered, Please entered the register mobile number',
-                        duration: 6,
+                        duration: 5,
                       );
                     }
                   }

@@ -14,12 +14,12 @@ class StudentHomeScreen extends StatefulWidget {
 
 class _StudentHomeScreenState extends State<StudentHomeScreen> {
   final localStorage = GetStorage();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only (
+        padding: const EdgeInsets.only(
           top: TSize.appBarHeight,
           left: 10,
           right: 10,
