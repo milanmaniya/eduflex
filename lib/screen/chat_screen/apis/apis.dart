@@ -179,13 +179,17 @@ class APIS {
         .snapshots();
   }
 
-  static Future<void> studentExist(
-    String rollNo,
-    String classId,
-    String className,
-  ) async {
+  static Future<void> studentExist({
+    required String rollNo,
+    required String classId,
+    required String className,
+    required String sem,
+    required String div,
+  }) async {
     final data = await FirebaseFirestore.instance
         .collection('Student')
+        .where('div', isEqualTo: div)
+        .where('yearValue', isEqualTo: sem)
         .where('rollNo', isEqualTo: rollNo)
         .get();
 

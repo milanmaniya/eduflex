@@ -21,27 +21,6 @@ class AddStudentScreen extends StatefulWidget {
 class _AddStudentScreenState extends State<AddStudentScreen> {
   DateTime selectedDate = DateTime.now();
 
-  List<String> studentRollNo = [];
-
-  // Future<void> checkData() async {
-  //   final data = await FirebaseFirestore.instance
-  //       .collection('Attendance')
-  //       .doc(widget.data['ClassId'])
-  //       .collection('Student')
-  //       .get();
-  //   setState(() {
-  //     totalNumberofStudent = data.docs.length;
-  //   });
-  // }
-
-  List<bool> studentAttendance = List.generate(2, (index) => true);
-
-  @override
-  void initState() {
-    // checkData();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudent() {
@@ -50,14 +29,6 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
           .doc(widget.data['ClassId'])
           .collection('Student')
           .orderBy('StudentRollNo')
-          .snapshots();
-    }
-
-    Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudentAttendance() {
-      return FirebaseFirestore.instance
-          .collection('Attendance')
-          .doc(widget.data['ClassId'])
-          .collection(widget.data['ClassName'])
           .snapshots();
     }
 
@@ -124,27 +95,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
               return [
                 PopupMenuItem(
                   height: 45,
-                  onTap: () {
-                    Map<String, dynamic> data = {};
-
-                    for (var i = 0; i < studentRollNo.length; i++) {
-                      data.addAll({studentRollNo[i]: studentAttendance[i]});
-                    }
-
-                    log('Data: $data');
-
-                    FirebaseFirestore.instance
-                        .collection('Attendance')
-                        .doc(widget.data['ClassId'])
-                        .collection(widget.data['ClassName'])
-                        .doc(
-                            '${selectedDate.day}-${selectedDate.month}-${selectedDate.year}')
-                        .set(data);
-
-                    TLoader.successSnackBar(
-                        title: 'Success',
-                        message: 'Attendance Save Successfully');
-                  },
+                  onTap: () {},
                   child: const Text(
                     'Save Changes',
                     style: TextStyle(
@@ -176,129 +127,86 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
       body: StreamBuilder(
         stream: getAllClassStudent(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.none ||
+          if (snapshot.connectionState == ConnectionState.none &&
               snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           final data = [];
 
-          List<String> studentRoll = [];
-
           if (snapshot.hasData) {
             for (var element in snapshot.data!.docs) {
-              log(element.data().toString());
               data.add(element.data());
-              studentRoll.add(element['StudentRollNo']);
             }
           }
 
-          studentRollNo = studentRoll;
-
-          log('StudentRollNo: $studentRollNo');
+          log(data.toString());
 
           if (data.isNotEmpty) {
-            return StreamBuilder(
-              stream: getAllClassStudentAttendance(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.none ||
-                    snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+            return ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 5,
+              ),
+              itemBuilder: (context, index) => Slidable(
+                startActionPane: ActionPane(
+                  motion: const StretchMotion(),
+                  children: [
+                    SlidableAction(
+                      onPressed: (context) {
+                        final txtStudentRollNo = TextEditingController();
+                        final txtStudentName = TextEditingController();
 
-                final result = [];
+                        txtStudentRollNo.text = data[index]['StudentRollNo'];
+                        txtStudentName.text = data[index]['StudentName'];
 
-                if (snapshot.hasData) {
-                  for (var element in snapshot.data!.docs) {
-                    // log(element.id.toString());
-                    // log(element.data().toString());
-
-                    result.add(element.data());
-                  }
-                }
-
-                if (result.isNotEmpty) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.separated(
-                      itemBuilder: (context, index) => Slidable(
-                        startActionPane: ActionPane(
-                          motion: const StretchMotion(),
-                          children: [
-                            SlidableAction(
-                              onPressed: (context) {
-                                final txtStudentRollNo =
-                                    TextEditingController();
-                                final txtStudentName = TextEditingController();
-
-                                txtStudentRollNo.text =
-                                    data[index]['StudentRollNo'];
-                                txtStudentName.text =
-                                    data[index]['StudentName'];
-
-                                showUpdateStudentDialog(
-                                  context: context,
-                                  txtStudentRollNo: txtStudentRollNo,
-                                  txtStudentName: txtStudentName,
-                                  studentId: data[index]['StudentId'],
-                                );
-                              },
-                              borderRadius: BorderRadius.circular(16),
-                              autoClose: true,
-                              backgroundColor: const Color(0xFF21B7CA),
-                              foregroundColor: Colors.white,
-                              icon: Icons.update_rounded,
-                              label: 'Update',
-                            ),
-                            const SizedBox(
-                              width: 6,
-                            ),
-                            SlidableAction(
-                              borderRadius: BorderRadius.circular(16),
-                              autoClose: true,
-                              backgroundColor: const Color(0xFFFE4A49),
-                              onPressed: (context) {
-                                deleteStudent(
-                                    studentId: data[index]['StudentId']);
-                              },
-                              foregroundColor: Colors.white,
-                              icon: Icons.delete,
-                              label: 'Delete',
-                            ),
-                          ],
-                        ),
-                        child: studentAttendanceCard(
-                          studentName: data[index]['StudentName'],
-                          studentRollNo: data[index]['StudentRollNo'],
-                          isPresent: studentAttendance[index],
-                          onTap: () {
-                            if (studentAttendance[index]) {
-                              studentAttendance[index] =
-                                  !studentAttendance[index];
-                            } else {
-                              studentAttendance[index] =
-                                  !studentAttendance[index];
-                            }
-                            setState(() {});
-                          },
-                        ),
-                      ),
-                      separatorBuilder: (context, index) => const SizedBox(
-                        height: 5,
-                      ),
-                      itemCount: data.length,
+                        showUpdateStudentDialog(
+                          context: context,
+                          txtStudentRollNo: txtStudentRollNo,
+                          txtStudentName: txtStudentName,
+                          studentId: data[index]['StudentId'],
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(16),
+                      autoClose: true,
+                      backgroundColor: const Color(0xFF21B7CA),
+                      foregroundColor: Colors.white,
+                      icon: Icons.update_rounded,
+                      label: 'Update',
                     ),
-                  );
-                } else {
-                  return const Center(
-                    child: Text('Student Not Found'),
-                  );
-                }
-              },
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    SlidableAction(
+                      borderRadius: BorderRadius.circular(16),
+                      autoClose: true,
+                      backgroundColor: const Color(0xFFFE4A49),
+                      onPressed: (context) {
+                        deleteStudent(studentId: data[index]['StudentId']);
+                      },
+                      foregroundColor: Colors.white,
+                      icon: Icons.delete,
+                      label: 'Delete',
+                    ),
+                  ],
+                ),
+                child: studentAttendanceCard(
+                  studentName: data[index]['StudentName'],
+                  studentRollNo: data[index]['StudentRollNo'],
+                  isPresent: true,
+                  onTap: () {},
+                ),
+              ),
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 5,
+              ),
+              itemCount: data.length,
             );
           } else {
             return const Center(
-              child: Text('Please add new student on your class room'),
+              child: Text('Please add student in your classroom'),
             );
           }
         },
@@ -484,8 +392,13 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
               ),
               TextButton(
                 onPressed: () {
-                  APIS.studentExist(txtStudentId.text, widget.data['ClassId'],
-                      widget.data['ClassName']);
+                  APIS.studentExist(
+                    rollNo: txtStudentId.text,
+                    classId: widget.data['ClassId'],
+                    className: widget.data['ClassName'],
+                    sem: widget.data['Sem'],
+                    div: widget.data['Divison'],
+                  );
 
                   Navigator.pop(context);
                 },
