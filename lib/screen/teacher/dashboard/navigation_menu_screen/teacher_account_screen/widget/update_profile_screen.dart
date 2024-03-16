@@ -42,8 +42,7 @@ class _TeacherUpdateProfileScreenState
     instance.txtPassword.text = widget.data['password'];
     instance.fieldValue.value = widget.data['fieldValue'];
     instance.yearValue.value = widget.data['yearValue'];
-    instance.txtDegree.text = widget.data['degree'];
-    instance.txtExperience.text = widget.data['experince'];
+
     instance.txtAbout.text = widget.data['about'];
 
     setState(() {});
@@ -259,34 +258,6 @@ class _TeacherUpdateProfileScreenState
                             )
                             .toList(),
                   ),
-                ),
-              ),
-
-              const SizedBox(
-                height: TSize.spaceBtwItems,
-              ),
-
-              // degree
-              TextFormField(
-                controller: instance.txtDegree,
-                validator: ValidationBuilder().required().build(),
-                decoration: const InputDecoration(
-                  labelText: TTexts.degree,
-                  prefixIcon: Icon(Iconsax.information),
-                ),
-              ),
-
-              const SizedBox(
-                height: TSize.spaceBtwItems,
-              ),
-
-              // experince
-              TextFormField(
-                controller: instance.txtExperience,
-                validator: ValidationBuilder().required().build(),
-                decoration: const InputDecoration(
-                  labelText: TTexts.experience,
-                  prefixIcon: Icon(Iconsax.information),
                 ),
               ),
 

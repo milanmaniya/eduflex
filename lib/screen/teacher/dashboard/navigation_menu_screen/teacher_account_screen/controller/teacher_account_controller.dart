@@ -25,8 +25,6 @@ class TeacherAccountScreenController extends GetxController {
   TextEditingController txtLatName = TextEditingController();
   TextEditingController txtUserName = TextEditingController();
   TextEditingController txtPhoneNumber = TextEditingController();
-  TextEditingController txtDegree = TextEditingController();
-  TextEditingController txtExperience = TextEditingController();
   TextEditingController txtAbout = TextEditingController();
 
   RxString yearValue = ''.obs;
@@ -46,8 +44,6 @@ class TeacherAccountScreenController extends GetxController {
       'userName': txtUserName.text.trim(),
       'fieldValue': fieldValue.value.trim(),
       'yearValue': yearValue.value.trim(),
-      'degree': txtDegree.text.trim(),
-      'experince': txtExperience.text.trim(),
       'about': txtAbout.text.trim(),
     }).then((value) {
       TLoader.successSnackBar(
