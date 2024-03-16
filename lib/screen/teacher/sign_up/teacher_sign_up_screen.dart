@@ -16,45 +16,42 @@ class _TeacherSignUpScreenState extends State<TeacherSignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: SingleChildScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 70,
-            left: 15,
-            right: 15,
-            bottom: 15,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // title
-              LoginHeader(
-                title: TTexts.teacherLoginTitle,
-              ),
+      body: Padding(
+        padding: EdgeInsets.only(
+          top: 70,
+          left: 15,
+          right: 15,
+          bottom: 15,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // title
+            LoginHeader(
+              title: TTexts.teacherLoginTitle,
+            ),
 
-              SizedBox(
-                height: 5,
+            SizedBox(
+              height: 5,
+            ),
+            // title
+            Text(
+              TTexts.signupTitle,
+              // style: Theme.of(context).textTheme.headlineMedium,
+              style: TextStyle(
+                color: TColor.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
-              // title
-              Text(
-                TTexts.signupTitle,
-                // style: Theme.of(context).textTheme.headlineMedium,
-                style: TextStyle(
-                  color: TColor.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            ),
 
-              SizedBox(
-                height: TSize.spaceBtwSections,
-              ),
+            SizedBox(
+              height: TSize.spaceBtwSections,
+            ),
 
-              // form
-              TeacherSignUpForm(),
-            ],
-          ),
+            // form
+            Expanded(child: TeacherSignUpForm()),
+          ],
         ),
       ),
     );
