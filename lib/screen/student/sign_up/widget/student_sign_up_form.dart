@@ -27,6 +27,10 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
   Widget build(BuildContext context) {
     final instance = Get.put(StudentSignUpController());
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.only(
+        top: 10,
+      ),
       child: Form(
         key: instance.key,
         child: Column(

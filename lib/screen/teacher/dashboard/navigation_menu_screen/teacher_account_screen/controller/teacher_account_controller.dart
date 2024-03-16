@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/teacher_account_screen.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +31,7 @@ class TeacherAccountScreenController extends GetxController {
   final bcaYear = ['FY-BCA', 'SY-BCA', 'TY-BCA'];
   final bbaYear = ['FY-BBA', 'SY-BBA', 'TY-BBA'];
 
-  Future<void> updateData() async {
+  Future<void> updateData(BuildContext context) async {
     await FirebaseFirestore.instance
         .collection(localStorage.read('Screen'))
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -49,7 +48,7 @@ class TeacherAccountScreenController extends GetxController {
       TLoader.successSnackBar(
           title: 'Update Data', message: 'Data Updated Successfully');
 
-      Get.off(() => const TeacherAccountScreen());
+      Navigator.pop(context);
     }).onError((error, stackTrace) {
       TLoader.errorSnackBar(title: 'Oh Snap! ', message: error.toString());
     });

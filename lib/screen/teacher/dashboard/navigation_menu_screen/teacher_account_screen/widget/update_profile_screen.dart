@@ -293,7 +293,7 @@ class _TeacherUpdateProfileScreenState
                 child: ElevatedButton(
                   onPressed: () {
                     if (instance.key.currentState!.validate()) {
-                      instance.updateData();
+                      instance.updateData(context);
                     }
                   },
                   child: const Text(TTexts.createAccount),

@@ -28,6 +28,10 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
     final instance = Get.put(TeacherSignUpController());
 
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.only(
+        top: 10,
+      ),
       child: Form(
         key: instance.key,
         child: Column(
@@ -64,7 +68,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             const SizedBox(
               height: TSize.spaceBtwItems,
             ),
-    
+
             // username
             TextFormField(
               controller: instance.txtUserName,
@@ -77,7 +81,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             const SizedBox(
               height: TSize.spaceBtwItems,
             ),
-    
+
             // Email
             TextFormField(
               controller: instance.txtEmail,
@@ -90,11 +94,11 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                 prefixIcon: Icon(Iconsax.direct),
               ),
             ),
-    
+
             const SizedBox(
               height: TSize.spaceBtwItems,
             ),
-    
+
             TextFormField(
               controller: instance.txtPhoneNumber,
               keyboardType: TextInputType.phone,
@@ -111,7 +115,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
             const SizedBox(
               height: TSize.spaceBtwItems,
             ),
-    
+
             //password
             Obx(
               () => TextFormField(
@@ -119,7 +123,7 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                   if (value == null) {
                     return 'Passowrd is required';
                   }
-    
+
                   if (value.length <= 6) {
                     return 'Minimum 6 character password is required';
                   }
@@ -140,11 +144,11 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                 ),
               ),
             ),
-    
+
             const SizedBox(
               height: TSize.spaceBtwItems,
             ),
-    
+
             Obx(
               () => SizedBox(
                 width: double.infinity,
@@ -178,11 +182,11 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                 ),
               ),
             ),
-    
+
             const SizedBox(
               height: TSize.spaceBtwItems,
             ),
-    
+
             Obx(
               () => SizedBox(
                 width: double.infinity,
@@ -220,11 +224,11 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                 ),
               ),
             ),
-    
+
             const SizedBox(
               height: TSize.spaceBtwItems,
             ),
-    
+
             // About
             TextFormField(
               controller: instance.txtAbout,
@@ -234,27 +238,28 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                 prefixIcon: Icon(Iconsax.info_circle),
               ),
             ),
-    
+
             const SizedBox(
               height: TSize.spaceBtwSections,
             ),
-    
+
             // Terms and condition checkbox
-    
+
             const TermsAndConditionText(),
-    
+
             const SizedBox(
               height: TSize.spaceBtwSections,
             ),
-    
+
             // signup button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
                   if (instance.key.currentState!.validate()) {
-                    final time = DateTime.now().millisecondsSinceEpoch.toString();
-    
+                    final time =
+                        DateTime.now().millisecondsSinceEpoch.toString();
+
                     final newTeacher = Teacher(
                       firstName: instance.txtFirstName.text.trim(),
                       lastName: instance.txtLatName.text.trim(),
@@ -272,17 +277,18 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                       about: instance.txtAbout.text.trim(),
                       lastActive: time,
                     );
-    
+
                     final storage = GetStorage();
-    
+
                     storage.write('Teacher', newTeacher);
-    
-                    storage.write('TeacherFieldValue', instance.fieldValue.value);
-    
+
+                    storage.write(
+                        'TeacherFieldValue', instance.fieldValue.value);
+
                     storage.write('phoneNumber', instance.txtPhoneNumber.text);
-    
+
                     setState(() {});
-    
+
                     Get.offAll(() => const PhoneNumberScreen());
                   }
                 },
