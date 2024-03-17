@@ -27,20 +27,20 @@ class StudentAccountController extends GetxController {
   RxString divValue = ''.obs;
 
   final bcaYear = [
-    'FY-BCA SEM-1',
-    'FY-BCA SEM-2',
-    'SY-BCA SEM-3',
-    'SY-BCA SEM-4',
-    'TY-BCA SEM-5',
-    'TY-BCA SEM-6',
+    'FYBCA-SEM1',
+    'FYBCA-SEM2',
+    'SYBCA-SEM3',
+    'SYBCA-SEM4',
+    'TYBCA-SEM5',
+    'TYBCA-SEM6',
   ];
   final bbaYear = [
-    'FY-BBA SEM-1',
-    'FY-BBA SEM-2',
-    'SY-BBA SEM-3',
-    'SY-BBA SEM-4',
-    'TY-BBA SEM-5',
-    'TY-BBA SEM-6',
+    'FYBBA-SEM1',
+    'FYBBA-SEM2',
+    'SYBBA-SEM3',
+    'SYBBA-SEM4',
+    'TYBBA-SEM5',
+    'TYBBA-SEM6',
   ];
 
   final div = [

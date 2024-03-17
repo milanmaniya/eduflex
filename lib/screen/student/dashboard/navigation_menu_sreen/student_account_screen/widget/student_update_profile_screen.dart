@@ -206,7 +206,11 @@ class _StudentUpdateProfileState extends State<StudentUpdateProfile> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                     ),
-                    onChanged: (value) => instance.fieldValue.value = value!,
+                    onChanged: (value) {
+                      instance.fieldValue.value = value!;
+
+                      instance.yearValue.value = '';
+                    },
                     isExpanded: true,
                     hint: Text(
                       instance.fieldValue.isEmpty
