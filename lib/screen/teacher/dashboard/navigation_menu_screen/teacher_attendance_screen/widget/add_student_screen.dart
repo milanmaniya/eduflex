@@ -100,21 +100,22 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 PopupMenuItem(
                   height: 45,
                   onTap: () {
-                    for (int i = 0; i < studentRollNoList.length; i++) {
-                      FirebaseFirestore.instance
-                          .collection('Attendance')
-                          .doc(widget.data['ClassId'])
-                          .collection(widget.data['ClassName'])
-                          .doc(
-                              "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}")
-                          .set({
-                        studentRollNoList[i]: indexColor[i],
-                      });
-                    }
+                    log(indexColor.toString());
+                    // for (int i = 0; i < studentRollNoList.length; i++) {
+                    //   FirebaseFirestore.instance
+                    //       .collection('Attendance')
+                    //       .doc(widget.data['ClassId'])
+                    //       .collection(widget.data['ClassName'])
+                    //       .doc(
+                    //           "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}")
+                    //       .set({
+                    //     studentRollNoList[i]: indexColor[i],
+                    //   });
+                    // }
 
-                    TLoader.successSnackBar(
-                        title: 'sdfjbsjfdbsjbfsjb',
-                        message: 'msfbsbgshbgjshbgjgbfjgbdjbgjdbjgbjdfgf');
+                    // TLoader.successSnackBar(
+                    //     title: 'sdfjbsjfdbsjbfsjb',
+                    //     message: 'msfbsbgshbgjshbgjgbfjgbdjbgjdbjgbjdfgf');
                   },
                   child: const Text(
                     'Save Changes',
