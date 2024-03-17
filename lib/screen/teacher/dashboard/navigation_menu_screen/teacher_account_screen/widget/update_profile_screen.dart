@@ -192,13 +192,16 @@ class _TeacherUpdateProfileScreenState
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 16,
-                        horizontal: 10,
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
                     ),
-                    onChanged: (value) => instance.fieldValue.value = value!,
+                    onChanged: (value) {
+                      instance.fieldValue.value = value!;
+
+                      instance.yearValue.value = '';
+                    },
                     isExpanded: true,
                     hint: Text(
                       instance.fieldValue.isEmpty
@@ -240,7 +243,7 @@ class _TeacherUpdateProfileScreenState
                           ? 'Select Your Year'
                           : instance.yearValue.value,
                     ),
-                    items: instance.localStorage.read('Field') == 'BBA'
+                    items: instance.fieldValue.value == 'BBA'
                         ? instance.bbaYear
                             .map(
                               (e) => DropdownMenuItem(
@@ -296,7 +299,7 @@ class _TeacherUpdateProfileScreenState
                       instance.updateData(context);
                     }
                   },
-                  child: const Text(TTexts.createAccount),
+                  child: const Text(TTexts.updateAccount),
                 ),
               ),
             ],

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/widget/add_student_screen.dart';
@@ -25,7 +27,9 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
   String divisonValue = '';
   final txtSubjectValue = TextEditingController();
 
-  List<String> semList = [
+  String fieldValue = '';
+
+  List<String> bcaSemList = [
     'FYBCA-SEM1',
     'FYBCA-SEM2',
     'SYBCA-SEM3',
@@ -34,12 +38,40 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
     'TYBCA-SEM6',
   ];
 
+  List<String> bbaSemList = [
+    'FYBBA-SEM1',
+    'FYBBA-SEM2',
+    'SYBBA-SEM3',
+    'SYBBA-SEM4',
+    'TYBBA-SEM5',
+    'TYBBA-SEM6',
+  ];
+
+  Future<void> fetchFieldValue() async {
+    final data = await FirebaseFirestore.instance
+        .collection(storage.read('Screen'))
+        .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    for (var element in data.docs) {
+      setState(() {
+        fieldValue = element['fieldValue'];
+      });
+    }
+  }
+
   List<String> divisonList = [
     'Divison-1',
     'Divison-2',
     'Divison-3',
     'Divison-4',
   ];
+
+  @override
+  void initState() {
+    fetchFieldValue();
+    super.initState();
+  }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllClasses() {
     return FirebaseFirestore.instance
@@ -50,6 +82,7 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    log(fieldValue.toString());
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -104,7 +137,8 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                           showUpdateClassDialog(
                             context: context,
                             txtClassName: txtClassName,
-                            semList: semList,
+                            semList:
+                                fieldValue == 'BBA' ? bbaSemList : bcaSemList,
                             divisonList: divisonList,
                             classId: data[index]['ClassId'],
                             semValue: data[index]['Sem'],
@@ -233,14 +267,23 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
               hint: Text(
                 semValue.isEmpty ? 'Select Semester' : semValue,
               ),
-              items: semList
-                  .map(
-                    (e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e),
-                    ),
-                  )
-                  .toList(),
+              items: fieldValue == 'BBA'
+                  ? bbaSemList
+                      .map(
+                        (e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e),
+                        ),
+                      )
+                      .toList()
+                  : bcaSemList
+                      .map(
+                        (e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e),
+                        ),
+                      )
+                      .toList(),
             ),
           ),
           const SizedBox(
