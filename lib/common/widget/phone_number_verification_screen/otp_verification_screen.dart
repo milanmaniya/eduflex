@@ -162,10 +162,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   ),
                 ),
                 onPressed: () {
+                  // credential
                   AuthCredential credential = PhoneAuthProvider.credential(
                     verificationId: widget.verificationId,
                     smsCode: TTexts.otpPinValue,
                   );
+
+                  //
                   FirebaseAuth.instance
                       .signInWithCredential(credential)
                       .then((value) {
