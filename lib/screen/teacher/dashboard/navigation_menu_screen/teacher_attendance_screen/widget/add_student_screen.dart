@@ -21,16 +21,44 @@ class AddStudentScreen extends StatefulWidget {
 class _AddStudentScreenState extends State<AddStudentScreen> {
   DateTime selectedDate = DateTime.now();
 
+  var totalNumberOfStudent = 0;
+
+  Future<void> fetchAllStudent() async {
+    final data = await FirebaseFirestore.instance
+        .collection('Attendance')
+        .doc(widget.data['ClassId'])
+        .collection('Student')
+        .get();
+
+    for (var element in data.docs) {
+      setState(() {
+        totalNumberOfStudent++;
+      });
+    }
+
+    log(totalNumberOfStudent.toString());
+  }
+
+  @override
+  void initState() {
+    fetchAllStudent();
+    super.initState();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudent() {
+    return FirebaseFirestore.instance
+        .collection('Attendance')
+        .doc(widget.data['ClassId'])
+        .collection('Student')
+        .orderBy('StudentRollNo')
+        .snapshots();
+  }
+
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudent() {
-      return FirebaseFirestore.instance
-          .collection('Attendance')
-          .doc(widget.data['ClassId'])
-          .collection('Student')
-          .orderBy('StudentRollNo')
-          .snapshots();
-    }
+    final colorData = List.generate(totalNumberOfStudent, (index) => false);
+
+    log(colorData.toString());
 
     return Scaffold(
       appBar: AppBar(
@@ -149,6 +177,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.symmetric(
                 horizontal: 5,
+                vertical: 10,
               ),
               itemBuilder: (context, index) => Slidable(
                 startActionPane: ActionPane(
@@ -195,8 +224,21 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 child: studentAttendanceCard(
                   studentName: data[index]['StudentName'],
                   studentRollNo: data[index]['StudentRollNo'],
-                  isPresent: true,
-                  onTap: () {},
+                  isPresent: colorData[index],
+                  onTap: () {
+                    // if (colorData[index]) {
+                    //   colorData[index] = !colorData[index];
+                    // } else {
+                    //   colorData[index] = !colorData[index];
+                    // }
+
+                    if (colorData[index] == true) {
+                      colorData[index] = false;
+                    } else {
+                      colorData[index] = true;
+                    }
+                    setState(() {});
+                  },
                 ),
               ),
               separatorBuilder: (context, index) => const SizedBox(

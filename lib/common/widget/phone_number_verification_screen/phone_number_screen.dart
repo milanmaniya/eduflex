@@ -77,34 +77,10 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                 controller: _txtPhoneNumber,
                 context: context,
                 onTap: () async {
-                  final data = localStorage.read('phoneNumber');
-
-                  log(data.toString());
-
-                  if (data == null) {
-                    TLoader.errorSnackBar(
-                      title: 'Error',
-                      message:
-                          'User entered mobile number is not registered, Please firstly register and after that verify the mobile number!',
-                      duration: 5,
-                    );
-                  } else {
-                    if (data == _txtPhoneNumber.text) {
-                      AuthenticationReposotiry().sendOtp(
-                        phoneNumber: _txtPhoneNumber.text,
-                        context: context,
-                      );
-                    } else {
-                      TLoader.errorSnackBar(
-                        title: 'Error',
-                        message:
-                            'User entered mobile number is not registered, Please entered the register mobile number',
-                        duration: 5,
-                      );
-                    }
-                  }
-
-                  log(_txtPhoneNumber.text);
+                  AuthenticationReposotiry().sendOtp(
+                    phoneNumber: _txtPhoneNumber.text,
+                    context: context,
+                  );
                 },
               ),
               Row(
