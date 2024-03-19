@@ -39,7 +39,7 @@ class _StudentInformationScreenState extends State<StudentInformationScreen> {
                   borderRadius: BorderRadius.circular(100),
                   child: CachedNetworkImage(
                     height: 120,
-                     fit: BoxFit.cover,
+                    fit: BoxFit.cover,
                     width: 120,
                     imageUrl: widget.data['image'],
                     errorWidget: (context, url, error) => const CircleAvatar(
@@ -104,20 +104,6 @@ class _StudentInformationScreenState extends State<StudentInformationScreen> {
               LabelWithValue(
                 labelName: 'Phone Number',
                 value: "${widget.data['phoneNumber']}",
-              ),
-              const SizedBox(
-                height: TSize.spaceBtwItems,
-              ),
-              const LabelWithValue(
-                labelName: 'Gender',
-                value: '',
-              ),
-              const SizedBox(
-                height: TSize.spaceBtwItems,
-              ),
-              const LabelWithValue(
-                labelName: 'Date Of Birth',
-                value: "",
               ),
             ],
           ),
