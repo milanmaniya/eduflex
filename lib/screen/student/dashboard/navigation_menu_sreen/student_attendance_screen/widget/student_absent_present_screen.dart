@@ -77,7 +77,7 @@ class _StudentAbsentPresentScreenState
 
           final attendance = totalNumberOfPresent / totalNumberOfLeacture * 100;
 
-          if (data.isNotEmpty) {
+          if (data.isNotEmpty && dateList.isNotEmpty) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -171,7 +171,7 @@ class _StudentAbsentPresentScreenState
             );
           } else {
             return const Center(
-              child: Text('Student Absent Present Screen'),
+              child: Text('Record Not Found!'),
             );
           }
         },
