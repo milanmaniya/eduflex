@@ -18,6 +18,9 @@ class GoogleLibraryScreen extends StatefulWidget {
 }
 
 class _GoogleLibraryScreenState extends State<GoogleLibraryScreen> {
+  final imageForError =
+      'https://th.bing.com/th/id/OIG3.WYeItAo3B5DR2Hhcpxl8?w=1024&h=1024&rs=1&pid=ImgDetMain';
+
   Future<List> fetchBooks() async {
     final response = await http.get(
       Uri.parse(
@@ -97,7 +100,7 @@ class _GoogleLibraryScreenState extends State<GoogleLibraryScreen> {
                         size: 20,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
               const SizedBox(
@@ -147,9 +150,6 @@ class _GoogleLibraryScreenState extends State<GoogleLibraryScreen> {
                                     ),
                                   )
                                   ..loadRequest(
-                                    //   Uri.parse(
-                                    //   'https://books.google.co.in/books?id=HpX4CwAAQBAJ&printsec=frontcover&dq=php&hl=en&cd=10&source=gbs_api#v=onepage&q=php&f=false',
-                                    // )
                                     Uri.parse(
                                       snapshot.data![index]['volumeInfo']
                                           ['previewLink'],
@@ -176,9 +176,12 @@ class _GoogleLibraryScreenState extends State<GoogleLibraryScreen> {
                                       width: 100,
                                       fit: BoxFit.cover,
                                       imageUrl: snapshot.data![index]
-                                                  ['volumeInfo']['imageLinks']
-                                              ['thumbnail'] ??
-                                          '',
+                                                      ['volumeInfo']
+                                                  ['imageLinks'] !=
+                                              null
+                                          ? snapshot.data![index]['volumeInfo']
+                                              ['imageLinks']['thumbnail']
+                                          : imageForError,
                                     ),
                                   ),
                                   const SizedBox(
