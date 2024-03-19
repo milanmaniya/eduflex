@@ -337,6 +337,8 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
                     storage.write(
                         'StudentFieldValue', instance.fieldValue.value);
 
+                    storage.write('PhoneNumber', instance.txtPhoneNumber.text);
+
                     setState(() {});
 
                     Get.offAll(() => const PhoneNumberScreen());

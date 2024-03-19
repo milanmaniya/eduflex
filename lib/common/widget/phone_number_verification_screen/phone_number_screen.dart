@@ -1,8 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/authentication_repository/authentication_repository.dart';
 import 'package:eduflex/common/widget/phone_number_verification_screen/widget/phone_text_field.dart';
 import 'package:eduflex/screen/student/sign_up/student_sign_up_screen.dart';
 import 'package:eduflex/screen/teacher/sign_up/teacher_sign_up_screen.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
+import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -18,6 +23,27 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
   final TextEditingController _txtPhoneNumber = TextEditingController();
 
   final localStorage = GetStorage();
+
+  Future<bool> checkData(String phoneNumber) async {
+    bool isAvailable = false;
+
+    final data = await FirebaseFirestore.instance
+        .collection(localStorage.read('Screen'))
+        .where(
+          'phoneNumber',
+          isEqualTo: phoneNumber,
+        )
+        .get();
+
+    for (var element in data.docs) {
+      log(element.data().toString());
+      setState(() {
+        isAvailable = !isAvailable;
+      });
+    }
+
+    return isAvailable;
+  }
 
   @override
   void dispose() {
@@ -75,10 +101,27 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                 controller: _txtPhoneNumber,
                 context: context,
                 onTap: () async {
-                  AuthenticationReposotiry().sendOtp(
-                    phoneNumber: _txtPhoneNumber.text,
-                    context: context,
-                  );
+                  final isAvailable = await checkData(_txtPhoneNumber.text);
+
+                  if (isAvailable) {
+                    AuthenticationReposotiry().sendOtp(
+                      phoneNumber: _txtPhoneNumber.text,
+                      context: context,
+                    );
+                  } else if (_txtPhoneNumber.text ==
+                      localStorage.read('PhoneNumber')) {
+                    AuthenticationReposotiry().sendOtp(
+                      phoneNumber: _txtPhoneNumber.text,
+                      context: context,
+                    );
+                  } else {
+                    TLoader.errorSnackBar(
+                      title: 'Error',
+                      message: 'Please register the mobile number',
+                      duration: 4,
+                    );
+                  }
+                  setState(() {});
                 },
               ),
               Row(

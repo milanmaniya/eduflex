@@ -282,6 +282,8 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
 
                     storage.write('Teacher', newTeacher);
 
+                    storage.write('PhoneNumber', instance.txtPhoneNumber);
+
                     storage.write(
                         'TeacherFieldValue', instance.fieldValue.value);
 
