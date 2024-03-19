@@ -52,6 +52,12 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
   }
 
   @override
+  void initState() {
+    log(localStorage.read('phoneNumber').toString());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -114,6 +120,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                       phoneNumber: _txtPhoneNumber.text,
                       context: context,
                     );
+                    log(localStorage.read('PhoneNumber').toString());
                   } else {
                     TLoader.errorSnackBar(
                       title: 'Error',
