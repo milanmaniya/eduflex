@@ -105,20 +105,6 @@ class _TeacherInformationScreenState extends State<TeacherInformationScreen> {
                 labelName: 'Phone Number',
                 value: "${widget.data['phoneNumber']}",
               ),
-              const SizedBox(
-                height: TSize.spaceBtwItems,
-              ),
-              LabelWithValue(
-                labelName: 'Gender',
-                value: "${widget.data['phoneNumber']}",
-              ),
-              const SizedBox(
-                height: TSize.spaceBtwItems,
-              ),
-              LabelWithValue(
-                labelName: 'Date Of Birth',
-                value: "${widget.data['phoneNumber']}",
-              ),
             ],
           ),
         ),

@@ -111,22 +111,22 @@ class _TeacherAccountScreenState extends State<TeacherAccountScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                const Divider(),
-                const SizedBox(
-                  height: 10,
-                ),
+                // const Divider(),
+                // const SizedBox(
+                //   height: 10,
+                // ),
 
-                // Menu
-                ProfileMenuWidget(
-                  icon: LineAwesomeIcons.cog,
-                  menuName: 'Setting',
-                  onTap: () {},
-                ),
-                ProfileMenuWidget(
-                  icon: LineAwesomeIcons.user_check,
-                  menuName: 'Blocked Student',
-                  onTap: () {},
-                ),
+                // // Menu
+                // ProfileMenuWidget(
+                //   icon: LineAwesomeIcons.cog,
+                //   menuName: 'Setting',
+                //   onTap: () {},
+                // ),
+                // ProfileMenuWidget(
+                //   icon: LineAwesomeIcons.user_check,
+                //   menuName: 'Blocked Student',
+                //   onTap: () {},
+                // ),
                 const Divider(),
                 const SizedBox(
                   height: 10,
