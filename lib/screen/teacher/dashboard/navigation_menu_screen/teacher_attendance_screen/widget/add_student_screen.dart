@@ -23,7 +23,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
 
   var indexColor = [];
 
-  var studentRollNoList = [];
+  Set studentRollNoList = {};
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudent() {
     return FirebaseFirestore.instance
@@ -100,22 +100,37 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 PopupMenuItem(
                   height: 45,
                   onTap: () {
-                    log(indexColor.toString());
-                    // for (int i = 0; i < studentRollNoList.length; i++) {
-                    //   FirebaseFirestore.instance
-                    //       .collection('Attendance')
-                    //       .doc(widget.data['ClassId'])
-                    //       .collection(widget.data['ClassName'])
-                    //       .doc(
-                    //           "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}")
-                    //       .set({
-                    //     studentRollNoList[i]: indexColor[i],
-                    //   });
-                    // }
+                    final finalIndex =
+                        indexColor.sublist(0, studentRollNoList.length);
 
-                    // TLoader.successSnackBar(
-                    //     title: 'sdfjbsjfdbsjbfsjb',
-                    //     message: 'msfbsbgshbgjshbgjgbfjgbdjbgjdbjgbjdfgf');
+                    log(finalIndex.length.toString());
+                    log(finalIndex.toString());
+
+                    final Map<String, dynamic> attendance = {};
+
+                    for (var i = 0; i < finalIndex.length; i++) {
+                      attendance.addAll({
+                        studentRollNoList.elementAt(i): finalIndex[i],
+                      });
+                    }
+
+                    log(attendance.toString());
+
+                    for (int i = 0; i < studentRollNoList.length; i++) {
+                      FirebaseFirestore.instance
+                          .collection('Attendance')
+                          .doc(widget.data['ClassId'])
+                          .collection(widget.data['ClassName'])
+                          .doc(
+                              "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}")
+                          .set(attendance)
+                          .then((value) {
+                        TLoader.successSnackBar(
+                          title: 'Success',
+                          message: 'Attendance saved successfully',
+                        );
+                      });
+                    }
                   },
                   child: const Text(
                     'Save Changes',
@@ -157,19 +172,22 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
 
           final data = [];
 
-          final colorList = [];
+          var colorList = [];
 
           if (snapshot.hasData) {
             for (var element in snapshot.data!.docs) {
-              colorList.add(true);
-              studentRollNoList.add(element['StudentRollNo']);
               data.add(element.data());
             }
+            colorList = List.generate(data.length, (index) => true);
           }
 
-          indexColor.addAll(colorList);
+          for (var element in data) {
+            studentRollNoList.add(element['StudentRollNo']);
+          }
 
-          log(data.toString());
+          log('Roll No : $studentRollNoList');
+
+          indexColor.addAll(colorList);
 
           if (data.isNotEmpty) {
             return ListView.separated(

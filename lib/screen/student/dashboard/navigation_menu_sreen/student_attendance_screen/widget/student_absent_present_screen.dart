@@ -46,7 +46,9 @@ class _StudentAbsentPresentScreenState
       ),
       body: StreamBuilder(
         stream: getallSubjectAttendance(
-            classId: widget.classId, className: widget.className),
+          classId: widget.classId,
+          className: widget.className,
+        ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none ||
               snapshot.connectionState == ConnectionState.waiting) {

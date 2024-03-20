@@ -162,7 +162,9 @@ class _TeacherSignUpFormState extends State<TeacherSignUpForm> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  onChanged: (value) => instance.fieldValue.value = value!,
+                  onChanged: (value) {
+                    instance.fieldValue.value = value!;
+                  },
                   isExpanded: true,
                   hint: Text(
                     instance.fieldValue.isEmpty
