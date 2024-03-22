@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/widget/add_student_screen.dart';
@@ -162,6 +161,7 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                         onPressed: (context) {
                           deleteClass(
                             classId: data[index]['ClassId'],
+                            className: data[index]['ClassName'],
                           );
                         },
                         foregroundColor: Colors.white,
@@ -367,22 +367,52 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
     );
   }
 
-  Future<void> deleteClass({required String classId}) async {
-    await FirebaseFirestore.instance
+  void deleteClass({required String classId, required String className}) {
+    FirebaseFirestore.instance
         .collection('Attendance')
         .doc(classId)
         .collection('Student')
         .doc()
-        .delete();
-
-    await FirebaseFirestore.instance
-        .collection('Attendance')
-        .doc(classId)
         .delete()
         .then((value) {
+      FirebaseFirestore.instance
+          .collection('Attendance')
+          .doc(classId)
+          .collection(className)
+          .doc()
+          .delete()
+          .then((value) {
+        FirebaseFirestore.instance
+            .collection('Attendance')
+            .doc(classId)
+            .delete();
+      });
+    }).then((value) {
       TLoader.successSnackBar(
           title: 'Success', message: 'Class Deleted Successfully');
     });
+
+    // FirebaseFirestore.instance
+    //     .collection('Attendance')
+    //     .doc(classId)
+    //     .delete()
+    //     .then((value) {
+    //   FirebaseFirestore.instance
+    //       .collection('Attendance')
+    //       .doc(classId)
+    //       .collection('Student')
+    //       .doc()
+    //       .delete();
+
+    //   FirebaseFirestore.instance
+    //       .collection('Attendance')
+    //       .doc(classId)
+    //       .collection(className)
+    //       .doc()
+    //       .delete();
+    //   TLoader.successSnackBar(
+    //       title: 'Success', message: 'Class Deleted Successfully');
+    // });
   }
 
   Future<void> showUpdateClassDialog({

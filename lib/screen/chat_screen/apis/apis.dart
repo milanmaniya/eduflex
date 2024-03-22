@@ -179,58 +179,6 @@ class APIS {
         .snapshots();
   }
 
-  static Future<void> studentExist({
-    required String rollNo,
-    required String classId,
-    required String className,
-    required String sem,
-    required String div,
-  }) async {
-    final data = await FirebaseFirestore.instance
-        .collection('Student')
-        .where('div', isEqualTo: div)
-        .where('yearValue', isEqualTo: sem)
-        .where('rollNo', isEqualTo: rollNo)
-        .get();
-
-    if (data.docs.isNotEmpty) {
-      String studentId = '';
-
-      String studentRollNo = '';
-
-      String studentUserName = '';
-
-      for (var element in data.docs) {
-        log(element.data().toString());
-
-        studentId = element['id'];
-        studentRollNo = element['rollNo'];
-        studentUserName = "${element['firstName']} ${element['lastName']}";
-      }
-
-      FirebaseFirestore.instance
-          .collection('Attendance')
-          .doc(classId)
-          .collection('Student')
-          .doc(studentId)
-          .set({
-        'StudentName': studentUserName,
-        'StudentRollNo': studentRollNo,
-        'StudentId': studentId,
-      }).then((value) {
-        TLoader.successSnackBar(
-          title: 'Success',
-          message: 'Student Add Successfully',
-        );
-      });
-    } else {
-      TLoader.errorSnackBar(
-        title: 'Failed !',
-        message: 'Student does not Exits',
-      );
-    }
-  }
-
   static Future<void> updateActiveStatus(bool isOnline) async {
     _firebaseFirestore
         .collection(localStorage.read('Screen'))

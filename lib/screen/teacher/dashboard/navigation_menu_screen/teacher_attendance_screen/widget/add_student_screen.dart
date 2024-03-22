@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
@@ -21,17 +20,65 @@ class AddStudentScreen extends StatefulWidget {
 class _AddStudentScreenState extends State<AddStudentScreen> {
   DateTime selectedDate = DateTime.now();
 
-  var indexColor = [];
+  List<bool> indexColor = [];
 
   Set studentRollNoList = {};
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getAllClassStudent() {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllStudent() {
     return FirebaseFirestore.instance
         .collection('Attendance')
         .doc(widget.data['ClassId'])
         .collection('Student')
         .orderBy('StudentRollNo')
         .snapshots();
+  }
+
+  Future<void> fetchStudent() async {
+    final result = [];
+    final data = await FirebaseFirestore.instance
+        .collection('Student')
+        .where('yearValue', isEqualTo: widget.data['Sem'])
+        .where('div', isEqualTo: widget.data['Divison'])
+        .get();
+
+    for (var element in data.docs) {
+      result.add(element.data());
+    }
+
+    if (result.isNotEmpty) {
+      for (int i = 0; i < result.length; i++) {
+        FirebaseFirestore.instance
+            .collection('Attendance')
+            .doc(widget.data['ClassId'])
+            .collection('Student')
+            .doc(result[i]['id'])
+            .set({
+          'StudentId': result[i]['id'],
+          'StudentRollNo': result[i]['rollNo'],
+          'StudentName': "${result[i]['firstName']} ${result[i]['lastName']}",
+        });
+      }
+
+      // final Map<String, dynamic> attendance = {};
+
+      // for (var i = 0; i < result.length; i++) {
+      //   attendance.addAll({
+      //     result[i]['rollNo']: true,
+      //   });
+      // }
+
+      // log(attendance.toString());
+
+      // for (var i = 0; i < result.length; i++) {
+      //   FirebaseFirestore.instance
+      //       .collection('Attendance')
+      //       .doc(widget.data['ClassId'])
+      //       .collection(widget.data['ClassName'])
+      //       .doc(
+      //           "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}")
+      //       .set(attendance);
+      // }
+    }
   }
 
   @override
@@ -157,11 +204,17 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Iconsax.add),
         onPressed: () {
-          showAddStudentDialog(context);
+          // showAddStudentDialog(context);
+          fetchStudent().then((value) {
+            TLoader.successSnackBar(
+              title: 'Success',
+              message: 'Student Added Successfully',
+            );
+          });
         },
       ),
       body: StreamBuilder(
-        stream: getAllClassStudent(),
+        stream: getAllStudent(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none &&
               snapshot.connectionState == ConnectionState.waiting) {
@@ -171,21 +224,17 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
           }
 
           final data = [];
-
-          var colorList = [];
+          List<bool> colorList = [];
 
           if (snapshot.hasData) {
             for (var element in snapshot.data!.docs) {
               data.add(element.data());
+
+              log(element.data().toString());
+              colorList.add(true);
+              studentRollNoList.add(element['StudentRollNo']);
             }
-            colorList = List.generate(data.length, (index) => true);
           }
-
-          for (var element in data) {
-            studentRollNoList.add(element['StudentRollNo']);
-          }
-
-          log('Roll No : $studentRollNoList');
 
           indexColor.addAll(colorList);
 
@@ -247,12 +296,6 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                       indexColor[index] = !indexColor[index];
                     } else {
                       indexColor[index] = !indexColor[index];
-                    }
-
-                    if (colorList[index] == true) {
-                      colorList[index] = false;
-                    } else {
-                      colorList[index] = true;
                     }
                     setState(() {});
                   },
@@ -420,52 +463,6 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Future<dynamic> showAddStudentDialog(BuildContext context) {
-    final txtStudentId = TextEditingController();
-
-    return showDialog(
-      barrierDismissible: true,
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Add Student'),
-        actions: [
-          TextFormField(
-            keyboardType: TextInputType.number,
-            controller: txtStudentId,
-            decoration: const InputDecoration(
-              labelText: 'Student Id',
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  APIS.studentExist(
-                    rollNo: txtStudentId.text,
-                    classId: widget.data['ClassId'],
-                    className: widget.data['ClassName'],
-                    sem: widget.data['Sem'],
-                    div: widget.data['Divison'],
-                  );
-
-                  Navigator.pop(context);
-                },
-                child: const Text('Add'),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }
