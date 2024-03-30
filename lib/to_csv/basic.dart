@@ -13,6 +13,10 @@ class BasicScreen extends StatefulWidget {
 
 class _BasicScreenState extends State<BasicScreen> {
   Future<void> createExcel() async {
+    List<int> rollNumber = [121, 122, 123, 124, 125];
+
+    List<String> studentName = ['Milan', 'Dhuli', 'Mohit', 'Harsh', 'Raju'];
+
     List<String> header = [
       'Roll No',
       'Name',
@@ -28,6 +32,11 @@ class _BasicScreenState extends State<BasicScreen> {
 
     for (var i = 0; i < header.length; i++) {
       sheet.getRangeByIndex(1, i + 1).setText(header[i]);
+
+      for (int i = 0; i < rollNumber.length; i++) {
+        sheet.getRangeByIndex(i + 2, 1).setText(rollNumber[i].toString());
+        sheet.getRangeByIndex(i + 2, 2).setText(studentName[i].toString());
+      }
 
       sheet.autoFitColumn(i + 1);
       sheet.autoFitRow(1);
