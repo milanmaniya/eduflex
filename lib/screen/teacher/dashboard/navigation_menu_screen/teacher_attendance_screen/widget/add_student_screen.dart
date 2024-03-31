@@ -1,11 +1,14 @@
 import 'dart:developer';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eduflex/authentication_repository/authentication_repository.dart';
+import 'package:eduflex/to_csv/basic.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:eduflex/utils/popups/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:form_validator/form_validator.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class AddStudentScreen extends StatefulWidget {
@@ -24,72 +27,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
 
   Set studentRollNoList = {};
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getAllStudent() {
-    return FirebaseFirestore.instance
-        .collection('Attendance')
-        .doc(widget.data['ClassId'])
-        .collection('Student')
-        .orderBy('StudentRollNo')
-        .snapshots();
-  }
-
-  Future<void> fetchStudent() async {
-    final result = [];
-    final data = await FirebaseFirestore.instance
-        .collection('Student')
-        .where('yearValue', isEqualTo: widget.data['Sem'])
-        .where('div', isEqualTo: widget.data['Divison'])
-        .get();
-
-    for (var element in data.docs) {
-      result.add(element.data());
-    }
-
-    if (result.isNotEmpty) {
-      for (int i = 0; i < result.length; i++) {
-        FirebaseFirestore.instance
-            .collection('Attendance')
-            .doc(widget.data['ClassId'])
-            .collection('Student')
-            .doc(result[i]['id'])
-            .set({
-          'StudentId': result[i]['id'],
-          'StudentRollNo': result[i]['rollNo'],
-          'StudentName': "${result[i]['firstName']} ${result[i]['lastName']}",
-        });
-      }
-
-      TLoader.successSnackBar(
-        title: 'Success',
-        message: 'Student added successfully',
-      );
-
-      // final Map<String, dynamic> attendance = {};
-
-      // for (var i = 0; i < result.length; i++) {
-      //   attendance.addAll({
-      //     result[i]['rollNo']: true,
-      //   });
-      // }
-
-      // log(attendance.toString());
-
-      // for (var i = 0; i < result.length; i++) {
-      //   FirebaseFirestore.instance
-      //       .collection('Attendance')
-      //       .doc(widget.data['ClassId'])
-      //       .collection(widget.data['ClassName'])
-      //       .doc(
-      //           "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}")
-      //       .set(attendance);
-      // }
-    } else {
-      TLoader.errorSnackBar(
-        title: 'Error',
-        message: 'Student not found',
-      );
-    }
-  }
+  Set studentName = {};
 
   @override
   Widget build(BuildContext context) {
@@ -157,37 +95,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 PopupMenuItem(
                   height: 45,
                   onTap: () {
-                    final finalIndex =
-                        indexColor.sublist(0, studentRollNoList.length);
-
-                    log(finalIndex.length.toString());
-                    log(finalIndex.toString());
-
-                    final Map<String, dynamic> attendance = {};
-
-                    for (var i = 0; i < finalIndex.length; i++) {
-                      attendance.addAll({
-                        studentRollNoList.elementAt(i): finalIndex[i],
-                      });
-                    }
-
-                    log(attendance.toString());
-
-                    for (int i = 0; i < studentRollNoList.length; i++) {
-                      FirebaseFirestore.instance
-                          .collection('Attendance')
-                          .doc(widget.data['ClassId'])
-                          .collection(widget.data['ClassName'])
-                          .doc(
-                              "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}")
-                          .set(attendance)
-                          .then((value) {
-                        TLoader.successSnackBar(
-                          title: 'Success',
-                          message: 'Attendance saved successfully',
-                        );
-                      });
-                    }
+                    saveChanges();
                   },
                   child: const Text(
                     'Save Changes',
@@ -198,7 +106,9 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 ),
                 PopupMenuItem(
                   height: 45,
-                  onTap: () {},
+                  onTap: () async {
+                    toCsv();
+                  },
                   child: const Text(
                     'Print',
                     style: TextStyle(
@@ -214,7 +124,6 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Iconsax.add),
         onPressed: () {
-          // showAddStudentDialog(context);
           fetchStudent();
         },
       ),
@@ -238,6 +147,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
               log(element.data().toString());
               colorList.add(true);
               studentRollNoList.add(element['StudentRollNo']);
+              studentName.add(element['StudentName']);
             }
           }
 
@@ -256,18 +166,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                   children: [
                     SlidableAction(
                       onPressed: (context) {
-                        final txtStudentRollNo = TextEditingController();
-                        final txtStudentName = TextEditingController();
-
-                        txtStudentRollNo.text = data[index]['StudentRollNo'];
-                        txtStudentName.text = data[index]['StudentName'];
-
-                        showUpdateStudentDialog(
-                          context: context,
-                          txtStudentRollNo: txtStudentRollNo,
-                          txtStudentName: txtStudentName,
-                          studentId: data[index]['StudentId'],
-                        );
+                        updateStudent(data, index);
                       },
                       borderRadius: BorderRadius.circular(16),
                       autoClose: true,
@@ -319,6 +218,73 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
         },
       ),
     );
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllStudent() {
+    return FirebaseFirestore.instance
+        .collection('Attendance')
+        .doc(widget.data['ClassId'])
+        .collection('Student')
+        .orderBy('StudentRollNo')
+        .snapshots();
+  }
+
+  Future<void> fetchStudent() async {
+    final result = [];
+    final data = await FirebaseFirestore.instance
+        .collection('Student')
+        .where('yearValue', isEqualTo: widget.data['Sem'])
+        .where('div', isEqualTo: widget.data['Divison'])
+        .get();
+
+    for (var element in data.docs) {
+      result.add(element.data());
+    }
+
+    if (result.isNotEmpty) {
+      for (int i = 0; i < result.length; i++) {
+        FirebaseFirestore.instance
+            .collection('Attendance')
+            .doc(widget.data['ClassId'])
+            .collection('Student')
+            .doc(result[i]['id'])
+            .set({
+          'StudentId': result[i]['id'],
+          'StudentRollNo': result[i]['rollNo'],
+          'StudentName': "${result[i]['firstName']} ${result[i]['lastName']}",
+        });
+      }
+
+      TLoader.successSnackBar(
+        title: 'Success',
+        message: 'Student added successfully',
+      );
+
+      // final Map<String, dynamic> attendance = {};
+
+      // for (var i = 0; i < result.length; i++) {
+      //   attendance.addAll({
+      //     result[i]['rollNo']: true,
+      //   });
+      // }
+
+      // log(attendance.toString());
+
+      // for (var i = 0; i < result.length; i++) {
+      //   FirebaseFirestore.instance
+      //       .collection('Attendance')
+      //       .doc(widget.data['ClassId'])
+      //       .collection(widget.data['ClassName'])
+      //       .doc(
+      //           "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}")
+      //       .set(attendance);
+      // }
+    } else {
+      TLoader.errorSnackBar(
+        title: 'Error',
+        message: 'Student not found',
+      );
+    }
   }
 
   Future<void> deleteStudent({required String studentId}) async {
@@ -469,6 +435,79 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void saveChanges() {
+    final finalIndex = indexColor.sublist(0, studentRollNoList.length);
+
+    log(finalIndex.length.toString());
+    log(finalIndex.toString());
+
+    final Map<String, dynamic> attendance = {};
+
+    for (var i = 0; i < finalIndex.length; i++) {
+      attendance.addAll({
+        studentRollNoList.elementAt(i): finalIndex[i],
+      });
+    }
+
+    log(attendance.toString());
+
+    for (int i = 0; i < studentRollNoList.length; i++) {
+      FirebaseFirestore.instance
+          .collection('Attendance')
+          .doc(widget.data['ClassId'])
+          .collection(widget.data['ClassName'])
+          .doc("${selectedDate.day}-${selectedDate.month}-${selectedDate.year}")
+          .set(attendance)
+          .then((value) {
+        TLoader.successSnackBar(
+          title: 'Success',
+          message: 'Attendance saved successfully',
+        );
+      });
+    }
+  }
+
+  void updateStudent(List<dynamic> data, int index) {
+    final txtStudentRollNo = TextEditingController();
+    final txtStudentName = TextEditingController();
+
+    txtStudentRollNo.text = data[index]['StudentRollNo'];
+    txtStudentName.text = data[index]['StudentName'];
+
+    showUpdateStudentDialog(
+      context: context,
+      txtStudentRollNo: txtStudentRollNo,
+      txtStudentName: txtStudentName,
+      studentId: data[index]['StudentId'],
+    );
+  }
+
+  void toCsv() async {
+    //   Get.to(()=> const BasicScreen());
+    List<String> header = [
+      'Roll No',
+      'Name',
+    ];
+
+    final data = await FirebaseFirestore.instance
+        .collection('Attendance')
+        .doc(widget.data['ClassId'])
+        .collection(widget.data['ClassName'])
+        .get();
+
+    for (var element in data.docs) {
+      log(element.id.toString());
+      header.add(element.id);
+    }
+
+    AuthenticationReposotiry().workBookFunction(
+      header: header,
+      studentRollNoList: studentRollNoList,
+      studentName: studentName,
+      indexColor: indexColor,
     );
   }
 }

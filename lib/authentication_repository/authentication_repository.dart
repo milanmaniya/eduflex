@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:eduflex/common/widget/phone_number_verification_screen/otp_verification_screen.dart';
 import 'package:eduflex/screen/chat_screen/apis/apis.dart';
 import 'package:eduflex/screen/welcome_screen/welcome_screen.dart';
@@ -6,6 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:open_filex/open_filex.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
 class AuthenticationReposotiry extends GetxController {
   static AuthenticationReposotiry get instance => Get.find();
@@ -132,5 +137,66 @@ class AuthenticationReposotiry extends GetxController {
       TLoader.warningSnackBar(
           title: 'Email Send Verification', message: e.toString());
     }
+  }
+
+  void workBookFunction({
+    required List<String> header,
+    required Set studentRollNoList,
+    required Set studentName,
+    required List<bool> indexColor,
+  }) async {
+    final finalIndex = indexColor.sublist(0, studentRollNoList.length);
+
+    final Workbook workbook = Workbook();
+
+    final Worksheet worksheet = workbook.worksheets[0];
+
+    for (var i = 0; i < header.length; i++) {
+      worksheet.getRangeByIndex(1, i + 1).setText(header[i]);
+
+      for (int i = 0; i < studentRollNoList.length; i++) {
+        worksheet
+            .getRangeByIndex(i + 2, 1)
+            .setNumber(studentRollNoList.elementAt(i));
+        worksheet
+            .getRangeByIndex(i + 2, 2)
+            .setText(studentName.elementAt(i).toString());
+        worksheet
+            .getRangeByIndex(i + 2, 3)
+            .setValue(finalIndex.elementAt(i));
+      }
+
+      worksheet.autoFitColumn(i + 1);
+      worksheet.autoFitRow(1);
+    }
+    worksheet.autoFilters;
+
+    final byte = workbook.saveAsStream();
+
+    final path = (await getApplicationSupportDirectory()).path;
+
+    final fileName = '$path/Attendance.xlsx';
+
+    final File file = File(fileName);
+
+    await file.writeAsBytes(byte, flush: true);
+
+    workbook.dispose();
+
+    OpenFilex.open(fileName);
+
+    // final List<int> bytes = workbook.saveAsStream();
+
+    // final String path = (await getApplicationSupportDirectory()).path;
+
+    // final String fileName = '$path/Attendance.xlsx';
+
+    // final File file = File(fileName);
+
+    // await file.writeAsBytes(bytes, flush: true);
+
+    // workbook.dispose();
+
+    // OpenFilex.open(fileName);
   }
 }
