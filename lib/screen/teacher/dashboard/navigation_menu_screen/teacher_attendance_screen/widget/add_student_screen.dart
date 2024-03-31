@@ -59,6 +59,11 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
         });
       }
 
+      TLoader.successSnackBar(
+        title: 'Success',
+        message: 'Student added successfully',
+      );
+
       // final Map<String, dynamic> attendance = {};
 
       // for (var i = 0; i < result.length; i++) {
@@ -78,6 +83,11 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
       //           "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}")
       //       .set(attendance);
       // }
+    } else {
+      TLoader.errorSnackBar(
+        title: 'Error',
+        message: 'Student not found',
+      );
     }
   }
 
@@ -205,12 +215,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
         child: const Icon(Iconsax.add),
         onPressed: () {
           // showAddStudentDialog(context);
-          fetchStudent().then((value) {
-            TLoader.successSnackBar(
-              title: 'Success',
-              message: 'Student Added Successfully',
-            );
-          });
+          fetchStudent();
         },
       ),
       body: StreamBuilder(
