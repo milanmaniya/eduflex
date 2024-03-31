@@ -157,13 +157,13 @@ class AuthenticationReposotiry extends GetxController {
       for (int i = 0; i < studentRollNoList.length; i++) {
         worksheet
             .getRangeByIndex(i + 2, 1)
-            .setNumber(studentRollNoList.elementAt(i));
+            .setText(studentRollNoList.elementAt(i).toString());
         worksheet
             .getRangeByIndex(i + 2, 2)
             .setText(studentName.elementAt(i).toString());
         worksheet
             .getRangeByIndex(i + 2, 3)
-            .setValue(finalIndex.elementAt(i));
+            .setText(finalIndex.elementAt(i).toString());
       }
 
       worksheet.autoFitColumn(i + 1);
