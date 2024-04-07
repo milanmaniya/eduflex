@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/common/widget/info_card.dart';
 import 'package:eduflex/common/widget/side_menu_card.dart';
@@ -7,6 +6,7 @@ import 'package:eduflex/screen/chat_screen/chat_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_screen/teacher_home_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/teacher_account_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/teacher_attendance_screen.dart';
+import 'package:eduflex/screen/teacher/student_details_screen/student_details_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,6 +45,7 @@ class _TeacherSideMenuScreenState extends State<TeacherSideMenuScreen> {
     CupertinoIcons.chat_bubble_text_fill,
     CupertinoIcons.chart_bar_alt_fill,
     CupertinoIcons.profile_circled,
+    CupertinoIcons.person,
   ];
 
   List<String> iconTittle = [
@@ -52,6 +53,7 @@ class _TeacherSideMenuScreenState extends State<TeacherSideMenuScreen> {
     'Chat',
     'Attendance',
     'Profile',
+    'Student'
   ];
 
   final screenList = [
@@ -59,6 +61,7 @@ class _TeacherSideMenuScreenState extends State<TeacherSideMenuScreen> {
     const ChatScreen(),
     const TeacherAttendanceScreen(),
     const TeacherAccountScreen(),
+    const StudentDetailsScreen(),
   ];
 
   int selectedIndex = 0;

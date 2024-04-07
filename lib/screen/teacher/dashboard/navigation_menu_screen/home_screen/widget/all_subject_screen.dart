@@ -123,6 +123,7 @@ class _AllSubjectScreenState extends State<AllSubjectScreen> {
                     ),
                   ),
                 ),
+              
               ),
               separatorBuilder: (context, index) => const SizedBox(
                 height: 10,
