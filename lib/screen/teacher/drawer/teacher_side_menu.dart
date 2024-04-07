@@ -6,7 +6,7 @@ import 'package:eduflex/screen/chat_screen/chat_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_screen/teacher_home_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/teacher_account_screen.dart';
 import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/teacher_attendance_screen.dart';
-import 'package:eduflex/screen/teacher/student_details_screen/student_details_screen.dart';
+import 'package:eduflex/screen/teacher/student_search_details_screens/student_search_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -61,7 +61,7 @@ class _TeacherSideMenuScreenState extends State<TeacherSideMenuScreen> {
     const ChatScreen(),
     const TeacherAttendanceScreen(),
     const TeacherAccountScreen(),
-    const StudentDetailsScreen(),
+    const StudentSearchScreen(),
   ];
 
   int selectedIndex = 0;
