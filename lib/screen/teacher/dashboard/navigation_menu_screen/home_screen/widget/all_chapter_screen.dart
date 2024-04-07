@@ -94,6 +94,7 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
                 children: localStorage.read('Screen') == 'Teacher'
                     ? [
                         SlidableAction(
+                          borderRadius: BorderRadius.circular(12),
                           onPressed: (context) {
                             downloadPdf(
                                 pdfData![index]['downloadUrl'].toString());
@@ -105,6 +106,7 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
                           label: 'Download',
                         ),
                         SlidableAction(
+                          borderRadius: BorderRadius.circular(12),
                           autoClose: true,
                           backgroundColor: const Color(0xFFFE4A49),
                           onPressed: (context) => deletePdf(
