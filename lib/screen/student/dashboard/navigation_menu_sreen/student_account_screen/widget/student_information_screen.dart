@@ -130,7 +130,7 @@ class _StudentInformationScreenState extends State<StudentInformationScreen> {
                 height: TSize.spaceBtwItems,
               ),
               LabelWithValue(
-                labelName: 'ROll No',
+                labelName: 'Roll No',
                 value: "${widget.data['rollNo']}",
               ),
             ],

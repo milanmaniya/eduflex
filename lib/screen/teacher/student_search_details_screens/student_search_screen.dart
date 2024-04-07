@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eduflex/screen/teacher/student_search_details_screens/student_details_screen.dart';
+import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/widget/student_information_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -127,7 +127,7 @@ class _StudentSearchScreenState extends State<StudentSearchScreen> {
                         itemBuilder: (context, index) => InkWell(
                           onTap: () {
                             Get.to(
-                              () => StudentDetialsScreen(
+                              () => StudentInformationScreen(
                                 data: data[index],
                               ),
                             );
