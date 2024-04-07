@@ -187,7 +187,7 @@ class _FeesScreenState extends State<FeesScreen> {
                   height: 30,
                 ),
                 Text(
-                  "Payment Id :   ${data['paymentId']}",
+                  "Payment Id :  ${data['paymentId']}",
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 16,
