@@ -24,10 +24,14 @@ class _InfoCardState extends State<InfoCard> {
   Widget build(BuildContext context) {
     return ListTile(
       leading: widget.imageUrl.isNotEmpty
-          ? CachedNetworkImage(
-              imageUrl: widget.imageUrl,
-              height: 40,
-              width: 40,
+          ? ClipRRect(
+              borderRadius: BorderRadius.circular(70),
+              child: CachedNetworkImage(
+                imageUrl: widget.imageUrl,
+                height: 55,
+                width: 55,
+                fit: BoxFit.cover,
+              ),
             )
           : const CircleAvatar(
               backgroundColor: Colors.white24,
