@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/widget/student_information_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
 class StudentSearchScreen extends StatefulWidget {
   const StudentSearchScreen({super.key});
@@ -59,18 +58,6 @@ class _StudentSearchScreenState extends State<StudentSearchScreen> {
             'All Subject',
           ),
           centerTitle: true,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 5),
-              child: IconButton(
-                icon: const Icon(
-                  Iconsax.menu,
-                  size: 20,
-                ),
-                onPressed: () {},
-              ),
-            ),
-          ],
         ),
         body: Padding(
           padding: const EdgeInsets.only(

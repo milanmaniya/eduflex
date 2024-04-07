@@ -28,9 +28,7 @@ class _TeacherSideMenuScreenState extends State<TeacherSideMenuScreen> {
 
   Future<void> getInfoDetails() async {
     final data = await FirebaseFirestore.instance
-        .collection(
-          localStorage.read('Screen'),
-        )
+        .collection('Teacher')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
 
@@ -89,7 +87,7 @@ class _TeacherSideMenuScreenState extends State<TeacherSideMenuScreen> {
             InfoCard(
               title: "${userInfo['firstName']} ${userInfo['lastName']}",
               imageUrl: userInfo['image'],
-              subTitle: 'TYBCA-SEM6 DIVISON-3',
+              subTitle: userInfo['yearValue'],
             ),
             Padding(
               padding: const EdgeInsets.only(

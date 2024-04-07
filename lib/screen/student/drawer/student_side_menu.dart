@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduflex/common/widget/info_card.dart';
 import 'package:eduflex/common/widget/side_menu_card.dart';
 import 'package:eduflex/screen/chat_screen/chat_screen.dart';
@@ -7,9 +8,11 @@ import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_h
 import 'package:eduflex/screen/student/library_screens/google_library.dart';
 import 'package:eduflex/screen/student/tech_news_screens/tech_news_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class StudentSideMenuScreen extends StatefulWidget {
   const StudentSideMenuScreen({super.key});
@@ -19,6 +22,21 @@ class StudentSideMenuScreen extends StatefulWidget {
 }
 
 class _StudentSideMenuScreenState extends State<StudentSideMenuScreen> {
+  Map<String, dynamic> userInfo = {};
+
+  final localStorage = GetStorage();
+
+  Future<void> getInfoDetails() async {
+    final data = await FirebaseFirestore.instance
+        .collection('Student')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    setState(() {
+      userInfo.addAll(data.data() as Map<String, dynamic>);
+    });
+  }
+
   List<IconData> iconDataList = [
     CupertinoIcons.home,
     CupertinoIcons.chat_bubble_text_fill,
@@ -46,12 +64,14 @@ class _StudentSideMenuScreenState extends State<StudentSideMenuScreen> {
     const TechNewsScreen()
   ];
 
+  int selectedIndex = 0;
+
   @override
   void initState() {
+    getInfoDetails();
     super.initState();
   }
 
-  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,10 +85,10 @@ class _StudentSideMenuScreenState extends State<StudentSideMenuScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const InfoCard(
-              title: 'Milan Maniya',
-              imageUrl: '',
-              subTitle: 'TYBCA-SEM6 DIVISON-3',
+            InfoCard(
+              title: "${userInfo['firstName']} ${userInfo['lastName']}",
+              imageUrl: userInfo['image'],
+              subTitle: "${userInfo['yearValue']} ${userInfo['div']}",
             ),
             Padding(
               padding: const EdgeInsets.only(
