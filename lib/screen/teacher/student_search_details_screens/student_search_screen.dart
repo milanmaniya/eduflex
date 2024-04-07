@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eduflex/screen/teacher/student_search_details_screens/student_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class StudentSearchScreen extends StatefulWidget {
@@ -122,26 +124,35 @@ class _StudentSearchScreenState extends State<StudentSearchScreen> {
                           height: 5,
                         ),
                         itemCount: searchData.length,
-                        itemBuilder: (context, index) => Card(
-                          child: ListTile(
-                            leading: Container(
-                              height: 100,
-                              width: 60,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                    searchData[index]['image'],
+                        itemBuilder: (context, index) => InkWell(
+                          onTap: () {
+                            Get.to(
+                              () => StudentDetialsScreen(
+                                data: data[index],
+                              ),
+                            );
+                          },
+                          child: Card(
+                            child: ListTile(
+                              leading: Container(
+                                height: 100,
+                                width: 60,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                      searchData[index]['image'],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            title: Text(
-                              "${searchData[index]['firstName']} ${searchData[index]['lastName']}",
-                            ),
-                            subtitle: Text(
-                              "${searchData[index]['yearValue']} ${searchData[index]['div']}",
+                              title: Text(
+                                "${searchData[index]['firstName']} ${searchData[index]['lastName']}",
+                              ),
+                              subtitle: Text(
+                                "${searchData[index]['yearValue']} ${searchData[index]['div']}",
+                              ),
                             ),
                           ),
                         ),

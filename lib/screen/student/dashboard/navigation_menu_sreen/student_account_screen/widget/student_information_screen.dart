@@ -105,6 +105,34 @@ class _StudentInformationScreenState extends State<StudentInformationScreen> {
                 labelName: 'Phone Number',
                 value: "${widget.data['phoneNumber']}",
               ),
+              const SizedBox(
+                height: TSize.spaceBtwItems,
+              ),
+              LabelWithValue(
+                labelName: 'Field',
+                value: "${widget.data['fieldValue']}",
+              ),
+              const SizedBox(
+                height: TSize.spaceBtwItems,
+              ),
+              LabelWithValue(
+                labelName: 'Year',
+                value: "${widget.data['yearValue']}",
+              ),
+              const SizedBox(
+                height: TSize.spaceBtwItems,
+              ),
+              LabelWithValue(
+                labelName: 'Divison',
+                value: "${widget.data['div']}",
+              ),
+              const SizedBox(
+                height: TSize.spaceBtwItems,
+              ),
+              LabelWithValue(
+                labelName: 'ROll No',
+                value: "${widget.data['rollNo']}",
+              ),
             ],
           ),
         ),
