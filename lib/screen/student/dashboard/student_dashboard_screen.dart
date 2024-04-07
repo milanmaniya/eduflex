@@ -3,7 +3,7 @@ import 'package:eduflex/screen/chat_screen/chat_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_attendance_screen/student_attendance_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/student_profile_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_home_screen.dart';
-import 'package:eduflex/screen/student/drawer/side_menu.dart';
+import 'package:eduflex/screen/student/drawer/student_side_menu.dart';
 import 'package:eduflex/utils/helper/helper_function.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -107,7 +107,7 @@ class _StudentDashBoardScreenState extends State<StudentDashBoardScreen>
                   width: 288,
                   left: isSideMenuClosed ? -288 : 0,
                   height: MediaQuery.of(context).size.height,
-                  child: const SideMenuScreen(),
+                  child: const StudentSideMenuScreen(),
                 ),
                 Transform(
                   alignment: Alignment.center,

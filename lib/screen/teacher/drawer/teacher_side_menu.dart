@@ -1,31 +1,27 @@
 import 'package:eduflex/common/widget/info_card.dart';
 import 'package:eduflex/common/widget/side_menu_card.dart';
 import 'package:eduflex/screen/chat_screen/chat_screen.dart';
-import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/student_profile_screen.dart';
-import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_attendance_screen/student_attendance_screen.dart';
-import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_home_screen.dart';
-import 'package:eduflex/screen/student/library_screens/google_library.dart';
-import 'package:eduflex/screen/student/tech_news_screens/tech_news_screen.dart';
+import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/home_screen/teacher_home_screen.dart';
+import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_account_screen/teacher_account_screen.dart';
+import 'package:eduflex/screen/teacher/dashboard/navigation_menu_screen/teacher_attendance_screen/teacher_attendance_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SideMenuScreen extends StatefulWidget {
-  const SideMenuScreen({super.key});
+class TeacherSideMenuScreen extends StatefulWidget {
+  const TeacherSideMenuScreen({super.key});
 
   @override
-  State<SideMenuScreen> createState() => _SideMenuScreenState();
+  State<TeacherSideMenuScreen> createState() => _TeacherSideMenuScreenState();
 }
 
-class _SideMenuScreenState extends State<SideMenuScreen> {
+class _TeacherSideMenuScreenState extends State<TeacherSideMenuScreen> {
   List<IconData> iconDataList = [
     CupertinoIcons.home,
     CupertinoIcons.chat_bubble_text_fill,
     CupertinoIcons.chart_bar_alt_fill,
     CupertinoIcons.profile_circled,
-    CupertinoIcons.book_solid,
-    CupertinoIcons.news,
   ];
 
   List<String> iconTittle = [
@@ -33,23 +29,14 @@ class _SideMenuScreenState extends State<SideMenuScreen> {
     'Chat',
     'Attendance',
     'Profile',
-    'Library',
-    'TechNews'
   ];
 
   final screenList = [
-    const StudentHomeScreen(),
+    const TeacherHomeScreen(),
     const ChatScreen(),
-    const StudentAttendanceScreen(),
-    const StudentProfileScreen(),
-    const GoogleLibraryScreen(),
-    const TechNewsScreen()
+    const TeacherAttendanceScreen(),
+    const TeacherAccountScreen(),
   ];
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   int selectedIndex = 0;
   @override

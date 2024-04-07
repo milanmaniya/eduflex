@@ -72,7 +72,9 @@ class _AllChapterScreenState extends State<AllChapterScreen> {
 
           if (snapshot.hasData) {
             for (var element in snapshot.data!.docs) {
-              if (pdfData!.contains(element.data())) {
+              if (pdfData!.contains(
+                element.data(),
+              )) {
                 pdfData = null;
               } else {
                 pdfData.add(element.data());
