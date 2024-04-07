@@ -133,6 +133,13 @@ class _StudentInformationScreenState extends State<StudentInformationScreen> {
                 labelName: 'Roll No',
                 value: "${widget.data['rollNo']}",
               ),
+              const SizedBox(
+                height: TSize.spaceBtwItems,
+              ),
+              LabelWithValue(
+                labelName: 'Fees',
+                value: "${widget.data['fees']}",
+              ),
             ],
           ),
         ),
