@@ -5,6 +5,7 @@ import 'package:eduflex/screen/chat_screen/chat_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_account_screen/student_profile_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_attendance_screen/student_attendance_screen.dart';
 import 'package:eduflex/screen/student/dashboard/navigation_menu_sreen/student_home_screen.dart';
+import 'package:eduflex/screen/student/fees_screen/fees_screen.dart';
 import 'package:eduflex/screen/student/library_screens/google_library.dart';
 import 'package:eduflex/screen/student/tech_news_screens/tech_news_screen.dart';
 import 'package:eduflex/utils/constant/sizes.dart';
@@ -44,6 +45,7 @@ class _StudentSideMenuScreenState extends State<StudentSideMenuScreen> {
     CupertinoIcons.profile_circled,
     CupertinoIcons.book_solid,
     CupertinoIcons.news,
+    CupertinoIcons.money_dollar_circle,
   ];
 
   List<String> iconTittle = [
@@ -52,7 +54,8 @@ class _StudentSideMenuScreenState extends State<StudentSideMenuScreen> {
     'Attendance',
     'Profile',
     'Library',
-    'TechNews'
+    'TechNews',
+    'Fees',
   ];
 
   final screenList = [
@@ -61,7 +64,8 @@ class _StudentSideMenuScreenState extends State<StudentSideMenuScreen> {
     const StudentAttendanceScreen(),
     const StudentProfileScreen(),
     const GoogleLibraryScreen(),
-    const TechNewsScreen()
+    const TechNewsScreen(),
+    const FeesScreen(),
   ];
 
   int selectedIndex = 0;
