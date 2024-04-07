@@ -17,6 +17,8 @@ class _FeesScreenState extends State<FeesScreen> {
     return FirebaseFirestore.instance.collection('Student').snapshots();
   }
 
+  String paymentId = '';
+
   final _razorpay = Razorpay();
 
   @override
@@ -55,7 +57,11 @@ class _FeesScreenState extends State<FeesScreen> {
 
           if (snapshot.hasData) {
             for (var element in snapshot.data!.docs) {
-              data.addAll(element.data());
+              if (element.data()['id'] ==
+                  FirebaseAuth.instance.currentUser!.uid) {
+                data.addAll(element.data());
+                log(element.id.toString());
+              }
             }
           }
 
@@ -66,6 +72,7 @@ class _FeesScreenState extends State<FeesScreen> {
               top: 15,
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Card(
                   elevation: 3,
@@ -176,6 +183,17 @@ class _FeesScreenState extends State<FeesScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  "Payment Id :   ${data['paymentId']}",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const Spacer(),
                 SizedBox(
                   width: double.infinity,
@@ -210,16 +228,18 @@ class _FeesScreenState extends State<FeesScreen> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     log("Payment Id:  ${response.paymentId}");
-    log("Order Id:  ${response.orderId}");
+
+    setState(() {
+      paymentId = response.paymentId!;
+    });
 
     FirebaseFirestore.instance
         .collection('Student')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({
       'fees': true,
+      'paymentId': paymentId,
     });
-
-    setState(() {});
 
     TLoader.successSnackBar(
         title: 'Student Fees', message: 'Fees Payment Successfully');

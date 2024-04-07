@@ -24,6 +24,7 @@ class Student {
   String lastActive;
   String rollNo;
   bool fees;
+  String paymentId;
 
   Student({
     required this.firstName,
@@ -44,6 +45,7 @@ class Student {
     required this.lastActive,
     required this.rollNo,
     required this.fees,
+    required this.paymentId,
   });
 
   factory Student.fromJson(Map<String, dynamic> json) => Student(
@@ -65,6 +67,7 @@ class Student {
         lastActive: json['lastActive'],
         rollNo: json['rollNo'],
         fees: json['fees'],
+        paymentId: json['paymentId'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -86,5 +89,6 @@ class Student {
         "lastActive": lastActive,
         "rollNo": rollNo,
         "fees": fees,
+        "paymentId": paymentId,
       };
 }

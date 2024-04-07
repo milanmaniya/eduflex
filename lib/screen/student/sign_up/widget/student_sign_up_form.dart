@@ -329,6 +329,7 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
                       lastActive: time,
                       rollNo: instance.txtRollNo.text,
                       fees: false,
+                      paymentId: '',
                     );
 
                     final storage = GetStorage();
