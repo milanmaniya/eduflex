@@ -23,6 +23,7 @@ class Student {
   String div;
   String lastActive;
   String rollNo;
+  bool fees;
 
   Student({
     required this.firstName,
@@ -42,6 +43,7 @@ class Student {
     required this.div,
     required this.lastActive,
     required this.rollNo,
+    required this.fees,
   });
 
   factory Student.fromJson(Map<String, dynamic> json) => Student(
@@ -62,6 +64,7 @@ class Student {
         div: json["div"],
         lastActive: json['lastActive'],
         rollNo: json['rollNo'],
+        fees: json['fees'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -81,6 +84,7 @@ class Student {
         "about": about,
         "div": div,
         "lastActive": lastActive,
-        "rollNo": rollNo
+        "rollNo": rollNo,
+        "fees": fees,
       };
 }

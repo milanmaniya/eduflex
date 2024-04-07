@@ -328,6 +328,7 @@ class _StudentSignUpFormState extends State<StudentSignUpForm> {
                       div: instance.divValue.value,
                       lastActive: time,
                       rollNo: instance.txtRollNo.text,
+                      fees: false,
                     );
 
                     final storage = GetStorage();
