@@ -171,7 +171,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         .signInWithCredential(credential)
                         .then((value) {
                       TLoader.successSnackBar(
-                        title: 'Congratulation',
+                       title: 'Congratulation',
                         message: 'Phone Number Verified Successfully!',
                       );
 
